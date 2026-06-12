@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Hero }                 from '@/components/sections/Hero';
+import { HeroSlider } from '@/components/hero/HeroSlider';
 import { USPStrip }             from '@/components/sections/USPStrip';
 import { FeaturedCollections }  from '@/components/sections/FeaturedCollections';
 import { BestSellers }          from '@/components/sections/BestSellers';
@@ -10,18 +10,18 @@ import { Newsletter }           from '@/components/sections/Newsletter';
 import { Gallery }              from '@/components/sections/Gallery';
 
 export const metadata: Metadata = {
-  title: 'BLENDIFY | The Art of Coffee',
-  description: 'Premium specialty coffee sourced from the world\'s finest farms. 100% Arabica, roasted with obsessive care. Made in India.',
+  title: 'BLENDIFY — Premium Instant Coffee. Made in India.',
+  description: "India's finest flavoured instant coffee. 100% Arabica, no added sugar, USDA organic flavouring.",
   openGraph: {
-    title: 'BLENDIFY | The Art of Coffee',
-    description: 'Premium specialty coffee sourced from the world\'s finest farms. 100% Arabica. Made in India.',
+    title: 'BLENDIFY — Premium Instant Coffee',
+    description: "India's finest flavoured instant coffee.",
   },
 };
 
 export default function HomePage() {
   return (
     <>
-      <Hero />
+      <HeroSlider />
       <USPStrip />
       <FeaturedCollections />
       <BestSellers />
