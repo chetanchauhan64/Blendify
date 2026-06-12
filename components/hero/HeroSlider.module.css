@@ -7,8 +7,8 @@
 .slider {
   position: relative;
   width: 100%;
-  /* Fixed aspect ratio matching Impulse Coffee hero height */
-  height: clamp(300px, 42vw, 640px);
+  /* Matches Impulse Coffee hero height: ~430px at 1024px viewport */
+  height: clamp(280px, 42vw, 500px);
   overflow: hidden;
   background: #c9a87c;
   cursor: default;
@@ -37,7 +37,7 @@
 /* ── Banner image ──────────────────────────────────────────── */
 .image {
   object-fit: cover;
-  object-position: center top;
+  object-position: center center;
 }
 
 /* ── Navigation dots — bottom-right, exactly like Impulse ──── */
@@ -99,7 +99,7 @@
 /* ── Mobile ────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .slider {
-    height: clamp(180px, 56vw, 380px);
+    height: clamp(160px, 52vw, 320px);
   }
 
   .nav {

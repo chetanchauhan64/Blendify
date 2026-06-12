@@ -15,9 +15,13 @@ const AUTOPLAY_MS = 5000;
 
 export function HeroSlider() {
   const [current, setCurrent] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const [paused, setPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartX = useRef(0);
+
+  // Defer active-class until client to avoid hydration mismatch
+  useEffect(() => { setMounted(true); }, []);
 
   const next = useCallback(() => setCurrent(c => (c + 1) % SLIDES.length), []);
   const prev = useCallback(() => setCurrent(c => (c - 1 + SLIDES.length) % SLIDES.length), []);
@@ -54,6 +58,7 @@ export function HeroSlider() {
     <section
       className={styles.slider}
       aria-label="Hero Banner Slider"
+      suppressHydrationWarning
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
@@ -64,8 +69,9 @@ export function HeroSlider() {
         {SLIDES.map((slide, i) => (
           <div
             key={slide.id}
-            className={`${styles.slide} ${i === current ? styles.slideActive : ''}`}
-            aria-hidden={i !== current}
+            className={`${styles.slide} ${mounted && i === current ? styles.slideActive : ''}`}
+            aria-hidden={mounted ? i !== current : i !== 0}
+            suppressHydrationWarning
           >
             <Image
               src={slide.image}
