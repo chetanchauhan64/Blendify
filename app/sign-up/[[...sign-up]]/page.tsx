@@ -3,7 +3,7 @@
 import { useActionState } from 'react';
 import Link from 'next/link';
 import { signUp } from '@/lib/actions/auth';
-import styles from '../[[...sign-in]]/page.module.css';
+import styles from './page.module.css';
 
 export default function SignUpPage() {
   const [state, action, pending] = useActionState(signUp, undefined);
