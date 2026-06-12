@@ -1,0 +1,23 @@
+/* Account Section Layout */
+.layout {
+  min-height: 100vh;
+  background: var(--surface-page);
+  padding: var(--space-8) 0 var(--space-16);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: var(--space-6);
+  align-items: flex-start;
+}
+
+.content {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+}

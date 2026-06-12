@@ -1,0 +1,97 @@
+.section { background: var(--bg-surface); }
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.title { color: var(--text-primary); margin-bottom: 0; }
+
+.igLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.5rem 1.1rem;
+  background: transparent;
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.igLink:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 180px;
+  gap: 8px;
+}
+
+.cell {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--border-light);
+}
+
+.cellLarge {
+  grid-row: span 2;
+}
+
+.cellBg {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-slow);
+}
+
+.cell:hover .cellBg { transform: scale(1.08); }
+
+.cellEmoji {
+  font-size: 4rem;
+  opacity: 0.5;
+  transition: opacity var(--transition-base);
+}
+
+.cell:hover .cellEmoji { opacity: 0.8; }
+
+.cellOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 16, 8, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.cell:hover .cellOverlay { opacity: 1; }
+
+.igIcon { color: var(--brand-primary); }
+
+.cellMood {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) { .grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 120px; } }
+@media (max-width: 500px)  { .grid { grid-template-columns: repeat(2, 1fr); } }

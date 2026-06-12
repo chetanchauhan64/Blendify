@@ -1,0 +1,13 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
+}
+
+.card {
+  aspect-ratio: 3/4;
+  border-radius: var(--radius-xl);
+}
+
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px)  { .grid { grid-template-columns: 1fr 1fr; } .card { aspect-ratio: 1/1; } }

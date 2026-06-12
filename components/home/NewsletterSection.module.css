@@ -1,0 +1,18 @@
+/* NewsletterSection — deep maroon band for contrast */
+.section { background: var(--brand-maroon); padding: var(--space-16) 0; }
+.inner { text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-4); padding: var(--space-10); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-2xl); }
+.iconWrapper { width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; color: #fff; }
+.title { font-family: var(--font-display); font-size: var(--text-5xl); font-weight: 600; color: #fff; margin: 0; }
+.subtitle { font-size: var(--text-lg); color: rgba(255,255,255,0.75); max-width: 500px; line-height: 1.6; margin: 0; }
+.form { width: 100%; max-width: 480px; }
+.inputWrapper { display: flex; gap: var(--space-2); }
+.input { flex: 1; border-radius: var(--radius-md) !important; border-color: rgba(255,255,255,0.25) !important; background: rgba(255,255,255,0.1) !important; color: #fff !important; }
+.input::placeholder { color: rgba(255,255,255,0.55) !important; }
+.submitBtn { flex-shrink: 0; display: flex; align-items: center; gap: 8px; background: #fff !important; color: var(--brand-maroon) !important; }
+.submitBtn:hover { background: var(--brand-peach-light) !important; }
+.disclaimer { font-size: var(--text-xs); color: rgba(255,255,255,0.5); margin-top: var(--space-2); }
+.success { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.successIcon { font-size: 2rem; color: #fff; }
+.successTitle { font-family: var(--font-display); font-size: var(--text-3xl); color: #fff; margin: 0; }
+.successText { font-size: var(--text-base); color: rgba(255,255,255,0.75); margin: 0; }
+@media (max-width: 540px) { .inputWrapper { flex-direction: column; } .title { font-size: var(--text-4xl); } }

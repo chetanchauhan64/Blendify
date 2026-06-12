@@ -1,0 +1,177 @@
+/* AddressManager */
+.wrapper { display: flex; flex-direction: column; gap: var(--space-4); }
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.count { font-size: var(--text-sm); color: var(--text-muted); margin: 0; }
+
+/* Address grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.card {
+  position: relative;
+  background: var(--surface-white);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--transition-fast);
+}
+
+.cardDefault { border-color: var(--brand-maroon); }
+
+.defaultBadge {
+  position: absolute;
+  top: -10px;
+  left: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  background: var(--brand-maroon);
+  color: #fff;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.typeIcon { color: var(--brand-maroon); }
+.addressType { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+
+.addrName { font-size: var(--text-sm); font-weight: 700; color: var(--text-dark); margin: 0; }
+.addrPhone { font-size: var(--text-xs); color: var(--text-muted); margin: 0; }
+.addrLine { font-size: var(--text-xs); color: var(--text-body); margin: 0; line-height: 1.5; }
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border-light);
+  flex-wrap: wrap;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.actionBtn:hover { border-color: var(--brand-maroon); color: var(--brand-maroon); background: rgba(88,19,18,0.04); }
+.actionBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.deleteBtn:hover { border-color: #dc2626; color: #dc2626; background: rgba(220,38,38,0.05); }
+
+/* Empty state */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--surface-white);
+  border: 1px dashed var(--border-card);
+  border-radius: var(--radius-xl);
+}
+
+.empty p { margin: 0; font-size: var(--text-sm); }
+
+/* Modal overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: var(--surface-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+}
+
+.modalTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 var(--space-4);
+}
+
+/* Form */
+.form { display: flex; flex-direction: column; gap: var(--space-3); }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.label { font-size: var(--text-sm); font-weight: 600; color: var(--text-dark); }
+.optional { font-weight: 400; color: var(--text-muted); font-size: 11px; }
+.inputError { border-color: #dc2626 !important; }
+.errorMsg { font-size: var(--text-xs); color: #dc2626; margin: 0; }
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-sm);
+  color: var(--text-body);
+  cursor: pointer;
+}
+
+.checkbox { accent-color: var(--brand-maroon); width: 16px; height: 16px; cursor: pointer; }
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+}
+
+.spin { animation: spin 0.8s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+  .row { grid-template-columns: 1fr; }
+}

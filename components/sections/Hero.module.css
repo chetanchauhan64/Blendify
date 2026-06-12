@@ -1,0 +1,245 @@
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: -102px;
+  padding-top: 102px;
+}
+
+/* ── Background ─────────────────────────────────────────── */
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bgGradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(88, 19, 18, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 70%, rgba(196, 124, 10, 0.04) 0%, transparent 50%),
+    linear-gradient(160deg, #FDE0C1 0%, #FAECD8 40%, #FDE0C1 100%);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(253, 224, 193, 0.05) 0%,
+    rgba(253, 224, 193, 0) 40%,
+    rgba(253, 224, 193, 0.5) 100%
+  );
+}
+
+/* ── Ambient dots ───────────────────────────────────────── */
+.ambientDots {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.dot {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  filter: blur(1px);
+}
+
+/* ── Content ────────────────────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+  padding: var(--space-16) var(--space-4);
+  max-width: 800px;
+  width: 100%;
+}
+
+/* ── Eyebrow ────────────────────────────────────────────── */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  background: rgba(88, 19, 18, 0.06);
+  border: 1px solid rgba(88, 19, 18, 0.15);
+  border-radius: var(--radius-full);
+  padding: 0.4rem 1.2rem;
+}
+
+.eyebrowDot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  animation: pulse-amber 2s infinite;
+}
+
+/* ── Heading ────────────────────────────────────────────── */
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 10vw, 7.5rem);
+  font-weight: 700;
+  line-height: 1.0;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.headingAccent {
+  font-style: italic;
+  color: var(--brand-primary);
+}
+
+/* ── Subheading ─────────────────────────────────────────── */
+.sub {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: var(--text-secondary);
+  max-width: 520px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── CTAs ───────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--space-2);
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.9rem 2rem;
+  background: var(--brand-primary);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all var(--transition-base);
+}
+
+.btnPrimary:hover {
+  background: var(--brand-primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(88, 19, 18, 0.3);
+  color: #ffffff;
+}
+
+.btnOutline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.9rem 2rem;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1.5px solid rgba(44, 16, 8, 0.3);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all var(--transition-base);
+}
+
+.btnOutline:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  transform: translateY(-3px);
+}
+
+/* ── Stats ──────────────────────────────────────────────── */
+.stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(88, 19, 18, 0.15);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.statNum {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--brand-primary);
+  line-height: 1;
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ── Scroll indicator ───────────────────────────────────── */
+.scrollIndicator {
+  position: absolute;
+  bottom: var(--space-5);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--brand-primary), transparent);
+}
+
+.scrollText {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ── Mobile ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .stats { gap: var(--space-4); flex-wrap: wrap; }
+  .actions { flex-direction: column; width: 100%; }
+  .btnPrimary, .btnOutline { width: 100%; justify-content: center; }
+}

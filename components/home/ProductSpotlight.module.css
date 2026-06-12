@@ -1,0 +1,156 @@
+/* ProductSpotlight — white section, editorial 2-col layout */
+.section {
+  background: var(--surface-white);
+  padding: var(--space-20) 0;
+  overflow: hidden;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+  align-items: center;
+  max-width: var(--container-content);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+/* Image */
+.imageCol { position: relative; }
+
+.imageWrapper {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  background: var(--brand-peach-card);
+  box-shadow: var(--shadow-lg);
+}
+
+.imageGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 20%, rgba(107, 26, 32, 0.08) 0%, transparent 70%);
+}
+
+.imageBadge {
+  position: absolute;
+  bottom: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1.25rem;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-maroon);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--brand-maroon);
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+}
+
+/* Content */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--text-6xl);
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1;
+  margin: 0;
+}
+
+.tagline {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-style: italic;
+  color: var(--brand-maroon-mid);
+  margin: 0;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--surface-page);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+}
+
+.metaItem { display: flex; flex-direction: column; gap: 2px; }
+
+.metaLabel {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.metaValue {
+  font-size: var(--text-sm);
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.description { color: var(--text-muted); line-height: 1.7; margin: 0; }
+
+/* Flavor bars */
+.flavors { display: flex; flex-direction: column; gap: var(--space-2); }
+.flavorItem { display: flex; flex-direction: column; gap: 6px; }
+.flavorHeader { display: flex; justify-content: space-between; align-items: center; }
+.flavorLabel { font-size: var(--text-sm); font-weight: 500; color: var(--text-body); }
+.flavorPct { font-size: var(--text-xs); color: var(--brand-maroon-mid); font-weight: 600; }
+
+.flavorBar {
+  height: 4px;
+  background: var(--border-light);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.flavorFill {
+  height: 100%;
+  background: linear-gradient(to right, var(--brand-maroon), var(--brand-maroon-mid));
+  border-radius: var(--radius-full);
+}
+
+/* Price */
+.priceRow { display: flex; align-items: baseline; gap: var(--space-2); }
+
+.price {
+  font-family: var(--font-body);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  color: var(--brand-maroon-mid);
+}
+
+.comparePrice {
+  font-size: var(--text-xl);
+  color: var(--text-strike);
+  text-decoration: line-through;
+}
+
+.actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+@media (max-width: 1024px) {
+  .inner { grid-template-columns: 1fr; gap: var(--space-8); }
+  .imageWrapper { aspect-ratio: 16 / 9; max-height: 480px; }
+}
+
+@media (max-width: 640px) {
+  .name { font-size: var(--text-5xl); }
+  .actions { flex-direction: column; }
+  .actions .btn { width: 100%; justify-content: center; }
+}

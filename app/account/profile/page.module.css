@@ -1,0 +1,14 @@
+/* Shared account inner page header */
+.page { display: flex; flex-direction: column; gap: var(--space-5); }
+
+.header { margin-bottom: var(--space-1); }
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 4px 0 6px;
+}
+
+.subtitle { font-size: var(--text-base); color: var(--text-muted); margin: 0; }

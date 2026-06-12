@@ -1,0 +1,117 @@
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+.header { margin-bottom: var(--space-5); }
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 0.25rem;
+}
+
+.subtitle {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+/* ── Empty State ────────────────────────────────────────── */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-12) var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  gap: var(--space-2);
+}
+
+.emptyIcon {
+  width: 64px;
+  height: 64px;
+  background: var(--brand-primary-glow);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-primary);
+  margin-bottom: var(--space-1);
+}
+
+.empty h2 {
+  font-size: var(--text-2xl);
+  color: var(--text-primary);
+}
+
+.empty p {
+  font-size: var(--text-base);
+  color: var(--text-muted);
+  max-width: 360px;
+}
+
+/* ── Orders List ────────────────────────────────────────── */
+.orderList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.orderCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2);
+  align-items: center;
+  transition: box-shadow var(--transition-fast);
+}
+
+.orderCard:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.orderNumber {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--brand-primary);
+}
+
+.orderDate {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.orderTotal {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.statusDelivered { background: rgba(22, 163, 74, 0.1); color: #16a34a; }
+.statusShipped { background: rgba(37, 99, 235, 0.1); color: #2563eb; }
+.statusProcessing { background: rgba(196, 124, 10, 0.1); color: var(--brand-amber); }
+.statusCancelled { background: rgba(220, 38, 38, 0.1); color: #dc2626; }
+.statusPending { background: var(--brand-primary-glow); color: var(--brand-primary); }

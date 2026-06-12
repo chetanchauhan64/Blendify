@@ -1,0 +1,41 @@
+/* AnnouncementBar — Infinite CSS marquee */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-top);
+  width: 100%;
+  overflow: hidden;
+  background: var(--surface-ticker); /* #581312 maroon */
+  height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.track:hover {
+  animation-play-state: paused;
+}
+
+.item {
+  display: inline-block;
+  padding: 0 var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: #f5deb3; /* warm wheat on maroon */
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}

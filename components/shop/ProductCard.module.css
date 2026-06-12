@@ -1,0 +1,243 @@
+/* ============================================================
+   BLENDIFY — Product Card
+   Matches reference: white card, save badge, brand stamp, clean price row
+   ============================================================ */
+
+/* ── Card Shell ─────────────────────────────────────────── */
+
+.card {
+  display: block;
+  text-decoration: none;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #ede8e1;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(92, 26, 26, 0.10);
+}
+
+/* ── Image Area ──────────────────────────────────────────── */
+
+.imageWrapper {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f7f0e8;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+/* ── Save Badge (top-left, exactly like reference) ───────── */
+
+.saveBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  background: #581312;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+
+.newBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  background: #166534;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+
+.limitedBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  background: #92400e;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+
+/* ── BLENDIFY Brand Stamp on Image ───────────────────────── */
+
+.brandStamp {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 3;
+}
+
+.brandStampInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1.5px solid #581312;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.brandStampText {
+  font-size: 4.5px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #581312;
+  text-transform: uppercase;
+  line-height: 1;
+  display: block;
+  text-align: center;
+  writing-mode: horizontal-tb;
+}
+
+/* ── Wishlist Button (top-right) ─────────────────────────── */
+
+.wishlistBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #e2d9d0;
+  border-radius: 50%;
+  color: #8b6555;
+  cursor: pointer;
+  transition: all 0.18s;
+  backdrop-filter: blur(4px);
+}
+
+.wishlistBtn:hover {
+  background: #fff0f0;
+  border-color: #c0392b;
+  color: #c0392b;
+}
+
+.wishlistBtnActive {
+  background: #fff0f0;
+  border-color: #c0392b;
+  color: #c0392b;
+}
+
+/* ── Add to Cart overlay ─────────────────────────────────── */
+
+.cartOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 10px;
+  background: linear-gradient(to top, rgba(247, 240, 232, 0.95) 70%, transparent);
+  will-change: opacity, transform;
+}
+
+.addToCartBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  background: #581312;
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.addToCartBtn:hover {
+  background: #6e1715;
+}
+
+/* ── Info Area ───────────────────────────────────────────── */
+
+.info {
+  padding: 12px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid #f0e9e0;
+}
+
+/* Product name — 2-line clamp like reference */
+.name {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: #1c1008;
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Rating row ──────────────────────────────────────────── */
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ratingScore {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #1c1008;
+  line-height: 1;
+}
+
+/* ── Price row ───────────────────────────────────────────── */
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #581312;
+}
+
+.comparePrice {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #9a9087;
+  text-decoration: line-through;
+}

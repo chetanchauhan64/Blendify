@@ -1,0 +1,283 @@
+.page { background: var(--bg-base); }
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 60% at 30% 50%, rgba(212,136,10,0.1) 0%, transparent 65%),
+    var(--bg-base);
+}
+
+.heroGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 80% at 80% 30%, rgba(232,184,75,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 700px;
+}
+
+.heroHeading {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.accent {
+  font-style: italic;
+  background: linear-gradient(135deg, #D4880A, #E8B84B);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroSub {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0;
+}
+
+.heroBigEmoji {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(6rem, 18vw, 16rem);
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Story section ────────────────────────────────────────── */
+.story { background: var(--bg-base); }
+
+.storyGrid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-12);
+  align-items: start;
+}
+
+.storyNumbers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  position: sticky;
+  top: 120px;
+}
+
+.storyNum {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-4) var(--space-2);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  transition: border-color var(--transition-fast);
+}
+
+.storyNum:hover { border-color: var(--brand-primary-border); }
+
+.numBig {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--brand-primary);
+  line-height: 1;
+}
+
+.numLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.storyText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.storyHeading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.storyText p {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.storyText strong { color: var(--brand-primary); font-weight: 600; }
+
+/* ── Mission ──────────────────────────────────────────────── */
+.mission { background: var(--bg-surface); }
+
+.missionContent {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.missionHeading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.missionSub {
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ── Pillars ──────────────────────────────────────────────── */
+.pillars { background: var(--bg-base); }
+
+.pillarsHeader { text-align: center; margin-bottom: var(--space-8); }
+
+.pillarsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.pillarCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-base);
+}
+
+.pillarCard:hover {
+  border-color: var(--brand-primary-border);
+  transform: translateY(-4px);
+}
+
+.pillarIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  background: var(--brand-primary-glow);
+  border: 1px solid var(--brand-primary-border);
+  color: var(--brand-primary);
+  transition: all var(--transition-base);
+}
+
+.pillarCard:hover .pillarIcon { background: var(--brand-primary); color: #1A1008; }
+
+.pillarTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.pillarDesc {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── Philosophy ───────────────────────────────────────────── */
+.philosophy { background: var(--bg-surface); }
+
+.philoContent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-10);
+  align-items: center;
+}
+
+.philoEmoji { font-size: 8rem; opacity: 0.6; filter: drop-shadow(0 8px 32px rgba(212,136,10,0.3)); }
+
+.philoHeading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-3);
+}
+
+.philoContent p { font-size: var(--text-base); color: var(--text-secondary); line-height: 1.8; margin: 0 0 var(--space-2); }
+
+/* ── CTA ──────────────────────────────────────────────────── */
+.cta {
+  background: var(--bg-base);
+  text-align: center;
+}
+
+.ctaContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.ctaEmoji { font-size: 4rem; }
+
+.ctaHeading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.ctaSub { font-size: var(--text-lg); color: var(--text-secondary); margin: 0; }
+
+.ctaActions { display: flex; gap: var(--space-3); flex-wrap: wrap; justify-content: center; }
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 1024px) { .pillarsGrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) {
+  .storyGrid { grid-template-columns: 1fr; }
+  .storyNumbers { position: static; }
+  .philoContent { grid-template-columns: 1fr; }
+  .philoEmoji { display: none; }
+  .heroBigEmoji { display: none; }
+}
+@media (max-width: 500px) { .pillarsGrid { grid-template-columns: 1fr; } .ctaActions { flex-direction: column; width: 100%; } }

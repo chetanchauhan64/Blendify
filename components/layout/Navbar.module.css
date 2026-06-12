@@ -1,0 +1,441 @@
+/* ============================================================
+   SPILL THE BEANS — Navbar Styles
+   Dark glass aesthetic with amber accents
+   ============================================================ */
+
+/* ── Main Navbar ─────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 38px; /* below AnnouncementBar */
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(88, 19, 18, 0.08);
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scrolled {
+  top: 0;
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom-color: rgba(88, 19, 18, 0.12);
+  box-shadow: 0 4px 24px rgba(88, 19, 18, 0.1);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0.9rem var(--space-6);
+}
+
+/* ── Logo ────────────────────────────────────────────────── */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoMark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoWords {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.logoMain {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--text-primary);
+  line-height: 1;
+  transition: color var(--transition-fast);
+}
+
+.logo:hover .logoMain { color: var(--brand-primary); }
+
+.logoSub {
+  font-family: var(--font-body);
+  font-size: 0.45rem;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  line-height: 1;
+  font-weight: 500;
+}
+
+/* ── Nav Links ───────────────────────────────────────────── */
+.navLinks {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.navItem { position: relative; }
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.55rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  white-space: nowrap;
+  position: relative;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--brand-primary);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-base);
+}
+
+.navLink:hover,
+.navLinkActive {
+  color: var(--text-primary);
+}
+
+.navLink:hover::after,
+.navLinkActive::after {
+  width: 60%;
+}
+
+.navChevron {
+  color: var(--text-muted);
+  transition: transform 0.2s;
+}
+.navItem:hover .navChevron { transform: rotate(180deg); }
+
+/* ── Dropdown ────────────────────────────────────────────── */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 200px;
+  background: #ffffff;
+  border: 1px solid var(--border-card);
+  border-top: 2px solid var(--brand-primary);
+  border-radius: var(--radius-lg);
+  padding: 0.4rem;
+  box-shadow: 0 8px 32px rgba(88, 19, 18, 0.12);
+  z-index: var(--z-dropdown);
+}
+
+.dropdownItem {
+  display: block;
+  padding: 0.6rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.dropdownItem:hover {
+  color: var(--brand-primary);
+  background: #fff8f2;
+}
+
+/* ── Right Actions ───────────────────────────────────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Region ──────────────────────────────────────────────── */
+.regionWrapper { position: relative; }
+
+.regionBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.35rem 0.7rem;
+  background: #fff8f2;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.regionBtn:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+.regionCode { font-weight: 600; color: var(--brand-primary); }
+
+.regionPanel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 280px;
+  background: #ffffff;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  padding: var(--space-3);
+  box-shadow: 0 12px 40px rgba(88, 19, 18, 0.12);
+  z-index: var(--z-dropdown);
+}
+
+.regionPanelTitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.regionGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+
+.regionOption {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.45rem 0.65rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.regionOption:hover { background: var(--bg-surface-hover); border-color: var(--border-card); }
+.regionOptionActive { border-color: var(--brand-primary); color: var(--brand-primary); }
+.regionCurrency { margin-left: auto; font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
+
+/* ── Icon Buttons ────────────────────────────────────────── */
+.iconBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.iconBtn:hover {
+  color: var(--brand-primary);
+  background: rgba(88, 19, 18, 0.06);
+}
+
+.cartBtn {
+  background: var(--brand-primary-glow);
+  border: 1px solid var(--brand-primary-border);
+  color: var(--brand-primary);
+}
+
+.cartBtn:hover {
+  background: var(--brand-primary);
+  color: #ffffff;
+}
+
+.badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  background: var(--brand-primary);
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 99px;
+  line-height: 1;
+}
+
+/* ── Search ──────────────────────────────────────────────── */
+.searchBar {
+  border-top: 1px solid var(--border-light);
+  background: rgba(255, 255, 255, 0.98);
+  overflow: hidden;
+}
+
+.searchInner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0.75rem var(--space-6);
+}
+
+.searchIcon { color: var(--text-muted); flex-shrink: 0; }
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  caret-color: var(--brand-primary);
+}
+
+.searchInput::placeholder { color: var(--text-muted); }
+
+.searchClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.searchClose:hover { background: var(--bg-surface-hover); color: var(--text-primary); }
+
+/* ── Mobile ──────────────────────────────────────────────── */
+.mobileOnly { display: none; }
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(360px, 100vw);
+  height: 100vh;
+  background: #ffffff;
+  border-left: 1px solid var(--border-card);
+  z-index: var(--z-modal);
+  overflow-y: auto;
+}
+
+.mobileMenuInner { padding: var(--space-5) var(--space-4); }
+
+.mobileHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.mobileLogo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--brand-primary);
+}
+
+.mobileClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border-card);
+  border-radius: 50%;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mobileClose:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
+
+.mobileNavLink {
+  display: block;
+  padding: 0.9rem 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-light);
+  transition: color var(--transition-fast);
+}
+
+.mobileNavLink:hover,
+.mobileNavLinkActive { color: var(--brand-primary); }
+
+.mobileSubLinks { padding: 0.4rem 0 0.4rem 1rem; display: flex; flex-direction: column; gap: 0.1rem; }
+
+.mobileSubLink {
+  padding: 0.35rem 0;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.mobileSubLink:hover { color: var(--brand-primary); }
+
+.mobileDivider {
+  height: 1px;
+  background: var(--border-light);
+  margin: var(--space-3) 0;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .navLinks { display: none; }
+  .mobileOnly { display: flex; }
+}
+
+@media (max-width: 640px) {
+  .inner { padding: 0.7rem var(--space-3); }
+  .logoMain { font-size: 0.95rem; letter-spacing: 0.1em; }
+  .logoSub { display: none; }
+  .logoMark > svg { width: 26px; height: 26px; }
+}

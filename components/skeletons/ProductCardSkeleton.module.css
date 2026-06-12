@@ -1,0 +1,34 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.image  { aspect-ratio: 1/1; width: 100%; border-radius: 0; }
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: var(--space-3);
+}
+
+.tag       { width: 60px;  height: 12px; border-radius: var(--radius-full); }
+.name      { width: 90%;   height: 18px; border-radius: var(--radius-sm); }
+.nameShort { width: 60%;   height: 18px; border-radius: var(--radius-sm); }
+.rating    { width: 80px;  height: 12px; border-radius: var(--radius-sm); }
+.price     { width: 70px;  height: 24px; border-radius: var(--radius-sm); margin-top: 4px; }
+.btn       { width: 100%;  height: 38px; border-radius: var(--radius-md); margin-top: 4px; }
+
+/* Grid wrapper */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px)  { .grid { grid-template-columns: 1fr; } }

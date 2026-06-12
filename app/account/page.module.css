@@ -1,0 +1,118 @@
+/* Account Dashboard */
+.page { display: flex; flex-direction: column; gap: var(--space-6); }
+
+.header { margin-bottom: var(--space-1); }
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 4px 0 6px;
+}
+
+.subtitle { font-size: var(--text-base); color: var(--text-muted); margin: 0; }
+
+/* Stats */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--surface-white);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.statIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 2px;
+}
+
+.statValue {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Quick Actions */
+.section { display: flex; flex-direction: column; gap: var(--space-3); }
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.actionCard {
+  padding: var(--space-4);
+  background: var(--surface-white);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-card);
+}
+
+.actionCard:hover {
+  border-color: var(--border-maroon);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
+}
+
+.actionCard h3 {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 4px;
+}
+
+.actionCard p {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .statsGrid { grid-template-columns: 1fr 1fr; }
+  .actionsGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .statsGrid { grid-template-columns: 1fr; }
+}

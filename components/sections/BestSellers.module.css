@@ -1,0 +1,14 @@
+.section { background: var(--bg-surface); }
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-8); flex-wrap: wrap; gap: var(--space-3); }
+.title { color: var(--text-primary); margin-bottom: 0; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.footer { text-align: center; margin-top: var(--space-8); }
+
+@media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px)  { .grid { grid-template-columns: 1fr; } }

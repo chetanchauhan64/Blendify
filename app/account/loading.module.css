@@ -1,0 +1,65 @@
+/* Shared account loading skeleton styles */
+.page { display: flex; flex-direction: column; gap: var(--space-6); }
+
+.skeleton {
+  background: linear-gradient(90deg, #f0e4d8 25%, #feecd8 50%, #f0e4d8 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.header { display: flex; flex-direction: column; gap: 10px; margin-bottom: var(--space-1); }
+.label { height: 12px; width: 80px; }
+.title { height: 36px; width: 260px; border-radius: var(--radius-lg); }
+.subtitle { height: 14px; width: 200px; }
+
+.statsGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--surface-white);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+}
+
+.icon { width: 44px; height: 44px; border-radius: var(--radius-md); flex-shrink: 0; }
+.statLines { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.lineShort { height: 10px; width: 60%; }
+.lineLong { height: 14px; width: 80%; }
+
+.actionsGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+.actionCard { height: 90px; background: var(--surface-white); border: 1px solid var(--border-card); border-radius: var(--radius-lg); }
+
+/* Profile skeleton */
+.formCard {
+  background: var(--surface-white);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-card);
+}
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.fieldLabel { height: 12px; width: 80px; }
+.fieldInput { height: 44px; width: 100%; border-radius: var(--radius-md); }
+
+/* Address skeleton */
+.addrGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+.addrCard { height: 160px; background: var(--surface-white); border: 1px solid var(--border-card); border-radius: var(--radius-lg); }
+
+@media (max-width: 768px) {
+  .statsGrid { grid-template-columns: 1fr 1fr; }
+  .addrGrid { grid-template-columns: 1fr; }
+  .row { grid-template-columns: 1fr; }
+}
