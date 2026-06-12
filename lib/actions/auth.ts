@@ -9,6 +9,7 @@ import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import { redirect } from 'next/navigation';
 import { createSession, deleteSession } from '@/lib/session';
+import { isDbConfigured } from '@/lib/db/prisma';
 
 // ── Zod Schemas ───────────────────────────────────────────────
 
@@ -43,10 +44,6 @@ export type AuthFormState =
     }
   | undefined;
 
-// ── DB Check ─────────────────────────────────────────────────
-const dbReady =
-  !!process.env.DATABASE_URL &&
-  !process.env.DATABASE_URL.includes('REPLACE');
 
 // ── Sign Up ───────────────────────────────────────────────────
 
@@ -75,7 +72,7 @@ export async function signUp(
 
   let userId: string;
 
-  if (dbReady) {
+  if (isDbConfigured) {
     try {
       const { prisma } = await import('@/lib/db/prisma');
 
@@ -123,7 +120,7 @@ export async function signIn(
 
   const { email, password } = validated.data;
 
-  if (dbReady) {
+  if (isDbConfigured) {
     try {
       const { prisma } = await import('@/lib/db/prisma');
 

@@ -509,9 +509,9 @@ async function main() {
       lastName: 'Admin',
       role: 'SUPER_ADMIN',
       isActive: true,
-      // Note: In production, passwordHash would be a proper bcrypt hash
+      // Note: In production, password would be a proper bcrypt hash
       // e.g., await bcrypt.hash('admin123', 12)
-      passwordHash: '$2b$12$placeholder_replace_with_real_hash',
+      password: '$2b$12$placeholder_replace_with_real_hash',
     },
   });
   console.log('  ✓ Admin user seeded');
