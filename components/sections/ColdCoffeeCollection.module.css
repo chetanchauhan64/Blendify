@@ -1,0 +1,318 @@
+/* ============================================================
+   BLENDIFY — ColdCoffeeCollection.module.css
+   Premium RTD cold coffee section
+   Deep rich dark background with floating coffee bean accents
+   ============================================================ */
+
+.section {
+  position: relative;
+  background: linear-gradient(160deg, #0d0500 0%, #1a0800 40%, #0d0300 100%);
+  padding: 6rem 0 5rem;
+  overflow: hidden;
+}
+
+/* ── Background decorative beans ─────────────────────────── */
+.bgDecor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bgBean {
+  position: absolute;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: rgba(196, 124, 10, 0.06);
+  border: 1px solid rgba(196, 124, 10, 0.08);
+  animation: bgFloat 8s ease-in-out infinite alternate;
+}
+
+.bgBean:nth-child(1)  { width: 80px;  height: 52px;  top: 10%;  left: 5%;   animation-delay: 0s;   }
+.bgBean:nth-child(2)  { width: 60px;  height: 39px;  top: 25%;  right: 8%;  animation-delay: 1s;   }
+.bgBean:nth-child(3)  { width: 100px; height: 65px;  top: 55%;  left: 3%;   animation-delay: 2s;   }
+.bgBean:nth-child(4)  { width: 70px;  height: 46px;  top: 75%;  right: 6%;  animation-delay: 0.5s; }
+.bgBean:nth-child(5)  { width: 50px;  height: 33px;  top: 15%;  left: 45%;  animation-delay: 3s;   }
+.bgBean:nth-child(6)  { width: 90px;  height: 59px;  top: 40%;  right: 3%;  animation-delay: 1.5s; }
+.bgBean:nth-child(7)  { width: 65px;  height: 42px;  bottom: 15%; left: 15%; animation-delay: 2.5s; }
+.bgBean:nth-child(8)  { width: 75px;  height: 49px;  bottom: 8%;  right: 20%; animation-delay: 0.8s; }
+
+@keyframes bgFloat {
+  from { transform: translateY(0) rotate(0deg); }
+  to   { transform: translateY(-20px) rotate(10deg); }
+}
+
+/* ── Inner container ──────────────────────────────────────── */
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-max, 1400px);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-amber, #C47C0A);
+  background: rgba(196, 124, 10, 0.12);
+  border: 1px solid rgba(196, 124, 10, 0.25);
+  border-radius: 100px;
+  padding: 0.3rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 0.75rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.55);
+  max-width: 500px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.65;
+}
+
+.headerCTA {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--brand-amber, #C47C0A);
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(196, 124, 10, 0.4);
+  padding-bottom: 0.15rem;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.headerCTA:hover {
+  color: #E8960F;
+  border-color: #E8960F;
+}
+
+/* ── Products grid ────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* ── Card wrapper ─────────────────────────────────────────── */
+.cardWrapper {
+  /* framer-motion wrapper */
+}
+
+/* ── Card ─────────────────────────────────────────────────── */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 1.5rem 1.25rem 1.25rem;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.35s cubic-bezier(0.22,1,0.36,1),
+    box-shadow 0.35s cubic-bezier(0.22,1,0.36,1),
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.03) translateY(-4px);
+  box-shadow:
+    0 24px 64px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(196,124,10,0.25),
+    0 0 40px rgba(196,124,10,0.08);
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(196,124,10,0.3);
+}
+
+/* ── Floating beans layer ─────────────────────────────────── */
+.beansLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.floatingBean {
+  position: absolute;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: radial-gradient(ellipse at 35% 35%, #7a4520, #3d1e0a);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), inset -1px -1px 2px rgba(255,255,255,0.1);
+  animation: beanFloat 4s ease-in-out infinite alternate;
+  opacity: 0.7;
+}
+
+@keyframes beanFloat {
+  0%   { transform: translateY(0px) rotate(var(--r, 0deg)); }
+  100% { transform: translateY(-8px) rotate(calc(var(--r, 0deg) + 8deg)); }
+}
+
+/* ── Can image ────────────────────────────────────────────── */
+.canWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  z-index: 1;
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+
+.card:hover .canWrap {
+  transform: scale(1.06) translateY(-6px);
+}
+
+.canImg {
+  object-fit: contain;
+  drop-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.5));
+}
+
+/* ── Card info ────────────────────────────────────────────── */
+.cardInfo {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-bottom: 0.4rem;
+}
+
+.rating {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #f4a200;
+}
+
+.productName {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.tagline {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.45);
+  margin: 0 0 0.65rem;
+  line-height: 1.4;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.comparePrice {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.35);
+  text-decoration: line-through;
+}
+
+.savings {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #4ade80;
+  background: rgba(74,222,128,0.12);
+  border-radius: 100px;
+  padding: 0.1rem 0.5rem;
+}
+
+/* ── Quick add button ─────────────────────────────────────── */
+.quickAdd {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  margin-top: 0.85rem;
+  padding: 0.6rem 1rem;
+  background: var(--brand-primary, #581312);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 100px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
+}
+
+.card:hover .quickAdd {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.quickAdd:hover {
+  background: #6d1615;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .section {
+    padding: 4rem 0 3rem;
+  }
+  .card {
+    padding: 1rem 0.75rem 0.85rem;
+  }
+  .title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,16 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Heart, ShoppingBag, ChevronRight, ArrowLeft, CheckCircle2, MapPin } from 'lucide-react';
+import { Star, Heart, ShoppingBag, ChevronRight, ArrowLeft, CheckCircle2, MapPin, X, ZoomIn, ChevronLeft } from 'lucide-react';
 import type { Product, ProductVariant } from '@/types';
 import { useCartStore } from '@/lib/store/cartStore';
 import { useWishlistStore } from '@/lib/store/wishlistStore';
 import { useCurrency } from '@/lib/hooks/useCurrency';
 import { formatPrice } from '@/lib/currency';
 import { ProductCard } from '@/components/shop/ProductCard';
+import { ProductBenefits } from '@/components/products/ProductBenefits';
+import { PreparationSlider } from '@/components/products/PreparationSlider';
+import { NutritionCarousel } from '@/components/products/NutritionCarousel';
+import { FrequentlyBoughtTogether } from '@/components/products/FrequentlyBoughtTogether';
 import styles from './page.module.css';
 
 const GRIND_LABELS: Record<string, string> = {
@@ -32,6 +36,35 @@ export function ProductDetailClient({ product, related }: Props) {
   const [selectedGrind, setSelectedGrind] = useState<string>(product.variants[0].grind);
   const [added, setAdded] = useState(false);
   const [flavorVisible, setFlavorVisible] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const goPrevImage = useCallback(() => {
+    setLightboxIndex((i) => (i - 1 + product.images.length) % product.images.length);
+  }, [product.images.length]);
+
+  const goNextImage = useCallback(() => {
+    setLightboxIndex((i) => (i + 1) % product.images.length);
+  }, [product.images.length]);
+
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxOpen(false);
+      if (e.key === 'ArrowLeft') goPrevImage();
+      if (e.key === 'ArrowRight') goNextImage();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [lightboxOpen, goPrevImage, goNextImage]);
+
+  // Lock scroll when lightbox open
+  useEffect(() => {
+    document.body.style.overflow = lightboxOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [lightboxOpen]);
 
   const addItem = useCartStore((s) => s.addItem);
   const { toggleItem, isWishlisted } = useWishlistStore();
@@ -109,16 +142,27 @@ export function ProductDetailClient({ product, related }: Props) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className={styles.mainImageWrapper}>
+            {/* Main image */}
+            <div
+              className={styles.mainImageWrapper}
+              style={{ cursor: 'zoom-in' }}
+              onClick={() => { setLightboxIndex(activeImage); setLightboxOpen(true); }}
+              title="Click to zoom"
+            >
               <Image
-                src={product.images[0]}
+                src={product.images[activeImage] ?? product.images[0]}
                 alt={product.name}
                 fill
                 className={styles.mainImage}
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'contain', padding: '12px' }}
                 priority
                 sizes="(max-width: 900px) 100vw, 50vw"
               />
+
+              {/* Zoom hint */}
+              <div className={styles.zoomHint}>
+                <ZoomIn size={16} />
+              </div>
 
               {/* Badges */}
               {savePercent ? (
@@ -132,8 +176,95 @@ export function ProductDetailClient({ product, related }: Props) {
               <div className={styles.brandStamp}>
                 <span className={styles.brandStampText}>BLENDIFY</span>
               </div>
+
+              {/* Prev / Next arrows */}
+              {product.images.length > 1 && (
+                <>
+                  <button
+                    className={`${styles.imgNavBtn} ${styles.imgNavPrev}`}
+                    onClick={(e) => { e.stopPropagation(); setActiveImage((i) => (i - 1 + product.images.length) % product.images.length); }}
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft size={18} />
+                  </button>
+                  <button
+                    className={`${styles.imgNavBtn} ${styles.imgNavNext}`}
+                    onClick={(e) => { e.stopPropagation(); setActiveImage((i) => (i + 1) % product.images.length); }}
+                    aria-label="Next image"
+                  >
+                    <ChevronRight size={18} />
+                  </button>
+                </>
+              )}
             </div>
+
+            {/* Thumbnail strip */}
+            {product.images.length > 1 && (
+              <div className={styles.thumbStrip}>
+                {product.images.map((img, i) => (
+                  <button
+                    key={i}
+                    className={`${styles.thumb} ${i === activeImage ? styles.thumbActive : ''}`}
+                    onClick={() => setActiveImage(i)}
+                    aria-label={`View image ${i + 1}`}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${product.name} view ${i + 1}`}
+                      fill
+                      sizes="72px"
+                      style={{ objectFit: 'contain', padding: '4px' }}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </motion.div>
+
+          {/* Lightbox */}
+          <AnimatePresence>
+            {lightboxOpen && (
+              <motion.div
+                className={styles.lightbox}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setLightboxOpen(false)}
+              >
+                <motion.div
+                  className={styles.lightboxInner}
+                  initial={{ scale: 0.88, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.88, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button className={styles.lightboxClose} onClick={() => setLightboxOpen(false)} aria-label="Close">
+                    <X size={20} />
+                  </button>
+                  <button className={`${styles.lightboxNav} ${styles.lightboxNavPrev}`} onClick={goPrevImage} aria-label="Previous">
+                    <ChevronLeft size={22} />
+                  </button>
+                  <div className={styles.lightboxImageWrap}>
+                    <Image
+                      src={product.images[lightboxIndex]}
+                      alt={`${product.name} — full view`}
+                      fill
+                      sizes="90vw"
+                      style={{ objectFit: 'contain' }}
+                      priority
+                    />
+                  </div>
+                  <button className={`${styles.lightboxNav} ${styles.lightboxNavNext}`} onClick={goNextImage} aria-label="Next">
+                    <ChevronRight size={22} />
+                  </button>
+                  <div className={styles.lightboxCounter}>
+                    {lightboxIndex + 1} / {product.images.length}
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Info Panel */}
           <motion.div
@@ -350,6 +481,51 @@ export function ProductDetailClient({ product, related }: Props) {
             </div>
           </motion.section>
         )}
+
+        {/* ── Product Benefits Strip ─────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5 }}
+          style={{ marginBottom: 'var(--space-5)' }}
+        >
+          <ProductBenefits />
+        </motion.div>
+
+        {/* ── Preparation Slider ─────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          style={{ marginBottom: 'var(--space-5)' }}
+        >
+          <PreparationSlider />
+        </motion.div>
+
+        {/* ── Nutrition Carousel ─────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          style={{ marginBottom: 'var(--space-5)' }}
+        >
+          <NutritionCarousel />
+        </motion.div>
+
+        {/* ── Frequently Bought Together ─────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          style={{ marginBottom: 'var(--space-8)' }}
+        >
+          <FrequentlyBoughtTogether mainProduct={product} />
+        </motion.div>
+
       </div>
 
       {/* Related Products */}

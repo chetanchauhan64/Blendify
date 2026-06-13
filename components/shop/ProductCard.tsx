@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Heart, Plus, Star } from 'lucide-react';
+import { Heart, Plus, Star, Eye } from 'lucide-react';
 import type { Product } from '@/types';
 import { useCartStore } from '@/lib/store/cartStore';
 import { useWishlistStore } from '@/lib/store/wishlistStore';
@@ -16,9 +16,10 @@ import styles from './ProductCard.module.css';
 interface Props {
   product: Product;
   index?: number;
+  onQuickView?: (product: Product) => void;
 }
 
-export function ProductCard({ product, index = 0 }: Props) {
+export function ProductCard({ product, index = 0, onQuickView }: Props) {
   const [hovered, setHovered] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
   const { toggleItem, isWishlisted } = useWishlistStore();
@@ -49,6 +50,12 @@ export function ProductCard({ product, index = 0 }: Props) {
     e.preventDefault();
     e.stopPropagation();
     toggleItem(product, defaultVariant);
+  };
+
+  const handleQuickView = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onQuickView?.(product);
   };
 
   return (
@@ -105,6 +112,28 @@ export function ProductCard({ product, index = 0 }: Props) {
           >
             <Heart size={14} fill={wishlisted ? 'currentColor' : 'none'} />
           </button>
+
+          {/* Quick View button — reveals on hover (above Quick Add) */}
+          {onQuickView && (
+            <motion.div
+              className={styles.quickViewWrap}
+              initial={false}
+              animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : -10 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              aria-hidden={!hovered}
+            >
+              <button
+                id={`quick-view-${product.id}`}
+                className={styles.quickViewBtn}
+                onClick={handleQuickView}
+                aria-label={`Quick view ${product.name}`}
+                tabIndex={hovered ? 0 : -1}
+              >
+                <Eye size={13} strokeWidth={2.5} />
+                Quick View
+              </button>
+            </motion.div>
+          )}
 
           {/* Quick Add — slides up from bottom of image on hover */}
           <motion.div

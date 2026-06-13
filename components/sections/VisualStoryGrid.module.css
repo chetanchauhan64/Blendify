@@ -1,13 +1,18 @@
 /* ============================================================
    BLENDIFY — VisualStoryGrid.module.css
-   Two-column masonry editorial layout
+   Brand palette:
+     Maroon  #581312  (buttons, fills, accents)
+     Cream   #FDE0C1  (text on dark, time display)
+     White   #FFFFFF  (backgrounds, icon base)
    ============================================================ */
 
+/* ── Section ─────────────────────────────────────────────── */
 .section {
-  background: var(--bg-base);
+  background: #FDE0C1;         /* brand cream */
   overflow: hidden;
 }
 
+/* ── Grid ────────────────────────────────────────────────── */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -17,20 +22,21 @@
   padding: 0.5rem;
 }
 
-/* Column */
+/* ── Column ──────────────────────────────────────────────── */
 .col {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-/* ── Generic tile ─────────────────────────────────────────── */
+/* ── Generic tile ────────────────────────────────────────── */
 .tile {
   position: relative;
   aspect-ratio: 4 / 3;
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
+  background: #581312;
 }
 
 .tileTall {
@@ -52,27 +58,32 @@
   transform: scale(1.04);
 }
 
+/* Overlay text — hidden until hover */
 .tileOverlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   padding: 1.5rem 1.25rem 1rem;
-  background: linear-gradient(to top, rgba(20,0,0,0.72) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(88,19,18,0.82) 0%, transparent 100%);
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   opacity: 0;
   transition: opacity 0.35s ease;
+  z-index: 4;
 }
 
 .tile:hover .tileOverlay { opacity: 1; }
+
+/* Inside ExperienceTile, overlay must sit above video (z-index 2) */
+.experienceTile .tileOverlay { z-index: 6; }
 
 .tileLabel {
   font-family: var(--font-display);
   font-size: var(--text-xl);
   font-weight: 700;
-  color: #ffffff;
+  color: #FDE0C1;               /* brand cream */
   text-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
 
@@ -82,18 +93,23 @@
   gap: 0.3rem;
   font-size: var(--text-sm);
   font-weight: 600;
-  color: var(--brand-amber);
+  color: #FDE0C1;               /* brand cream */
   letter-spacing: 0.04em;
 }
 
-/* ── Video tile ───────────────────────────────────────────── */
+/* ── VideoTile (bottom-left auto-play) ───────────────────── */
+.videoTileLink {
+  display: block;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
 .videoTile {
   position: relative;
   aspect-ratio: 4 / 3;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  background: #1a0606;
   cursor: pointer;
-  background: #1a0a00;
+  overflow: hidden;
 }
 
 .video {
@@ -102,19 +118,111 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.6s ease;
 }
 
-/* Controls overlay */
+.videoTile:hover .video { transform: scale(1.03); }
+
+/* ── Poster fallback ─────────────────────────────────────── */
+.posterFallback {
+  position: absolute;
+  inset: 0;
+}
+
+.posterImg { object-fit: cover; }
+
+.posterOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: rgba(88,19,18,0.4);
+}
+
+.posterPlayBtn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(253,224,193,0.18);
+  border: 2px solid #FDE0C1;
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FDE0C1;
+  transition: background 0.25s;
+}
+
+.posterPlayBtn:hover { background: #581312; }
+
+.posterText {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #FDE0C1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Loader ──────────────────────────────────────────────── */
+.videoLoader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(88,19,18,0.7);
+}
+
+.loaderSpinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(253,224,193,0.25);
+  border-top-color: #FDE0C1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Center play (paused state) ──────────────────────────── */
+.centerPlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(88,19,18,0.65);
+  border: 2px solid rgba(253,224,193,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FDE0C1;
+  pointer-events: none;
+  animation: fadeInPop 0.2s ease;
+  z-index: 3;
+}
+
+@keyframes fadeInPop {
+  from { opacity: 0; transform: translate(-50%,-50%) scale(0.75); }
+  to   { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+}
+
+/* ── VideoTile controls bar (hover-revealed, bottom) ─────── */
 .videoControls {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.75rem 1rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+  padding: 0.6rem 0.85rem 0.75rem;
+  background: linear-gradient(to top, rgba(88,19,18,0.92) 0%, rgba(88,19,18,0.3) 70%, transparent 100%);
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.55rem;
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 4;
@@ -122,73 +230,302 @@
 
 .showControls { opacity: 1; }
 
-.playBtn,
-.muteBtn {
-  background: rgba(255,255,255,0.18);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: #fff;
+.ctrlBtn {
+  background: rgba(253,224,193,0.15);
+  border: 1px solid rgba(253,224,193,0.3);
+  color: #FDE0C1;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background var(--transition-fast);
   flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s;
 }
 
-.playBtn:hover,
-.muteBtn:hover {
-  background: var(--brand-primary);
+.ctrlBtn:hover {
+  background: #581312;
+  border-color: #FDE0C1;
 }
 
 .timeDisplay {
-  font-size: 0.65rem;
-  color: rgba(255,255,255,0.85);
+  font-size: 0.62rem;
+  color: #FDE0C1;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  flex-shrink: 0;
+  min-width: 2.2rem;
+  text-align: center;
 }
 
 .progressBar {
   flex: 1;
-  height: 3px;
-  background: rgba(255,255,255,0.25);
-  border-radius: 2px;
+  height: 4px;
+  background: rgba(253,224,193,0.25);
+  border-radius: 4px;
   cursor: pointer;
   position: relative;
+  transition: height 0.2s ease;
 }
+
+.progressBar:hover { height: 6px; }
 
 .progressFill {
   height: 100%;
-  background: var(--brand-amber, #C47C0A);
-  border-radius: 2px;
+  background: #FDE0C1;
+  border-radius: 4px;
   transition: width 0.1s linear;
+  pointer-events: none;
 }
 
-.videoLabel {
+.progressThumb {
   position: absolute;
-  top: 1rem;
-  left: 1rem;
-  z-index: 4;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: var(--radius-full);
-  padding: 0.25rem 0.75rem;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
-/* Responsive */
+.progressBar:hover .progressThumb { opacity: 1; }
+
+/* ═══════════════════════════════════════════════════════════
+   ExperienceTile — hover-play video with branded controls
+   ══════════════════════════════════════════════════════════ */
+
+/* Container — fills parent .tile */
+.experienceTile {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+/* Video — hidden by default, fades in on hover */
+.experienceVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 2;
+  border-radius: inherit;
+}
+
+.experienceVideoVisible { opacity: 1; }
+
+/* Poster — fades out when video is playing */
+.experiencePoster {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.experiencePosterHidden { opacity: 0; }
+
+/* Scale poster slightly on hover */
+.experienceTile:hover .experiencePoster .tileImg {
+  transform: scale(1.04);
+}
+
+/* ── Center play button at rest ───────────────── */
+.expCenterPlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(88,19,18,0.72);
+  border: 2.5px solid #FDE0C1;
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FDE0C1;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 24px rgba(88,19,18,0.4);
+}
+
+.experienceTile:hover .expCenterPlay {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+}
+
+/* ── Full branded controls bar ────────────────── */
+.expControls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  /* Tall gradient to make controls readable */
+  background: linear-gradient(
+    to top,
+    rgba(88,19,18,0.96) 0%,
+    rgba(88,19,18,0.7)  55%,
+    transparent         100%
+  );
+}
+
+.expControlsVisible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Top label row */
+.expLabel {
+  padding: 0.6rem 0.85rem 0.2rem;
+}
+
+.expLabelBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  background: #FDE0C1;
+  color: #581312;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 999px;
+}
+
+/* Controls row */
+.expCtrlRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.85rem 0.85rem;
+}
+
+/* Control buttons — maroon on cream */
+.expBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(253,224,193,0.4);
+  background: rgba(253,224,193,0.12);
+  color: #FDE0C1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
+  backdrop-filter: blur(4px);
+}
+
+.expBtn:hover {
+  background: #FDE0C1;
+  border-color: #FDE0C1;
+  color: #581312;
+  transform: scale(1.08);
+}
+
+/* Time display */
+.expTime {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #FDE0C1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 2.4rem;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* Seek bar */
+.expProgress {
+  flex: 1;
+  height: 4px;
+  background: rgba(253,224,193,0.25);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: height 0.2s ease;
+}
+
+.expProgress:hover { height: 6px; }
+
+.expProgressFill {
+  height: 100%;
+  background: #FDE0C1;
+  border-radius: 4px;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+.expProgressThumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid #581312;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+.expProgress:hover .expProgressThumb { opacity: 1; }
+
+/* ── "Hover to play" pill at rest ─────────────── */
+.hoverPlayBadge {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.3rem 0.75rem;
+  background: rgba(88,19,18,0.7);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(253,224,193,0.35);
+  border-radius: 999px;
+  color: #FDE0C1;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.hoverPlayBadgeHidden { opacity: 0; }
+
+/* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-  .col { flex-direction: row; flex-wrap: wrap; }
+  .grid { grid-template-columns: 1fr; }
+  .col  { flex-direction: row; flex-wrap: wrap; }
   .tile, .videoTile { flex: 1 1 45%; }
 }
 

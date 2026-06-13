@@ -87,6 +87,28 @@
   text-align: center;
 }
 
+/* CTA button */
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.85rem 2.5rem;
+  background: linear-gradient(135deg, #C47C0A 0%, #8B3A00 100%);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 100px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(196,124,10,0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ctaBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(196,124,10,0.5);
+}
+
 @media (max-width: 640px) {
   .statsRow { gap: var(--space-3); }
   .statCard { min-width: 120px; padding: var(--space-3); }

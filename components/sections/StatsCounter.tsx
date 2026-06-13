@@ -7,6 +7,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { motion, useInView, useMotionValue, useSpring, animate } from 'framer-motion';
 import styles from './StatsCounter.module.css';
 
@@ -20,11 +21,12 @@ interface StatItem {
 }
 
 const STATS: StatItem[] = [
-  { id: 'arabica',   value: 100, suffix: '%',   label: 'Pure Arabica Coffee',  isBig: true },
-  { id: 'customers', value: 1000, suffix: '+',  label: 'Happy Customers'  },
-  { id: 'flavours',  value: 15,   suffix: '+',  label: 'Unique Flavours'  },
-  { id: 'rating',    value: 4.9,  suffix: '★',  label: 'Customer Rating'  },
+  { id: 'arabica',   value: 100,   suffix: '%',  label: 'Pure Arabica Coffee',  isBig: true },
+  { id: 'customers', value: 50000, suffix: '+',  label: 'Happy Customers'  },
+  { id: 'flavours',  value: 10,    suffix: '+',  label: 'Unique Flavours'  },
+  { id: 'rating',    value: 4.9,   suffix: '★',  label: 'Customer Rating'  },
 ];
+
 
 function AnimatedNumber({ value, suffix, isBig }: { value: number; suffix: string; isBig?: boolean }) {
   const ref     = useRef<HTMLSpanElement>(null);
@@ -39,15 +41,20 @@ function AnimatedNumber({ value, suffix, isBig }: { value: number; suffix: strin
       duration: 2.5,
       ease: 'easeOut',
       onUpdate: (v) => {
-        setDisplay(
-          value % 1 === 0
-            ? Math.floor(v).toString()
-            : v.toFixed(1)
-        );
+        if (value >= 1000) {
+          setDisplay((v / 1000).toFixed(v >= value * 0.9 ? 0 : 1) + 'K');
+        } else {
+          setDisplay(
+            value % 1 === 0
+              ? Math.floor(v).toString()
+              : v.toFixed(1)
+          );
+        }
       },
     });
     return () => ctrl.stop();
   }, [inView, value, motVal]);
+
 
   return (
     <span ref={ref} className={isBig ? styles.bigNumber : styles.statNumber}>
@@ -94,6 +101,18 @@ export function StatsCounter() {
               <span className={styles.statLabel}>{stat.label}</span>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* CTA button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.9 }}
+          style={{ marginTop: 'var(--space-8, 2rem)', display: 'flex', justifyContent: 'center' }}
+        >
+          <Link href="/shop" className={styles.ctaBtn}>
+            Shop All Coffee
+          </Link>
         </motion.div>
       </div>
     </section>

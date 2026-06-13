@@ -1,0 +1,229 @@
+/* ============================================================
+   BLENDIFY — PreparationSlider.module.css
+   ============================================================ */
+
+.slider {
+  background: var(--bg-surface);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-md);
+}
+
+.sliderHeader {
+  text-align: center;
+  margin-bottom: var(--space-5);
+}
+
+.sliderTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.3rem;
+}
+
+.sliderSubtitle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Step Indicators ─────────────────────────────────────── */
+.stepIndicators {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: var(--space-5);
+  position: relative;
+}
+
+.stepLine {
+  position: absolute;
+  left: calc(50% - ((4 * 44px + 3 * 48px) / 2) + 22px);
+  right: calc(50% - ((4 * 44px + 3 * 48px) / 2) + 22px);
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  background: var(--border-card);
+  z-index: 0;
+}
+
+.stepLineFill {
+  height: 100%;
+  background: var(--brand-primary);
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease;
+}
+
+.stepIndicator {
+  position: relative;
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--border-card);
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+  margin: 0 24px;
+}
+
+.stepNum {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.stepIndicatorActive {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary);
+  box-shadow: 0 0 0 4px rgba(88, 19, 18, 0.12);
+}
+
+.stepIndicatorActive .stepNum { color: #fff; }
+
+.stepIndicatorDone {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary);
+}
+
+.stepIndicatorDone .stepNum { color: #fff; }
+
+/* ── Slide Area ──────────────────────────────────────────── */
+.slideWrap {
+  position: relative;
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-5);
+}
+
+.slide {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-2);
+}
+
+.stepIcon {
+  font-size: 3rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+}
+
+.stepBadge {
+  display: inline-flex;
+  padding: 0.2rem 0.8rem;
+  background: rgba(88, 19, 18, 0.08);
+  color: var(--brand-primary);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--radius-full);
+}
+
+.stepTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.stepDescription {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 440px;
+  margin: 0;
+}
+
+.tipBox {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: var(--bg-base);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  max-width: 440px;
+}
+
+.tipIcon { font-size: 1rem; flex-shrink: 0; }
+
+.tipText {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: left;
+}
+
+/* ── Navigation Buttons ──────────────────────────────────── */
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--border-card);
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+  z-index: 2;
+}
+
+.navBtn:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  background: var(--brand-primary-glow);
+}
+
+.navBtnPrev { left: 0; }
+.navBtnNext { right: 0; }
+
+/* ── Dots ────────────────────────────────────────────────── */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: var(--space-3);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--border-card);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  padding: 0;
+}
+
+.dotActive {
+  width: 24px;
+  background: var(--brand-primary);
+}
+
+@media (max-width: 640px) {
+  .slider { padding: var(--space-4); }
+  .stepIndicator { width: 36px; height: 36px; margin: 0 16px; }
+  .slideWrap { padding: 0 var(--space-3); min-height: 280px; }
+  .navBtnPrev { left: -8px; }
+  .navBtnNext { right: -8px; }
+}

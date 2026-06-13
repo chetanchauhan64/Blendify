@@ -8,6 +8,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Heart, Share2, ShoppingCart, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import { viewportConfig } from '@/lib/animations';
@@ -203,8 +204,8 @@ export function BlendifyCommunity() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: (idx % COMMUNITY_CARDS.length) * 0.08 }}
               >
-                {/* Reel image */}
-                <div className={styles.reelWrap}>
+                {/* Reel image — entire image links to product */}
+                <Link href={card.productHref} className={styles.reelWrap}>
                   {/* Discount badge */}
                   <div className={styles.discountBadge}>{card.discount}% off</div>
 
@@ -224,17 +225,17 @@ export function BlendifyCommunity() {
                     <div className={styles.reelActions}>
                       <button
                         className={styles.actionBtn}
-                        onClick={() => setLiked(p => ({ ...p, [card.id + idx]: !p[card.id + idx] }))}
+                        onClick={(e) => { e.preventDefault(); setLiked(p => ({ ...p, [card.id + idx]: !p[card.id + idx] })); }}
                         aria-label="Like"
                       >
                         <Heart size={16} fill={liked[card.id + idx] ? 'currentColor' : 'none'} />
                       </button>
-                      <button className={styles.actionBtn} aria-label="Share">
+                      <button className={styles.actionBtn} aria-label="Share" onClick={(e) => e.preventDefault()}>
                         <Share2 size={16} />
                       </button>
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* Card body */}
                 <div className={styles.cardBody}>
@@ -257,10 +258,10 @@ export function BlendifyCommunity() {
 
                   <div className={styles.discountLabel}>{card.discount}% Off</div>
 
-                  <button className={styles.buyBtn}>
+                  <Link href={card.productHref} className={styles.buyBtn}>
                     <ShoppingCart size={13} />
                     Buy Now
-                  </button>
+                  </Link>
                 </div>
               </motion.div>
             ))}

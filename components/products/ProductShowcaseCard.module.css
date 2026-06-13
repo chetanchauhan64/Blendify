@@ -21,8 +21,8 @@
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 48px rgba(88, 19, 18, 0.14);
+  transform: scale(1.03) translateY(-4px);
+  box-shadow: 0 20px 48px rgba(88, 19, 18, 0.18);
 }
 
 /* ── Image ─────────────────────────────────────────────────── */
@@ -202,11 +202,43 @@
   text-decoration: line-through;
 }
 
-/* ── Dark variant (for maroon bg section) ───────────────────── */
+/* ── Dark variant (for maroon bg section) ───────────────── */
 .card--dark {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 .card--dark:hover {
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Quick add button ───────────────────────────────── */
+.quickAdd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+  padding: 0.55rem 1rem;
+  margin: 0 14px 12px;
+  width: calc(100% - 28px);
+  background: var(--brand-primary, #581312);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 100px;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
+  cursor: pointer;
+}
+
+.card:hover .quickAdd {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.quickAdd:hover {
+  background: #6d1615;
 }

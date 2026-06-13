@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Star, Heart, Eye } from 'lucide-react';
+import { Star, Heart, Eye, ShoppingCart } from 'lucide-react';
 import type { ShowcaseProduct } from '@/lib/data/showcase-products';
 import styles from './ProductShowcaseCard.module.css';
 
@@ -77,6 +77,12 @@ export function ProductShowcaseCard({ product, dark = false }: Props) {
           )}
         </div>
       </div>
+
+      {/* ── Quick Add ──────────────────────────────────────────── */}
+      <Link href={`/shop/${product.slug}`} className={styles.quickAdd}>
+        <ShoppingCart size={13} />
+        Quick Add
+      </Link>
     </motion.div>
   );
 }

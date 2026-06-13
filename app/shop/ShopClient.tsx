@@ -5,7 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, X, SlidersHorizontal } from 'lucide-react';
 import type { Product } from '@/types';
 import { ProductCard } from '@/components/shop/ProductCard';
+import { QuickViewModal } from '@/components/shop/QuickViewModal';
 import styles from './ShopClient.module.css';
+
 
 // ── Constants ────────────────────────────────────────────────────
 
@@ -156,10 +158,11 @@ interface Props {
 const INR_RATE = 83.5;
 
 export function ShopClient({ products }: Props) {
-  const [sort,        setSort]        = useState('featured');
-  const [inStockOnly, setInStockOnly] = useState(false);
-  const [priceFilter, setPriceFilter] = useState('all');
-  const [flavour,     setFlavour]     = useState('All Flavours');
+  const [sort,             setSort]            = useState('featured');
+  const [inStockOnly,      setInStockOnly]      = useState(false);
+  const [priceFilter,      setPriceFilter]      = useState('all');
+  const [flavour,          setFlavour]          = useState('All Flavours');
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
   // Derive active chips for display
   const chips: { label: string; clear: () => void }[] = [];
@@ -328,11 +331,22 @@ export function ShopClient({ products }: Props) {
             </div>
           ) : (
             filtered.map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
+              <ProductCard
+                key={product.id}
+                product={product}
+                index={i}
+                onQuickView={setQuickViewProduct}
+              />
             ))
           )}
         </div>
       </div>
+
+      {/* ── Quick View Modal ────────────────────────────── */}
+      <QuickViewModal
+        product={quickViewProduct}
+        onClose={() => setQuickViewProduct(null)}
+      />
     </div>
   );
 }

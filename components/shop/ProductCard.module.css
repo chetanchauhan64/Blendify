@@ -124,6 +124,46 @@
   color: #c0392b;
 }
 
+/* ── Quick View — slides down from top of image on hover ───── */
+
+.quickViewWrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 10px 10px 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.quickViewBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(88,19,18,0.18);
+  border-radius: 6px;
+  color: var(--brand-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  white-space: nowrap;
+  pointer-events: auto;
+  transition: all 0.18s;
+}
+
+.quickViewBtn:hover {
+  background: var(--brand-primary);
+  color: #fff;
+  border-color: var(--brand-primary);
+}
+
 /* ── Quick Add — amber CTA, slides up from bottom of image ─── */
 
 .quickAddWrap {

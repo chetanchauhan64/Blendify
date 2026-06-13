@@ -103,17 +103,19 @@
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-card-hover);
+  transform: scale(1.03) translateY(-4px);
+  box-shadow: 0 16px 48px rgba(88,19,18,0.18);
 }
 
 /* Reel section (image/video area) */
 .reelWrap {
   position: relative;
+  display: block;
   width: 100%;
   aspect-ratio: 9 / 14;
   overflow: hidden;
   background: var(--bg-base);
+  text-decoration: none;
 }
 
 .reelWrap:hover .reelImg {
@@ -271,6 +273,7 @@
   cursor: pointer;
   transition: background var(--transition-fast);
   letter-spacing: 0.04em;
+  text-decoration: none;
 }
 
 .buyBtn:hover {

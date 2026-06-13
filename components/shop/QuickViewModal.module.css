@@ -1,0 +1,346 @@
+/* ============================================================
+   BLENDIFY — QuickViewModal.module.css
+   ============================================================ */
+
+/* ── Backdrop ────────────────────────────────────────────── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(44, 16, 8, 0.6);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* ── Modal ───────────────────────────────────────────────── */
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  background: var(--bg-surface);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--border-card);
+  background: var(--bg-surface);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.closeBtn:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
+
+/* ── Layout ──────────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 45% 55%;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+/* ── Image Panel ─────────────────────────────────────────── */
+.imagePanel {
+  background: var(--bg-base);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  position: sticky;
+  top: 0;
+}
+
+.mainImageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: #fff;
+}
+
+.mainImage { object-fit: contain; }
+
+.saveBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 0.25rem 0.7rem;
+  background: var(--brand-primary);
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  border-radius: var(--radius-full);
+}
+
+.newBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 0.25rem 0.7rem;
+  background: #16a34a;
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  border-radius: var(--radius-full);
+}
+
+/* ── Thumbnails ──────────────────────────────────────────── */
+.thumbRow {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.thumbRow::-webkit-scrollbar { display: none; }
+
+.thumb {
+  flex-shrink: 0;
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-card);
+  background: #fff;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--transition-fast);
+}
+
+.thumbActive { border-color: var(--brand-primary); }
+
+/* ── Info Panel ──────────────────────────────────────────── */
+.infoPanel {
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  overflow-y: auto;
+}
+
+.category {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+}
+
+.productName {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.15;
+}
+
+/* ── Rating ──────────────────────────────────────────────── */
+.starRow {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.ratingVal {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-left: 4px;
+}
+
+.reviewCount {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+/* ── Price ───────────────────────────────────────────────── */
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.price {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.comparePrice {
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.savePill {
+  padding: 0.2rem 0.65rem;
+  background: var(--brand-primary);
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  border-radius: var(--radius-full);
+}
+
+.tagline {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── Variants ────────────────────────────────────────────── */
+.variantSection { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.variantLabel {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.variantGrid { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.variantBtn {
+  padding: 0.4rem 1rem;
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-md);
+  background: transparent;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.variantBtn:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
+.variantBtnActive {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary);
+  color: #fff;
+}
+
+.description {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Stock ───────────────────────────────────────────────── */
+.stock { display: flex; align-items: center; gap: 0.4rem; }
+.stockDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+.stockGreen { background: #16a34a; }
+.stockOrange { background: #f59e0b; }
+.stockText { font-size: var(--text-sm); color: var(--text-secondary); font-weight: 500; }
+
+/* ── CTAs ────────────────────────────────────────────────── */
+.ctaRow { display: flex; gap: var(--space-2); align-items: center; }
+
+.addToCartBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.5rem;
+  background: var(--brand-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.addToCartBtn:hover { background: var(--brand-primary-dark); }
+.addToCartBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.addedBtn { background: #16a34a !important; }
+
+.wishlistBtn {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-card);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.wishlistBtn:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
+.wishlistActive { color: var(--brand-primary) !important; border-color: var(--brand-primary) !important; }
+
+.viewDetailsLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--brand-primary);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: gap var(--transition-fast);
+}
+
+.viewDetailsLink:hover { gap: 0.6rem; }
+
+/* ── Trust badges ────────────────────────────────────────── */
+.trustBadges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border-light);
+  padding-top: var(--space-2);
+}
+
+.trustBadge {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  padding: 0.25rem 0.65rem;
+  background: var(--bg-base);
+  border-radius: var(--radius-full);
+  font-weight: 500;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; }
+  .imagePanel { position: static; }
+  .modal { max-height: 95vh; border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
+  .backdrop { align-items: flex-end; padding: 0; }
+  .productName { font-size: var(--text-2xl); }
+}

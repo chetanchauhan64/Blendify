@@ -538,3 +538,165 @@
 .notFound p {
   color: var(--text-muted);
 }
+
+/* ── Thumbnail Strip ────────────────────────────────────── */
+.thumbStrip {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.thumbStrip::-webkit-scrollbar { display: none; }
+
+.thumb {
+  flex-shrink: 0;
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-card);
+  background: var(--bg-surface);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--transition-fast);
+}
+
+.thumbActive { border-color: var(--brand-primary); }
+.thumb:hover { border-color: rgba(88, 19, 18, 0.4); }
+
+/* ── Zoom hint ──────────────────────────────────────────── */
+.zoomHint {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: rgba(255,255,255,0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-primary);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.mainImageWrapper:hover .zoomHint { opacity: 1; }
+
+/* ── Image nav arrows ───────────────────────────────────── */
+.imgNavBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--border-card);
+  background: rgba(255,255,255,0.9);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mainImageWrapper:hover .imgNavBtn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.imgNavBtn:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
+.imgNavPrev { left: 10px; }
+.imgNavNext { right: 10px; }
+
+/* ── Lightbox ───────────────────────────────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  backdrop-filter: blur(10px);
+}
+
+.lightboxInner {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  aspect-ratio: 1;
+  background: #1A0A00;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+}
+
+.lightboxImageWrap {
+  position: absolute;
+  inset: 0;
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+}
+
+.lightboxClose:hover { background: rgba(255,255,255,0.25); }
+
+.lightboxNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+}
+
+.lightboxNav:hover { background: rgba(255,255,255,0.25); }
+.lightboxNavPrev { left: 16px; }
+.lightboxNavNext { right: 16px; }
+
+.lightboxCounter {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--text-sm);
+  color: rgba(255,255,255,0.5);
+  font-family: var(--font-mono);
+  z-index: 10;
+}
