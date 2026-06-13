@@ -28,16 +28,16 @@
   --brand-peach-card:    #FAD4A8;
 
   /* ── Background / Surface */
-  --bg-base:             #FDE0C1;   /* Warm cream page background */
+  --bg-base:             #F5E6D3;   /* Warm latte cream page background */
   --bg-surface:          #FFFFFF;   /* White card surface */
   --bg-surface-hover:    #FFF8F2;   /* Subtle warm hover */
   --bg-surface-elevated: #FFFFFF;   /* Dropdowns / modals */
 
   /* ── Semantic surface aliases */
-  --surface-page:        #FDE0C1;
+  --surface-page:        #F5E6D3;
   --surface-white:       #FFFFFF;
   --surface-off-white:   #FFF8F2;
-  --surface-nav:         rgba(255, 255, 255, 0.92);
+  --surface-nav:         rgba(255, 255, 255, 0.94);
   --surface-ticker:      #581312;   /* Maroon announcement bar */
   --surface-section-alt: #FFFFFF;
   --surface-footer:      #2C1008;   /* Deep dark footer */
@@ -69,7 +69,7 @@
   --shadow-amber:      0 8px 32px rgba(88, 19, 18, 0.2);
 
   /* ── Glass — warm version */
-  --glass-bg:           rgba(253, 224, 193, 0.75);
+  --glass-bg:           rgba(245, 230, 211, 0.75);
   --glass-bg-heavy:     rgba(255, 255, 255, 0.95);
   --glass-bg-light:     rgba(253, 224, 193, 0.4);
   --glass-border:       1px solid rgba(88, 19, 18, 0.12);
@@ -86,7 +86,7 @@
   --color-amber-dark:  #A86808;
   --color-amber-glow:  rgba(88, 19, 18, 0.08);
   --color-amber-border:rgba(88, 19, 18, 0.18);
-  --color-cream:       #FDE0C1;
+  --color-cream:       #F5E6D3;
   --color-cream-muted: #C4A898;
   --color-cream-dim:   #8B6555;
   --color-white:       #FFFFFF;
@@ -188,7 +188,8 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
   color: var(--text-primary);
 }
 
@@ -264,7 +265,7 @@ small { font-size: var(--text-sm); }
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   border: none;
   border-radius: var(--radius-sm);

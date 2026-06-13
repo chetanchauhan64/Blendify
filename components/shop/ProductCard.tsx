@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Heart, ShoppingBag, Star } from 'lucide-react';
+import { Heart, Plus, Star } from 'lucide-react';
 import type { Product } from '@/types';
 import { useCartStore } from '@/lib/store/cartStore';
 import { useWishlistStore } from '@/lib/store/wishlistStore';
@@ -25,39 +25,38 @@ export function ProductCard({ product, index = 0 }: Props) {
   const { getCurrency } = useRegionStore();
   const mounted = useMounted();
 
-  // Use a stable server-side default (USD) until client hydration is complete.
-  // This prevents the SSR/client mismatch from localStorage-persisted region.
+  // Stable SSR default — prevents hydration mismatch from localStorage-persisted region
   const currency = mounted ? getCurrency() : CURRENCIES['USD'];
 
   const defaultVariant = product.variants[0];
   const wishlisted = mounted && isWishlisted(product.id, defaultVariant.id);
 
-  // Calculate save percentage
+  // Save percentage badge
   const savePercent =
     product.compareAtPrice && product.compareAtPrice > product.basePrice
       ? Math.round(
-          ((product.compareAtPrice - product.basePrice) /
-            product.compareAtPrice) *
-            100,
+          ((product.compareAtPrice - product.basePrice) / product.compareAtPrice) * 100,
         )
       : null;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     addItem(product, defaultVariant, 1);
   };
 
   const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     toggleItem(product, defaultVariant);
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-30px' }}
-      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true, margin: '-20px' }}
+      transition={{ duration: 0.45, delay: Math.min(index * 0.06, 0.3), ease: [0.22, 1, 0.36, 1] }}
     >
       <Link
         href={`/shop/${product.slug}`}
@@ -66,45 +65,40 @@ export function ProductCard({ product, index = 0 }: Props) {
         onMouseLeave={() => setHovered(false)}
         aria-label={`${product.name} — ${formatPrice(product.basePrice, currency)}`}
       >
-        {/* ── Image Area ──────────────────────────────── */}
+        {/* ── Image Area ──────────────────────────────────────── */}
         <div className={styles.imageWrapper}>
-          {/* Product image */}
+
+          {/* Product image with zoom on hover */}
           <motion.div
-            className={styles.image}
-            animate={{ scale: hovered ? 1.04 : 1 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className={styles.imageInner}
+            animate={{ scale: hovered ? 1.05 : 1 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           >
             <Image
               src={product.images[0]}
               alt={product.name}
               fill
-              style={{ objectFit: 'cover' }}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              style={{ objectFit: 'contain', padding: '8px' }}
+              sizes="(max-width: 480px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              loading={index < 8 ? 'eager' : 'lazy'}
             />
           </motion.div>
 
-          {/* Save badge — top left (matches reference) */}
+          {/* Save badge — top left */}
           {savePercent && (
             <div className={styles.saveBadge}>Save {savePercent}%</div>
           )}
           {!savePercent && product.isNew && (
             <div className={styles.newBadge}>New</div>
           )}
-          {!savePercent && product.isLimited && !product.isNew && (
+          {!savePercent && !product.isNew && product.isLimited && (
             <div className={styles.limitedBadge}>Limited</div>
           )}
 
-          {/* BLENDIFY brand watermark on image */}
-          <div className={styles.brandStamp}>
-            <div className={styles.brandStampInner}>
-              <span className={styles.brandStampText}>BLENDIFY</span>
-            </div>
-          </div>
-
-          {/* Wishlist button */}
+          {/* Wishlist button — top right */}
           <button
             id={`wishlist-${product.id}`}
-            className={`${styles.wishlistBtn} ${wishlisted ? styles.wishlistBtnActive : ''}`}
+            className={`${styles.wishlistBtn} ${wishlisted ? styles.wishlistActive : ''}`}
             onClick={handleWishlist}
             aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
             aria-pressed={wishlisted}
@@ -112,36 +106,36 @@ export function ProductCard({ product, index = 0 }: Props) {
             <Heart size={14} fill={wishlisted ? 'currentColor' : 'none'} />
           </button>
 
-          {/* Add to Cart — slides up on hover */}
+          {/* Quick Add — slides up from bottom of image on hover */}
           <motion.div
-            className={styles.cartOverlay}
-            animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 10 }}
-            transition={{ duration: 0.22 }}
+            className={styles.quickAddWrap}
+            initial={false}
+            animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 14 }}
+            transition={{ duration: 0.22, ease: 'easeOut' }}
+            aria-hidden={!hovered}
           >
             <button
-              id={`add-to-cart-${product.id}`}
-              className={styles.addToCartBtn}
+              id={`quick-add-${product.id}`}
+              className={styles.quickAddBtn}
               onClick={handleAddToCart}
-              aria-label={`Add ${product.name} to cart`}
+              aria-label={`Quick add ${product.name} to cart`}
+              tabIndex={hovered ? 0 : -1}
             >
-              <ShoppingBag size={14} />
-              Add to Cart
+              <Plus size={14} strokeWidth={2.5} />
+              Quick add
             </button>
           </motion.div>
         </div>
 
-        {/* ── Info Area ───────────────────────────────── */}
+        {/* ── Info Area ────────────────────────────────────────── */}
         <div className={styles.info}>
-          {/* Name — truncated to 2 lines like reference */}
-          <h3 className={styles.name}>
-            {product.name}
-            {product.tagline ? ` | ${product.tagline}` : ''}
-          </h3>
-
-          {/* Rating row */}
-          <div className={styles.ratingRow}>
-            <span className={styles.ratingScore}>{product.rating.toFixed(1)}</span>
-            <Star size={12} fill="#f59e0b" color="#f59e0b" />
+          {/* Name + Rating on same row — matches reference */}
+          <div className={styles.nameRow}>
+            <h3 className={styles.name}>{product.name}</h3>
+            <div className={styles.rating}>
+              <span className={styles.ratingScore}>{product.rating.toFixed(1)}</span>
+              <Star size={11} fill="#E8A030" color="#E8A030" />
+            </div>
           </div>
 
           {/* Price row */}

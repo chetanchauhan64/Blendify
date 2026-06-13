@@ -1,4 +1,4 @@
-/* AnnouncementBar — Infinite CSS marquee */
+/* AnnouncementBar — Infinite CSS marquee, luxury feel */
 .bar {
   position: sticky;
   top: 0;
@@ -6,7 +6,7 @@
   width: 100%;
   overflow: hidden;
   background: var(--surface-ticker); /* #581312 maroon */
-  height: 38px;
+  height: 32px;
   display: flex;
   align-items: center;
 }
@@ -15,7 +15,7 @@
   display: flex;
   flex-wrap: nowrap;
   width: max-content;
-  animation: marquee 28s linear infinite;
+  animation: marquee 22s linear infinite;
   will-change: transform;
 }
 
@@ -24,18 +24,32 @@
 }
 
 .item {
-  display: inline-block;
-  padding: 0 var(--space-4);
-  font-family: var(--font-mono);
-  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0 var(--space-3);
+  font-family: var(--font-body);
+  font-size: 11.5px;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: #f5deb3; /* warm wheat on maroon */
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+.item::after {
+  content: '·';
+  color: rgba(245, 222, 179, 0.4);
+  font-size: 14px;
+  margin-left: 0.55rem;
+}
+
+.item:last-child::after {
+  display: none;
 }
 
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
+

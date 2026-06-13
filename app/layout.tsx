@@ -41,8 +41,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <Navbar />
-        {/* 38px AnnouncementBar + ~64px Navbar = ~102px offset */}
-        <main style={{ paddingTop: '102px' }}>{children}</main>
+        {/* 32px AnnouncementBar + 56px Navbar = 88px total */}
+        <main style={{ paddingTop: '88px' }}>{children}</main>
         <Footer />
         <CartDrawer />
       </body>
