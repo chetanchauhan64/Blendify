@@ -5,6 +5,7 @@ import { Footer } from '@/components/layout/Footer';
 import { CartDrawer } from '@/components/layout/CartDrawer';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://blendify-kwjp.onrender.com'),
   title: {
     default: 'BLENDIFY | The Art of Coffee',
     template: '%s | BLENDIFY',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://blendify.coffee',
+    url: 'https://blendify-kwjp.onrender.com',
     siteName: 'BLENDIFY',
     title: 'BLENDIFY | The Art of Coffee',
     description: 'Premium specialty coffee sourced from the world\'s finest farms. 100% Arabica. Made in India.',
