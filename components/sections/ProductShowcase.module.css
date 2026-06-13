@@ -1,0 +1,221 @@
+/* ============================================================
+   BLENDIFY — ProductShowcase.module.css
+   Apple-level alternating product presentation rows
+   ============================================================ */
+
+.section {
+  background: var(--bg-surface);
+  overflow: hidden;
+}
+
+/* ── Row ──────────────────────────────────────────────────── */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.row:last-child { border-bottom: none; }
+
+.rowReverse {
+  direction: rtl;
+}
+
+.rowReverse > * {
+  direction: ltr;
+}
+
+/* ── Image side ───────────────────────────────────────────── */
+.imageSide {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-base);
+}
+
+.imageOuter {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.imageInner {
+  position: absolute;
+  inset: -8%;
+  /* Extra space so parallax doesn't show gaps */
+}
+
+.showcaseImg {
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+.imageSide:hover .showcaseImg {
+  transform: scale(1.03);
+}
+
+/* ── Content side ─────────────────────────────────────────── */
+.contentSide {
+  display: flex;
+  align-items: center;
+  padding: var(--space-16) var(--space-12);
+  background: var(--bg-surface);
+}
+
+.content {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  background: var(--brand-primary);
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  width: fit-content;
+}
+
+/* Title */
+.productTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* Tagline */
+.tagline {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-style: italic;
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+/* Rating */
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.starOn  { color: #f59e0b; }
+.starOff { color: #d1d5db; }
+
+.ratingNum {
+  margin-left: 0.4rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Description */
+.description {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  background: var(--bg-base);
+  border: 1.5px solid var(--border-card);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.04em;
+}
+
+/* Price row */
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.price {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.comparePrice {
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+}
+
+.saving {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #16a34a;
+  background: #dcfce7;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+/* CTAs */
+.ctas {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.buyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.learnBtn {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .contentSide { padding: var(--space-10) var(--space-8); }
+}
+
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .rowReverse { direction: ltr; }
+
+  .imageSide {
+    aspect-ratio: 4 / 3;
+    position: relative;
+    min-height: 300px;
+  }
+
+  .imageOuter { position: relative; height: 300px; }
+  .imageInner { inset: 0; }
+
+  .contentSide {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .content { max-width: 100%; }
+  .productTitle { font-size: var(--text-4xl); }
+}

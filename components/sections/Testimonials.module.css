@@ -1,38 +1,91 @@
-.section { background: var(--bg-surface); }
+/* ============================================================
+   BLENDIFY — Testimonials.module.css (Redesigned)
+   Large card horizontal slider with premium spacing
+   ============================================================ */
 
-.header { text-align: center; margin-bottom: var(--space-8); }
-.title { color: var(--text-primary); }
+.section {
+  background: var(--bg-surface);
+  padding: var(--space-16) 0;
+}
 
-.slider { max-width: 680px; margin: 0 auto; }
+.container {
+  max-width: var(--container-content);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
 
+/* ── Header ───────────────────────────────────────────────── */
+.header {
+  text-align: center;
+  margin-bottom: var(--space-10);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: var(--space-1) 0;
+  line-height: 1.15;
+}
+
+.subtitle {
+  font-size: var(--text-base);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Slider container ─────────────────────────────────────── */
+.slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.cardTrack {
+  flex: 1;
+  position: relative;
+  min-height: 320px;
+  display: flex;
+  align-items: stretch;
+}
+
+/* ── Card ─────────────────────────────────────────────────── */
 .card {
+  width: 100%;
   background: var(--bg-base);
-  border: 1px solid var(--border-card);
   border-radius: var(--radius-2xl);
-  padding: var(--space-8);
+  padding: var(--space-8) var(--space-8);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  min-height: 280px;
-  position: relative;
+  gap: var(--space-3);
+  transition: box-shadow var(--transition-base);
 }
 
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--brand-primary), var(--brand-primary-light));
-  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+.quoteIcon {
+  color: var(--brand-primary);
+  opacity: 0.4;
+  flex-shrink: 0;
 }
 
-.quoteIcon { color: var(--brand-primary); opacity: 0.4; }
+.stars {
+  display: flex;
+  gap: 4px;
+}
+
+.starIcon {
+  color: #f59e0b;
+}
 
 .reviewText {
-  font-size: var(--text-lg);
-  color: var(--text-primary);
-  line-height: 1.7;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
   font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.55;
   flex: 1;
   margin: 0;
 }
@@ -41,69 +94,73 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-light);
 }
 
-.avatar {
-  width: 44px;
-  height: 44px;
+.avatarCircle {
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: var(--brand-primary);
-  color: #1A1008;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
   font-weight: 700;
   flex-shrink: 0;
 }
 
+.reviewerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .reviewerName {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 600;
+  font-weight: 700;
+  font-size: var(--text-base);
   color: var(--text-primary);
 }
 
 .reviewerRole {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--text-sm);
   color: var(--text-muted);
-  letter-spacing: 0.06em;
 }
 
-.stars {
-  display: flex;
-  color: var(--brand-primary);
-  gap: 2px;
-  margin-left: auto;
-}
-
-.controls {
+/* ── Nav buttons ──────────────────────────────────────────── */
+.navBtn {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1.5px solid var(--border-card);
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.navBtn:hover {
+  background: var(--brand-primary);
+  color: #fff;
+  border-color: var(--brand-primary);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* ── Dots ─────────────────────────────────────────────────── */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
   margin-top: var(--space-5);
 }
-
-.navBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-card);
-  border-radius: 50%;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.navBtn:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
-
-.dots { display: flex; gap: 6px; }
 
 .dot {
   width: 8px;
@@ -115,6 +172,16 @@
   transition: all var(--transition-fast);
 }
 
-.dotActive { background: var(--brand-primary); width: 24px; border-radius: var(--radius-full); }
+.dotActive {
+  background: var(--brand-primary);
+  width: 24px;
+  border-radius: var(--radius-full);
+}
 
-@media (max-width: 640px) { .card { padding: var(--space-5); } }
+/* Responsive */
+@media (max-width: 768px) {
+  .card { padding: var(--space-5); }
+  .reviewText { font-size: var(--text-xl); }
+  .navBtn { display: none; }
+  .title { font-size: var(--text-4xl); }
+}

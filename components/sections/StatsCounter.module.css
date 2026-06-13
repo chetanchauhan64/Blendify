@@ -1,0 +1,93 @@
+/* ============================================================
+   BLENDIFY — StatsCounter.module.css
+   Warm peach background, large gradient number display
+   ============================================================ */
+
+.section {
+  background: var(--bg-base);
+  padding: var(--space-16) 0;
+  text-align: center;
+}
+
+.inner {
+  max-width: var(--container-content);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+/* ── Large 100% block ─────────────────────────────────────── */
+.bigBlock {
+  margin-bottom: var(--space-10);
+}
+
+.bigNumber {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 14vw, 10rem);
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(135deg, #C47C0A 0%, #8B3A00 50%, #581312 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.03em;
+}
+
+.bigLabel {
+  margin-top: var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--brand-primary);
+  letter-spacing: 0.05em;
+}
+
+/* ── Supporting stats row ─────────────────────────────────── */
+.statsRow {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: var(--space-4) var(--space-5);
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-card);
+  backdrop-filter: blur(8px);
+  min-width: 140px;
+  transition: all var(--transition-base);
+}
+
+.statCard:hover {
+  background: #ffffff;
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+}
+
+.statNumber {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  background: linear-gradient(135deg, #C47C0A 0%, #581312 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .statsRow { gap: var(--space-3); }
+  .statCard { min-width: 120px; padding: var(--space-3); }
+}

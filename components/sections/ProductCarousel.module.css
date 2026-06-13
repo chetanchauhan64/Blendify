@@ -1,0 +1,231 @@
+/* ============================================================
+   BLENDIFY — Product Carousel Section
+   Shared layout used by Explore, Bestselling Combos, Sachets
+   ============================================================ */
+
+/* ── Section wrapper ─────────────────────────────────────────── */
+.section {
+  padding: 64px 0 72px;
+  overflow: hidden;
+}
+
+.section--maroon {
+  background: #6B1515;   /* Deep maroon — matches reference */
+  padding: 64px 0 72px;
+  overflow: hidden;
+}
+
+/* ── Container ─────────────────────────────────────────────── */
+.inner {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ── Header row ─────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--text-primary, #2C1008);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.title--light {
+  color: #FDE0C1;   /* Warm peach — for maroon bg */
+}
+
+/* ── View All button ─────────────────────────────────────────── */
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary, #2C1008);
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: gap 200ms ease;
+  white-space: nowrap;
+}
+
+.viewAll:hover {
+  color: var(--brand-primary, #581312);
+}
+
+.viewAll:hover .viewAllArrow {
+  transform: scale(1.12);
+}
+
+.viewAll--light {
+  color: #FDE0C1;
+}
+
+.viewAll--light:hover {
+  color: #fff;
+}
+
+.viewAllArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), background 200ms ease;
+  flex-shrink: 0;
+}
+
+.viewAll:hover .viewAllArrow {
+  background: var(--brand-primary, #581312);
+  border-color: var(--brand-primary, #581312);
+  color: #fff;
+}
+
+.viewAll--light:hover .viewAllArrow {
+  background: #FDE0C1;
+  border-color: #FDE0C1;
+  color: var(--brand-primary, #581312);
+}
+
+/* ── Embla viewport ─────────────────────────────────────────── */
+.emblaViewport {
+  overflow: hidden;
+  width: 100%;
+  cursor: grab;
+}
+
+.emblaViewport:active {
+  cursor: grabbing;
+}
+
+.emblaContainer {
+  display: flex;
+  gap: 16px;
+  touch-action: pan-y;
+}
+
+/* ── Slide ──────────────────────────────────────────────────── */
+.emblaSlide {
+  flex: 0 0 calc(25% - 12px);   /* 4 cards visible by default */
+  min-width: 0;
+}
+
+@media (max-width: 1200px) {
+  .emblaSlide {
+    flex: 0 0 calc(33.333% - 11px); /* 3 cards */
+  }
+}
+
+@media (max-width: 768px) {
+  .emblaSlide {
+    flex: 0 0 calc(50% - 8px); /* 2 cards */
+  }
+  .inner {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .emblaSlide {
+    flex: 0 0 calc(80% - 8px); /* ~1 card + peek */
+  }
+}
+
+/* ── Navigation row (prev/next + progress bar) ──────────────── */
+.navRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+}
+
+/* ── Progress bar ───────────────────────────────────────────── */
+.progressWrap {
+  flex: 1;
+  height: 2px;
+  background: rgba(88, 19, 18, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 16px;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--brand-primary, #581312);
+  border-radius: 2px;
+  transition: width 200ms ease;
+}
+
+.progressBar--light {
+  background: #FDE0C1;
+}
+
+.progressWrap--light {
+  background: rgba(253, 224, 193, 0.2);
+}
+
+/* ── Prev / Next arrow buttons ──────────────────────────────── */
+.navBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-card, #E8D8C8);
+  background: #fff;
+  color: var(--text-primary, #2C1008);
+  cursor: pointer;
+  transition: all 200ms ease;
+  flex-shrink: 0;
+}
+
+.navBtn:hover:not(:disabled) {
+  border-color: var(--brand-primary, #581312);
+  background: var(--brand-primary, #581312);
+  color: #fff;
+}
+
+.navBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.navBtn--light {
+  border-color: rgba(253, 224, 193, 0.4);
+  background: rgba(253, 224, 193, 0.1);
+  color: #FDE0C1;
+}
+
+.navBtn--light:hover:not(:disabled) {
+  background: #FDE0C1;
+  border-color: #FDE0C1;
+  color: var(--brand-primary, #581312);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .section,
+  .section--maroon {
+    padding: 48px 0 56px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+  }
+}

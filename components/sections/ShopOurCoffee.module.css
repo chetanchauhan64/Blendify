@@ -1,0 +1,262 @@
+/* ============================================================
+   BLENDIFY — ShopOurCoffee.module.css
+   Split layout: large left feature card + right product slider
+   ============================================================ */
+
+.section {
+  background: var(--bg-base);
+  padding: var(--space-16) 0;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-6);
+}
+
+/* Layout grid */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+/* ── Featured card (LEFT) ─────────────────────────────────── */
+.featuredCard {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  min-height: 520px;
+}
+
+.featuredLink {
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+.featuredImg {
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+.featuredCard:hover .featuredImg {
+  transform: scale(1.04);
+}
+
+.featuredOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(20, 4, 2, 0.85) 0%,
+    rgba(20, 4, 2, 0.2) 50%,
+    transparent 100%
+  );
+  display: flex;
+  align-items: flex-end;
+}
+
+.featuredContent {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.featuredEyebrow {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--brand-amber, #C47C0A);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.featuredTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.15;
+}
+
+.featuredTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+}
+
+.featuredTag {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 0.2rem 0.65rem;
+}
+
+.featuredCTA {
+  display: inline-block;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: #fff;
+  background: var(--brand-primary);
+  padding: 0.55rem 1.4rem;
+  border-radius: var(--radius-sm);
+  width: fit-content;
+  margin-top: 0.4rem;
+  transition: background var(--transition-fast);
+}
+
+.featuredCard:hover .featuredCTA {
+  background: var(--brand-primary-dark);
+}
+
+/* ── Slider side (RIGHT) ──────────────────────────────────── */
+.sliderSide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.productCard {
+  display: block;
+  background: #ffffff;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-light);
+  flex: 1;
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.productCard:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+}
+
+.productImageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--bg-base);
+}
+
+.productImg {
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.productCard:hover .productImg {
+  transform: scale(1.04);
+}
+
+.productInfo {
+  padding: 1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.starRating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.starFilled { color: #f59e0b; }
+.starEmpty  { color: #d1d5db; }
+
+.ratingVal {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-left: 0.25rem;
+}
+
+.productTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.productPrice {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Navigation dots + arrows */
+.sliderNav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.sliderBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-card);
+  background: #ffffff;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sliderBtn:hover {
+  background: var(--brand-primary);
+  color: #fff;
+  border-color: var(--brand-primary);
+}
+
+.sliderDots {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-card);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dotActive {
+  background: var(--brand-primary);
+  width: 20px;
+  border-radius: var(--radius-full);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .featuredCard { min-height: 380px; }
+}
+
+@media (max-width: 640px) {
+  .container { padding: 0 var(--space-3); }
+  .sectionTitle { font-size: var(--text-3xl); }
+}

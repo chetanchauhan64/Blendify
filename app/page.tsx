@@ -1,13 +1,16 @@
 import type { Metadata } from 'next';
-import { HeroSlider } from '@/components/hero/HeroSlider';
-import { USPStrip }             from '@/components/sections/USPStrip';
-import { FeaturedCollections }  from '@/components/sections/FeaturedCollections';
-import { BestSellers }          from '@/components/sections/BestSellers';
-import { CategoryGrid }         from '@/components/sections/CategoryGrid';
-import { BrandStory }           from '@/components/sections/BrandStory';
-import { Testimonials }         from '@/components/sections/Testimonials';
-import { Newsletter }           from '@/components/sections/Newsletter';
-import { Gallery }              from '@/components/sections/Gallery';
+import { HeroSlider }          from '@/components/hero/HeroSlider';
+import { USPStrip }            from '@/components/sections/USPStrip';
+import { ExploreSection }      from '@/components/sections/ExploreSection';
+import { BestsellingCombos }   from '@/components/sections/BestsellingCombos';
+import { BestCoffeeSachets }   from '@/components/sections/BestCoffeeSachets';
+import { BlendifyCommunity }   from '@/components/sections/BlendifyCommunity';
+import { StatsCounter }        from '@/components/sections/StatsCounter';
+import { VisualStoryGrid }     from '@/components/sections/VisualStoryGrid';
+import { ShopOurCoffee }       from '@/components/sections/ShopOurCoffee';
+import { Testimonials }        from '@/components/sections/Testimonials';
+import { ProductShowcase }     from '@/components/sections/ProductShowcase';
+import { Newsletter }          from '@/components/sections/Newsletter';
 
 export const metadata: Metadata = {
   title: 'BLENDIFY — Premium Instant Coffee. Made in India.',
@@ -23,13 +26,32 @@ export default function HomePage() {
     <>
       <HeroSlider />
       <USPStrip />
-      <FeaturedCollections />
-      <BestSellers />
-      <CategoryGrid />
-      <BrandStory />
+
+      {/* ── Product Showcase Sections ── */}
+      <ExploreSection />
+      <BestsellingCombos />
+      <BestCoffeeSachets />
+
+      {/* ── Community & Social Proof ── */}
+      <BlendifyCommunity />
+
+      {/* ── 100% Pure Arabica Counter ── */}
+      <StatsCounter />
+
+      {/* ── Visual Story Grid ── */}
+      <VisualStoryGrid />
+
+      {/* ── Shop Our Coffee ── */}
+      <ShopOurCoffee />
+
+      {/* ── Testimonials ── */}
       <Testimonials />
+
+      {/* ── Product Photography Showcase ── */}
+      <ProductShowcase />
+
+      {/* ── Newsletter ── */}
       <Newsletter />
-      <Gallery />
     </>
   );
 }
