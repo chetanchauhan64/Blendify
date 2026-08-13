@@ -3,7 +3,9 @@ import './globals.css';
 import { StorefrontShell } from '@/components/layout/StorefrontShell';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://blendify-kwjp.onrender.com'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+  ),
   title: {
     default: 'BLENDIFY | The Art of Coffee',
     template: '%s | BLENDIFY',

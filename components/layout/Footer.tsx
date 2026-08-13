@@ -24,7 +24,6 @@ const COMPANY_LINKS = [
   { label: 'Blog',              href: '/blog' },
   { label: 'Wholesale',         href: '/wholesale' },
   { label: 'Careers',           href: '/careers' },
-  { label: 'Admin Panel',       href: '/admin' },
   { label: 'Privacy Policy',    href: '/privacy-policy' },
   { label: 'Terms & Conditions', href: '/terms' },
 ];

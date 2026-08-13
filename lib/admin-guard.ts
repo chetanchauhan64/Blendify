@@ -1,50 +1,50 @@
 // ============================================================
 // BLENDIFY — Admin Guard
-// Server-side guard for admin-only routes
+// Server-side guard for admin-only routes.
+// Auth is enforced identically in ALL environments.
+// No dev bypasses. No automatic role promotion.
 // ============================================================
 
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth';
 import type { UserDTO } from '@/types/auth';
 
-const DEV_ADMIN_USER: UserDTO = {
-  id: 'dev-admin-id',
-  email: 'admin@blendify.coffee',
-  firstName: 'Admin',
-  lastName: 'Console',
-  fullName: 'Admin Console',
-  role: 'ADMIN',
-};
-
+/**
+ * Require ADMIN or SUPER_ADMIN access.
+ *
+ * Unauthenticated  → redirects to /admin/sign-in
+ * Authenticated but not ADMIN/SUPER_ADMIN → redirects to /admin/unauthorized
+ *
+ * Auth is enforced identically in development and production.
+ * There are NO dev-mode bypasses, NO automatic role promotions, and NO fake users.
+ */
 export async function requireAdminAccess(): Promise<UserDTO> {
   const user = await getCurrentUser();
 
   if (!user) {
-    if (process.env.NODE_ENV !== 'production') {
-      return DEV_ADMIN_USER;
-    }
-    redirect('/sign-in');
+    redirect('/admin/sign-in');
   }
 
   const role = user.role as string;
   if (role !== 'ADMIN' && role !== 'SUPER_ADMIN') {
-    if (process.env.NODE_ENV !== 'production') {
-      return { ...user, role: 'ADMIN' };
-    }
-    throw new ForbiddenError('You do not have permission to access this page.');
+    redirect('/admin/unauthorized');
   }
 
   return user;
 }
 
+/**
+ * Returns true only when the current session belongs to an ADMIN or SUPER_ADMIN.
+ * Never returns true based on environment — only based on the authenticated role.
+ */
 export async function hasAdminAccess(): Promise<boolean> {
   const user = await getCurrentUser();
-  if (!user) {
-    return process.env.NODE_ENV !== 'production';
-  }
+  if (!user) return false;
   const role = user.role as string;
-  return role === 'ADMIN' || role === 'SUPER_ADMIN' || process.env.NODE_ENV !== 'production';
+  return role === 'ADMIN' || role === 'SUPER_ADMIN';
 }
+
+// ── Error Classes ─────────────────────────────────────────────
 
 export class ForbiddenError extends Error {
   public readonly statusCode = 403;

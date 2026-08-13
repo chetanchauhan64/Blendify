@@ -39,7 +39,6 @@ const NAV_LINKS = [
   },
   { label: 'About',   href: '/about' },
   { label: 'Contact', href: '/contact' },
-  { label: 'Admin',   href: '/admin' },
 ];
 
 const REGION_LIST = Object.values(REGIONS).filter((r) => r.code !== 'GLOBAL');

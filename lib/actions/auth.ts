@@ -121,11 +121,17 @@ export async function signIn(
   const { email, password } = validated.data;
 
   if (isDbConfigured) {
+    let userRole: 'CUSTOMER' | 'ADMIN' = 'CUSTOMER';
+
     try {
       const { prisma } = await import('@/lib/db/prisma');
 
+      // 1. Retrieve the authoritative user record from the database
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const user = await prisma.user.findUnique({ where: { email } }) as any;
+
+      // 2. Validate credentials — same error message for both missing user
+      //    and wrong password to prevent email enumeration
       if (!user || !user.password) {
         return { errors: { general: ['Invalid email or password.'] } };
       }
@@ -135,6 +141,12 @@ export async function signIn(
         return { errors: { general: ['Invalid email or password.'] } };
       }
 
+      // 3. Read role from the database record — never trust client-provided values
+      userRole = (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN')
+        ? 'ADMIN'
+        : 'CUSTOMER';
+
+      // 4. Create the secure session with the database role
       await createSession({
         userId: user.id,
         email: user.email,
@@ -143,11 +155,24 @@ export async function signIn(
         role: user.role as 'CUSTOMER' | 'ADMIN',
       });
     } catch (err) {
-      console.error('[signIn]', err);
-      return { errors: { general: ['Something went wrong. Please try again.'] } };
+      // Log the full error server-side but return a safe message to the client
+      console.error('[signIn] Database error:', err);
+      return {
+        errors: {
+          general: [
+            'Unable to sign in. Please check your credentials and try again.',
+          ],
+        },
+      };
     }
+
+    // 5. Role-based redirect — ADMIN/SUPER_ADMIN → admin panel, customers → account
+    if (userRole === 'ADMIN') {
+      redirect('/admin/dashboard');
+    }
+    redirect('/account');
   } else {
-    // No DB — demo mode: accept any credentials
+    // No DB configured — demo mode (local development without DATABASE_URL)
     await createSession({
       userId: `demo_${Date.now()}`,
       email,
@@ -155,9 +180,8 @@ export async function signIn(
       lastName: 'User',
       role: 'CUSTOMER',
     });
+    redirect('/account');
   }
-
-  redirect('/account');
 }
 
 // ── Sign Out ──────────────────────────────────────────────────
