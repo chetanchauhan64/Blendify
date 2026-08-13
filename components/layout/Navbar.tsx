@@ -39,6 +39,7 @@ const NAV_LINKS = [
   },
   { label: 'About',   href: '/about' },
   { label: 'Contact', href: '/contact' },
+  { label: 'Admin',   href: '/admin' },
 ];
 
 const REGION_LIST = Object.values(REGIONS).filter((r) => r.code !== 'GLOBAL');
@@ -83,7 +84,8 @@ export function Navbar() {
 
   return (
     <>
-      <AnnouncementBar />
+      {/* AnnouncementBar slides away when scrolled — fixes Navbar clipping bug */}
+      <AnnouncementBar hidden={scrolled} />
 
       {/* ── Main Navbar ─────────────────────────────────────── */}
       <nav

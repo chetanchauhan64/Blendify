@@ -1,14 +1,27 @@
 /* AnnouncementBar — Infinite CSS marquee, luxury feel */
 .bar {
-  position: sticky;
+  position: fixed;        /* fixed so it's always at the top */
   top: 0;
-  z-index: var(--z-top);
+  left: 0;
+  right: 0;
+  z-index: 201;           /* just above navbar (z-sticky: 200) */
   width: 100%;
   overflow: hidden;
   background: var(--surface-ticker); /* #581312 maroon */
   height: 32px;
   display: flex;
   align-items: center;
+  transform: translateY(0);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity  0.35s ease;
+  will-change: transform, opacity;
+}
+
+/* Hidden state — triggered when page is scrolled */
+.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .track {
@@ -52,4 +65,3 @@
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-

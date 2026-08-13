@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
-import { CartDrawer } from '@/components/layout/CartDrawer';
+import { StorefrontShell } from '@/components/layout/StorefrontShell';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://blendify-kwjp.onrender.com'),
@@ -41,11 +39,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        {/* 32px AnnouncementBar + 56px Navbar = 88px total */}
-        <main style={{ paddingTop: '88px' }}>{children}</main>
-        <Footer />
-        <CartDrawer />
+        {/*
+          StorefrontShell detects the current pathname:
+          - On /admin/* routes → renders children directly (no Navbar/Footer/paddingTop)
+          - On all other routes → wraps with Navbar + paddingTop + Footer + CartDrawer
+        */}
+        <StorefrontShell>{children}</StorefrontShell>
       </body>
     </html>
   );

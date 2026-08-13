@@ -9,7 +9,7 @@ import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
 // Protected route prefixes — require a valid session
-const PROTECTED_PREFIXES = ['/account', '/checkout', '/wishlist', '/admin'];
+const PROTECTED_PREFIXES = ['/account', '/checkout', '/wishlist'];
 
 // Public routes — always allowed without auth
 const PUBLIC_PREFIXES = ['/sign-in', '/sign-up', '/api/auth', '/_next', '/api/webhooks'];

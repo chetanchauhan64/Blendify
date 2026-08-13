@@ -26,9 +26,8 @@ export interface UserDTO {
   createdAt?: Date;
 }
 
-export interface AuthenticatedUser extends UserDTO {
-  // Extended user — reserved for DB-backed fields
-}
+// Extended user — reserved for DB-backed fields
+export type AuthenticatedUser = UserDTO;
 
 // ── Auth Helpers ──────────────────────────────────────────────
 
