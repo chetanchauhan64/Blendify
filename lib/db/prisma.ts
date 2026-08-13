@@ -25,7 +25,15 @@ function createPrismaClient(): PrismaClient {
   const { Pool } = require('pg');
 
   const connectionString = process.env.DATABASE_URL;
-  const pool = new Pool({ connectionString });
+  const isProduction =
+    process.env.NODE_ENV === 'production' ||
+    connectionString?.includes('sslmode=') ||
+    connectionString?.includes('render.com');
+
+  const pool = new Pool({
+    connectionString,
+    ssl: isProduction ? { rejectUnauthorized: false } : undefined,
+  });
   const adapter = new PrismaPg(pool);
 
   return new PrismaClient({
@@ -39,22 +47,35 @@ function createPrismaClient(): PrismaClient {
 }
 
 // ── DB availability check ─────────────────────────────────────
-export const isDbConfigured =
-  !!process.env.DATABASE_URL &&
-  !process.env.DATABASE_URL.startsWith('REPLACE');
+export function getIsDbConfigured(): boolean {
+  return (
+    !!process.env.DATABASE_URL &&
+    !process.env.DATABASE_URL.startsWith('REPLACE')
+  );
+}
+
+export const isDbConfigured = getIsDbConfigured();
 
 // ── Singleton export ──────────────────────────────────────────
-// `prisma` is null when DATABASE_URL is not set.
-// All callers that use the DB should check isDbConfigured first,
-// or use the safe helper below.
-export const prisma: PrismaClient = isDbConfigured
-  ? (globalForPrisma.prisma ?? (() => {
-      const client = createPrismaClient();
-      if (process.env.NODE_ENV !== 'production') {
-        globalForPrisma.prisma = client;
-      }
-      return client;
-    })())
-  : (null as unknown as PrismaClient); // null in demo/build mode
+export function getPrismaClient(): PrismaClient {
+  if (!getIsDbConfigured()) {
+    return null as unknown as PrismaClient;
+  }
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = createPrismaClient();
+  }
+  return globalForPrisma.prisma;
+}
+
+export const prisma: PrismaClient = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    const client = getPrismaClient();
+    if (!client) {
+      return undefined;
+    }
+    const value = (client as unknown as Record<string | symbol, unknown>)[prop];
+    return typeof value === 'function' ? value.bind(client) : value;
+  },
+});
 
 export default prisma;

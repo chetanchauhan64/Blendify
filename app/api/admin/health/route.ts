@@ -2,7 +2,7 @@
 // BLENDIFY — Admin API: Health & Metrics
 // ============================================================
 import { NextResponse } from 'next/server';
-import { isDbConfigured } from '@/lib/db/prisma';
+import { getIsDbConfigured } from '@/lib/db/prisma';
 
 export async function GET() {
   const memoryUsage = process.memoryUsage();
@@ -13,7 +13,7 @@ export async function GET() {
     timestamp: new Date().toISOString(),
     services: {
       database: {
-        status: isDbConfigured ? 'connected' : 'demo_mode',
+        status: getIsDbConfigured() ? 'connected' : 'demo_mode',
         latencyMs: 12,
         type: 'PostgreSQL 15',
       },

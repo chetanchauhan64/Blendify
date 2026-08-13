@@ -3,7 +3,7 @@
 // High-performance data access for Store Management, CMS,
 // System Configuration, and Integrations with safe in-memory fallback.
 // ============================================================
-import { prisma, isDbConfigured } from '@/lib/db/prisma';
+import { prisma, getIsDbConfigured } from '@/lib/db/prisma';
 
 type SafePrisma = Record<string, {
   findFirst: (args?: unknown) => Promise<unknown>;
@@ -14,7 +14,7 @@ type SafePrisma = Record<string, {
 }>;
 
 function getDb(): SafePrisma | null {
-  if (!isDbConfigured || !prisma) return null;
+  if (!getIsDbConfigured() || !prisma) return null;
   return prisma as unknown as SafePrisma;
 }
 

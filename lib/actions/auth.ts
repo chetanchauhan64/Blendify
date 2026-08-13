@@ -9,7 +9,7 @@ import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import { redirect } from 'next/navigation';
 import { createSession, deleteSession } from '@/lib/session';
-import { isDbConfigured } from '@/lib/db/prisma';
+import { getIsDbConfigured } from '@/lib/db/prisma';
 
 // ── Zod Schemas ───────────────────────────────────────────────
 
@@ -72,7 +72,7 @@ export async function signUp(
 
   let userId: string;
 
-  if (isDbConfigured) {
+  if (getIsDbConfigured()) {
     try {
       const { prisma } = await import('@/lib/db/prisma');
 
@@ -120,7 +120,7 @@ export async function signIn(
 
   const { email, password } = validated.data;
 
-  if (isDbConfigured) {
+  if (getIsDbConfigured()) {
     let userRole: 'CUSTOMER' | 'ADMIN' = 'CUSTOMER';
 
     try {

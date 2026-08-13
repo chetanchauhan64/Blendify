@@ -34,23 +34,31 @@ const OWNER_EMAIL     = process.env.OWNER_ADMIN_EMAIL;
 const OWNER_PASSWORD  = process.env.OWNER_ADMIN_PASSWORD;
 
 if (!DATABASE_URL || DATABASE_URL.startsWith('REPLACE')) {
-  console.error('\n❌  DATABASE_URL is not configured in .env.local\n');
-  process.exit(1);
+  console.log('\n⚠️  DATABASE_URL is not set — skipping admin bootstrap.\n');
+  process.exit(0);
 }
 
 if (!OWNER_EMAIL || !OWNER_EMAIL.includes('@')) {
-  console.error('\n❌  OWNER_ADMIN_EMAIL is not set or is invalid in .env.local\n');
-  process.exit(1);
+  console.log('\n⚠️  OWNER_ADMIN_EMAIL is not set or invalid — skipping admin bootstrap.\n');
+  process.exit(0);
 }
 
 if (!OWNER_PASSWORD || OWNER_PASSWORD.length < 8) {
-  console.error('\n❌  OWNER_ADMIN_PASSWORD is not set or is too short (min 8 chars) in .env.local\n');
-  process.exit(1);
+  console.log('\n⚠️  OWNER_ADMIN_PASSWORD is not set or too short — skipping admin bootstrap.\n');
+  process.exit(0);
 }
 
 // ── Initialise Prisma with the pg adapter (same as lib/db/prisma.ts) ─
 
-const pool    = new Pool({ connectionString: DATABASE_URL });
+const isProduction =
+  process.env.NODE_ENV === 'production' ||
+  DATABASE_URL.includes('sslmode=') ||
+  DATABASE_URL.includes('render.com');
+
+const pool = new Pool({
+  connectionString: DATABASE_URL,
+  ssl: isProduction ? { rejectUnauthorized: false } : undefined,
+});
 const adapter = new PrismaPg(pool);
 const prisma  = new PrismaClient({
   adapter,

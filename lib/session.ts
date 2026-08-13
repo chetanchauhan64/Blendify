@@ -22,12 +22,11 @@ export interface SessionPayload {
 const COOKIE_NAME = 'blendify-session';
 const SESSION_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 
-const secretKey = process.env.JWT_SECRET;
-
 function getEncodedKey(): Uint8Array {
+  const secretKey = process.env.JWT_SECRET;
   if (!secretKey) {
     throw new Error(
-      '[Blendify] JWT_SECRET is not set. Add it to .env.local.\n' +
+      '[Blendify] JWT_SECRET is not set. Add it to environment variables.\n' +
       'Generate one with: openssl rand -base64 32'
     );
   }
