@@ -14,7 +14,8 @@
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset",
-    "db:format": "prisma format"
+    "db:format": "prisma format",
+    "admin:bootstrap": "tsx scripts/admin-bootstrap.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
