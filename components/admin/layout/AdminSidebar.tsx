@@ -25,7 +25,8 @@ import {
   FileText, Search, FileCode, Network, Share2, Home, Menu, Layout,
   File, FolderTree, HelpCircle, Users2, Palette, FileImage, Plug,
   ShieldAlert, Flag, ShieldCheck, History, Activity, FileTerminal,
-  Key, Webhook, Database, Code2, HeartPulse, Sliders, Shield
+  Key, Webhook, Database, Code2, HeartPulse, Sliders, Shield,
+  BarChart2,
 } from 'lucide-react';
 import { signOut } from '@/lib/actions/auth';
 
@@ -40,6 +41,14 @@ const NAV_GROUPS = [
       { icon: ShoppingBag,     label: 'Products',    href: '/admin/products',  tooltip: 'Products' },
       { icon: ShoppingCart,    label: 'Orders',      href: '/admin/orders',    tooltip: 'Orders' },
       { icon: Users,           label: 'Customers',   href: '/admin/customers', tooltip: 'Customers' },
+    ],
+  },
+  {
+    id: 'analytics_finance',
+    label: 'Analytics & Finance',
+    defaultOpen: true,
+    items: [
+      { icon: BarChart2, label: 'Analytics', href: '/admin/analytics', tooltip: 'Analytics' },
     ],
   },
   {
