@@ -2,13 +2,14 @@
 // BLENDIFY — scripts/admin-bootstrap.ts
 // Creates or promotes the owner ADMIN account in PostgreSQL.
 //
-// Usage:
+// Usage (always run locally — never from Vercel):
 //   npm run admin:bootstrap
 //
 // Required environment variables (in .env.local):
 //   OWNER_ADMIN_EMAIL    — the owner's email address
 //   OWNER_ADMIN_PASSWORD — the owner's plaintext password (stored as bcrypt hash)
-//   DATABASE_URL         — PostgreSQL connection string
+//   DIRECT_URL           — Supabase direct PostgreSQL URL (preferred for DDL/writes)
+//   DATABASE_URL         — fallback if DIRECT_URL is not set
 //
 // Security guarantees:
 //   ✓ Password is NEVER logged, printed, or stored in plaintext
@@ -16,6 +17,8 @@
 //   ✓ Only OWNER_ADMIN_EMAIL is granted ADMIN access
 //   ✓ No other email can receive ADMIN through this script
 //   ✓ No NODE_ENV bypass — works identically in all environments
+//   ✓ Uses DIRECT_URL (bypass pgBouncer) when available, DATABASE_URL otherwise
+//   ✓ Never runs automatically during Vercel build
 // ============================================================
 
 import * as dotenv from 'dotenv';
@@ -27,14 +30,20 @@ import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 
-// ── Read and validate environment variables ──────────────────
+// ── Read and validate environment variables ────────────────────────
 
-const DATABASE_URL    = process.env.DATABASE_URL;
+// Prefer DIRECT_URL for bootstrap — it bypasses pgBouncer and is always
+// a raw PostgreSQL connection, required for reliable upserts outside
+// transaction-mode pooling. Falls back to DATABASE_URL if DIRECT_URL is absent.
+const DIRECT_URL     = process.env.DIRECT_URL;
+const DATABASE_URL   = process.env.DATABASE_URL;
+const BOOTSTRAP_URL  = (DIRECT_URL && !DIRECT_URL.startsWith('REPLACE')) ? DIRECT_URL : DATABASE_URL;
+
 const OWNER_EMAIL     = process.env.OWNER_ADMIN_EMAIL;
 const OWNER_PASSWORD  = process.env.OWNER_ADMIN_PASSWORD;
 
-if (!DATABASE_URL || DATABASE_URL.startsWith('REPLACE')) {
-  console.log('\n⚠️  DATABASE_URL is not set — skipping admin bootstrap.\n');
+if (!BOOTSTRAP_URL || BOOTSTRAP_URL.startsWith('REPLACE')) {
+  console.log('\n⚠️  No usable database URL found (DIRECT_URL or DATABASE_URL) — skipping admin bootstrap.\n');
   process.exit(0);
 }
 
@@ -48,15 +57,20 @@ if (!OWNER_PASSWORD || OWNER_PASSWORD.length < 8) {
   process.exit(0);
 }
 
-// ── Initialise Prisma with the pg adapter (same as lib/db/prisma.ts) ─
-
+// ── Initialise Prisma with the pg adapter ─────────────────────────────────
+// SSL is required for all Supabase connections (direct and pooler).
 const isProduction =
   process.env.NODE_ENV === 'production' ||
-  DATABASE_URL.includes('sslmode=') ||
-  DATABASE_URL.includes('render.com');
+  BOOTSTRAP_URL.includes('supabase.co') ||
+  BOOTSTRAP_URL.includes('supabase.com') ||
+  BOOTSTRAP_URL.includes('sslmode=') ||
+  BOOTSTRAP_URL.includes('render.com');
+
+console.log(`\n   URL type    : ${DIRECT_URL && !DIRECT_URL.startsWith('REPLACE') ? 'DIRECT_URL (direct PostgreSQL)' : 'DATABASE_URL (pooler/fallback)'}`);
+console.log(`   SSL         : ${isProduction ? 'enabled (rejectUnauthorized=false)' : 'disabled (local)'}`);
 
 const pool = new Pool({
-  connectionString: DATABASE_URL,
+  connectionString: BOOTSTRAP_URL,
   ssl: isProduction ? { rejectUnauthorized: false } : undefined,
 });
 const adapter = new PrismaPg(pool);
