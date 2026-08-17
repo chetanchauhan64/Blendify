@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShoppingBag, MapPin, Tag, Star, Shield, ChevronDown, ChevronUp, AlertCircle, Loader2 } from 'lucide-react';
+import { ShoppingBag, MapPin, Tag, Star, Shield, ChevronDown, ChevronUp, AlertCircle, Loader2, CreditCard, Smartphone, Landmark, Wallet, Phone } from 'lucide-react';
 import { useCartStore } from '@/lib/store/cartStore';
 import styles from './CheckoutClient.module.css';
 
@@ -45,10 +45,14 @@ interface RazorpayOptions {
   order_id: string;
   name: string;
   description: string;
-  prefill?: { name?: string; email?: string };
+  prefill?: { name?: string; email?: string; contact?: string };
   theme?: { color?: string };
   handler: (response: RazorpaySuccessResponse) => void;
-  modal?: { ondismiss?: () => void };
+  modal?: { ondismiss?: () => void; confirm_close?: boolean };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  method?: Record<string, any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  config?: Record<string, any>;
 }
 
 interface RazorpaySuccessResponse {
@@ -219,14 +223,34 @@ export function CheckoutClient({ user, addresses }: CheckoutClientProps) {
         prefill: {
           name: `${user.firstName} ${user.lastName}`,
           email: user.email,
+          contact: selectedAddress?.phone || '',
         },
         theme: { color: '#581312' },
+        // Enable all Razorpay-supported payment methods
+        method: {
+          upi: true,
+          card: true,
+          netbanking: true,
+          wallet: true,
+          emi: true,
+        },
+        // Prefer UPI Intent/QR flow over deprecated UPI Collect
+        config: {
+          display: {
+            blocks: {
+              utib: { name: 'Pay using UPI', instruments: [{ method: 'upi', flows: ['intent', 'qr'] }] },
+            },
+            sequence: ['block.utib'],
+            preferences: { show_default_blocks: true },
+          },
+        },
         handler: handleVerify, // ← Step 3 happens here on success callback
         modal: {
           ondismiss: () => {
             setIsLoading(false);
             setError('Payment was cancelled. You can try again.');
           },
+          confirm_close: true,
         },
       });
 
@@ -482,6 +506,12 @@ export function CheckoutClient({ user, addresses }: CheckoutClientProps) {
                   {user.firstName} {user.lastName}
                 </p>
                 <p className={styles.customerEmail}>{user.email}</p>
+                {selectedAddress?.phone && (
+                  <p className={styles.customerPhone}>
+                    <Phone size={12} />
+                    {selectedAddress.phone}
+                  </p>
+                )}
               </div>
 
               <div className={styles.summaryLines}>
@@ -528,9 +558,16 @@ export function CheckoutClient({ user, addresses }: CheckoutClientProps) {
                   <p className={styles.addressPreviewText}>
                     {selectedAddress.firstName} {selectedAddress.lastName}
                     <br />
-                    {selectedAddress.line1}, {selectedAddress.city}
+                    {selectedAddress.line1}
+                    {selectedAddress.line2 && (<><br />{selectedAddress.line2}</>)}
                     <br />
-                    {selectedAddress.state} {selectedAddress.postalCode}
+                    {selectedAddress.city}, {selectedAddress.state} {selectedAddress.postalCode}
+                    <br />
+                    {selectedAddress.country}
+                    <br />
+                    <span className={styles.addressPreviewPhone}>
+                      <Phone size={11} /> {selectedAddress.phone}
+                    </span>
                   </p>
                 </div>
               )}
@@ -539,6 +576,32 @@ export function CheckoutClient({ user, addresses }: CheckoutClientProps) {
               <p className={styles.taxNote}>
                 Taxes (GST) included in product prices
               </p>
+
+              {/* Payment Methods */}
+              <div className={styles.paymentMethods}>
+                <p className={styles.paymentMethodsTitle}>Payment Methods</p>
+                <div className={styles.paymentMethodsGrid}>
+                  <div className={styles.paymentMethodItem}>
+                    <Smartphone size={16} />
+                    <span>UPI</span>
+                  </div>
+                  <div className={styles.paymentMethodItem}>
+                    <CreditCard size={16} />
+                    <span>Cards</span>
+                  </div>
+                  <div className={styles.paymentMethodItem}>
+                    <Landmark size={16} />
+                    <span>Net Banking</span>
+                  </div>
+                  <div className={styles.paymentMethodItem}>
+                    <Wallet size={16} />
+                    <span>Wallets</span>
+                  </div>
+                </div>
+                <p className={styles.paymentMethodsNote}>
+                  All payment methods powered by Razorpay
+                </p>
+              </div>
 
               {/* Error */}
               {error && (

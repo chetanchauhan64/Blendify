@@ -17,6 +17,7 @@ export type OrderPricingResult = {
   discount: number;
   loyaltyDiscount: number;
   total: number;
+  couponId: string | null;
 };
 
 export class OrderService {
@@ -63,12 +64,14 @@ export class OrderService {
     const tax = 0;
 
     let discount = 0;
+    let resolvedCouponId: string | null = null;
     if (options.couponCode && options.userId) {
       const { valid, coupon } = await couponRepository.findValid(
         options.couponCode,
         options.userId,
       );
       if (valid && coupon) {
+        resolvedCouponId = coupon.id;
         if (coupon.type === 'PERCENTAGE') {
           discount = (subtotal * Number(coupon.value)) / 100;
           if (coupon.maxDiscountAmount) {
@@ -95,6 +98,7 @@ export class OrderService {
       discount: Math.round(discount * 100) / 100,
       loyaltyDiscount: Math.round(loyaltyDiscount * 100) / 100,
       total: Math.round(total * 100) / 100,
+      couponId: resolvedCouponId,
     };
   }
 
@@ -145,6 +149,7 @@ export class OrderService {
           billingAddressId:
             data.billingAddressId ?? data.shippingAddressId,
           currencyCode: data.currencyCode,
+          couponId: pricing.couponId,
           subtotal: pricing.subtotal,
           shippingCost: pricing.shippingCost,
           tax: pricing.tax,

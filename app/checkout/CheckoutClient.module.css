@@ -440,6 +440,15 @@
   margin: 0;
 }
 
+.customerPhone {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  margin: 4px 0 0;
+}
+
 .summaryLines {
   display: flex;
   flex-direction: column;
@@ -517,6 +526,15 @@
   margin: 0;
 }
 
+.addressPreviewPhone {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  margin-top: 2px;
+}
+
 /* ── Error Box ────────────────────────────────────────────────── */
 
 .errorBox {
@@ -586,4 +604,112 @@
   color: var(--text-muted);
   font-size: 11px;
   text-align: center;
+}
+
+/* ── Payment Methods Info ────────────────────────────────────── */
+
+.paymentMethods {
+  background: var(--bg-base);
+  border-radius: 12px;
+  padding: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.paymentMethodsTitle {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 var(--space-3);
+}
+
+.paymentMethodsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+}
+
+.paymentMethodItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-3) var(--space-2);
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.paymentMethodItem svg {
+  color: var(--brand-primary);
+  opacity: 0.8;
+}
+
+.paymentMethodsNote {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: center;
+  margin: var(--space-2) 0 0;
+}
+
+/* ── Accessibility ────────────────────────────────────────────── */
+
+.addressCard:focus-within {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+.addressRadio:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+.payBtn:focus-visible {
+  outline: 3px solid var(--brand-primary);
+  outline-offset: 3px;
+}
+
+.couponApplyBtn:focus-visible,
+.couponRemoveBtn:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+.loyaltyInput:focus-visible,
+.couponInput:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 1px;
+}
+
+/* ── Error animation ─────────────────────────────────────────── */
+
+.errorBox {
+  animation: errorSlideIn 0.3s ease-out;
+}
+
+@keyframes errorSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Mobile responsive improvements ──────────────────────────── */
+
+@media (max-width: 480px) {
+  .paymentMethodsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .summaryCard {
+    padding: var(--space-5);
+  }
+
+  .payBtn {
+    padding: 16px;
+    font-size: 0.95rem;
+  }
 }

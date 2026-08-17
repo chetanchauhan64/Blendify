@@ -224,28 +224,34 @@ export async function POST(req: NextRequest) {
       });
 
       // Award loyalty points (if not already awarded)
+      // Dedup check: prevent double-award if webhook already processed
       const loyaltyPointsToAward = payment.order.loyaltyPointsEarned ?? 0;
       if (loyaltyPointsToAward > 0) {
-        const user = await tx.user.findUnique({
-          where: { id: userId },
-          select: { loyaltyPoints: true },
+        const existingLoyalty = await tx.loyaltyTransaction.findFirst({
+          where: { orderId: payment.orderId, type: 'EARNED_PURCHASE' },
         });
-        if (user) {
-          const newBalance = user.loyaltyPoints + loyaltyPointsToAward;
-          await tx.user.update({
+        if (!existingLoyalty) {
+          const user = await tx.user.findUnique({
             where: { id: userId },
-            data: { loyaltyPoints: newBalance },
+            select: { loyaltyPoints: true },
           });
-          await tx.loyaltyTransaction.create({
-            data: {
-              userId,
-              type: 'EARNED_PURCHASE',
-              points: loyaltyPointsToAward,
-              balance: newBalance,
-              description: `Points earned for order #${payment.order.orderNumber}`,
-              orderId: payment.orderId,
-            },
-          });
+          if (user) {
+            const newBalance = user.loyaltyPoints + loyaltyPointsToAward;
+            await tx.user.update({
+              where: { id: userId },
+              data: { loyaltyPoints: newBalance },
+            });
+            await tx.loyaltyTransaction.create({
+              data: {
+                userId,
+                type: 'EARNED_PURCHASE',
+                points: loyaltyPointsToAward,
+                balance: newBalance,
+                description: `Points earned for order #${payment.order.orderNumber}`,
+                orderId: payment.orderId,
+              },
+            });
+          }
         }
       }
 

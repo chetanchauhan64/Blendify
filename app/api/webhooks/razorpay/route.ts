@@ -407,7 +407,17 @@ async function handleRefundProcessed(entity?: RazorpayRefundEntity) {
 
   if (!payment) return;
 
+  // Idempotency: if this exact refund ID is already recorded, skip
+  if (payment.refundId === entity.id) return;
+
   const refundAmountInRupees = fromPaise(entity.amount);
+  const currentRefunded = Number(payment.refundAmount ?? 0);
+  const newTotalRefunded = Math.min(
+    currentRefunded + refundAmountInRupees,
+    Number(payment.amount), // never exceed payment amount
+  );
+  const paymentAmount = Number(payment.amount);
+  const isFullRefund = newTotalRefunded >= paymentAmount;
   const now = new Date();
 
   await prisma.$transaction(async (tx) => {
@@ -415,9 +425,9 @@ async function handleRefundProcessed(entity?: RazorpayRefundEntity) {
       where: { id: payment.id },
       data: {
         refundId: entity.id,
-        refundAmount: refundAmountInRupees,
+        refundAmount: newTotalRefunded,
         refundedAt: now,
-        status: refundAmountInRupees >= Number(payment.amount) ? 'REFUNDED' : 'PARTIALLY_REFUNDED',
+        status: isFullRefund ? 'REFUNDED' : 'PARTIALLY_REFUNDED',
       },
     });
 
@@ -426,13 +436,13 @@ async function handleRefundProcessed(entity?: RazorpayRefundEntity) {
       await tx.returnRequest.update({
         where: { id: payment.order.returnRequests[0].id },
         data: {
-          status: 'COMPLETED',
-          resolvedAt: now,
+          status: isFullRefund ? 'COMPLETED' : 'REFUND_INITIATED',
+          resolvedAt: isFullRefund ? now : undefined,
         },
       });
 
       // Update Order status to REFUNDED if fully refunded
-      if (refundAmountInRupees >= Number(payment.amount)) {
+      if (isFullRefund) {
         await tx.order.update({
           where: { id: payment.orderId },
           data: { status: 'REFUNDED', paymentStatus: 'REFUNDED' },

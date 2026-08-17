@@ -60,11 +60,25 @@ export default async function CheckoutSuccessPage({ searchParams }: SuccessPageP
             orderBy: { createdAt: 'desc' },
             take: 1,
           },
+          shippingAddress: {
+            select: {
+              firstName: true,
+              lastName: true,
+              phone: true,
+              line1: true,
+              line2: true,
+              city: true,
+              state: true,
+              postalCode: true,
+              country: { select: { name: true } },
+            },
+          },
         },
       })
     : null;
 
   const payment = order?.payments[0];
+  const shippingAddr = order?.shippingAddress;
 
   return (
     <div className={styles.page}>
@@ -103,12 +117,34 @@ export default async function CheckoutSuccessPage({ searchParams }: SuccessPageP
                   </span>
                 </div>
                 <div className={styles.metaItem}>
-                  <span className={styles.metaLabel}>Amount Paid</span>
+                  <span className={styles.metaLabel}>Order Total</span>
                   <span className={styles.metaValue}>
-                    ₹{Number(payment.amount).toFixed(2)}
+                    ₹{Number(order.total).toFixed(2)}
                   </span>
                 </div>
               </div>
+
+              {/* Shipping Address */}
+              {shippingAddr && (
+                <>
+                  <div className={styles.itemsDivider} />
+                  <div className={styles.shippingSection}>
+                    <p className={styles.shippingSectionTitle}>Shipping Address</p>
+                    <p className={styles.shippingText}>
+                      {shippingAddr.firstName} {shippingAddr.lastName}
+                      <br />
+                      {shippingAddr.line1}
+                      {shippingAddr.line2 && (<><br />{shippingAddr.line2}</>)}
+                      <br />
+                      {shippingAddr.city}, {shippingAddr.state} {shippingAddr.postalCode}
+                      <br />
+                      {shippingAddr.country.name}
+                      <br />
+                      {shippingAddr.phone}
+                    </p>
+                  </div>
+                </>
+              )}
 
               {/* Items */}
               <div className={styles.itemsDivider} />
