@@ -18,6 +18,7 @@ const STATUS_VARIANTS: Record<string, string> = {
   published:  'active',
   verified:   'active',
   redeemed:   'active',
+  success:    'active',
 
   // Inactive / Failed / Cancelled
   inactive:   'inactive',
@@ -49,6 +50,13 @@ const STATUS_VARIANTS: Record<string, string> = {
   processing: 'processing',
   loading:    'sending',
   running:    'sending',
+
+  // Support ticket statuses
+  open:                   'pending',
+  in_progress:            'sending',
+  waiting_for_customer:   'scheduled',
+  resolved:               'active',
+  urgent:                 'inactive',
 
   // Order-specific
   placed:        'pending',

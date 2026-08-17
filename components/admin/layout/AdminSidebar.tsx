@@ -27,6 +27,9 @@ import {
   ShieldAlert, Flag, ShieldCheck, History, Activity, FileTerminal,
   Key, Webhook, Database, Code2, HeartPulse, Sliders, Shield,
   BarChart2,
+  Wallet,
+  Headphones,
+  Workflow,
 } from 'lucide-react';
 import { signOut } from '@/lib/actions/auth';
 
@@ -48,7 +51,11 @@ const NAV_GROUPS = [
     label: 'Analytics & Finance',
     defaultOpen: true,
     items: [
-      { icon: BarChart2, label: 'Analytics', href: '/admin/analytics', tooltip: 'Analytics' },
+      { icon: BarChart2,  label: 'Analytics', href: '/admin/analytics', tooltip: 'Analytics' },
+      { icon: Wallet,     label: 'Finance',   href: '/admin/finance',   tooltip: 'Finance' },
+      { icon: UserCheck,  label: 'CRM',       href: '/admin/crm',       tooltip: 'CRM' },
+      { icon: Headphones,  label: 'Support',   href: '/admin/support',   tooltip: 'Customer Support' },
+      { icon: Workflow,   label: 'Automation', href: '/admin/automation', tooltip: 'Automation & Workflows' },
     ],
   },
   {

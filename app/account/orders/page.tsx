@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { requireAuth } from '@/lib/auth';
+import { prisma } from '@/lib/db/prisma';
 import { ShoppingBag, ArrowRight } from 'lucide-react';
 import styles from './page.module.css';
+
 
 export const metadata: Metadata = {
   title: 'Order History — BLENDIFY',
@@ -22,17 +24,32 @@ const STATUS_CLASS: Record<string, string> = {
 export default async function OrdersPage() {
   const user = await requireAuth();
 
-  // TODO: replace with real DB query when database is connected:
-  // const orders = await prisma.order.findMany({ where: { userId: user.id }, orderBy: { createdAt: 'desc' } });
-  const orders: Array<{
-    id: string;
-    orderNumber: string;
-    status: string;
-    total: number;
-    currency: string;
-    itemCount: number;
-    createdAt: Date;
-  }> = [];
+  // Load orders from DB for the authenticated user
+  const ordersRaw = await prisma.order.findMany({
+    where: { userId: user.id },
+    orderBy: { createdAt: 'desc' },
+    select: {
+      id: true,
+      orderNumber: true,
+      status: true,
+      paymentStatus: true,
+      total: true,
+      currencyCode: true,
+      createdAt: true,
+      _count: { select: { items: true } },
+    },
+  });
+
+  const orders = ordersRaw.map((o) => ({
+    id: o.id,
+    orderNumber: o.orderNumber,
+    status: o.status,
+    paymentStatus: o.paymentStatus,
+    total: Number(o.total),
+    currency: o.currencyCode,
+    itemCount: o._count.items,
+    createdAt: o.createdAt,
+  }));
 
   return (
     <div className={styles.page}>

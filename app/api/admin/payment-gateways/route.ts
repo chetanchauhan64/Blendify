@@ -1,11 +1,14 @@
 // ============================================================
 // BLENDIFY — Admin API: Payment Gateways
+// Security: Admin RBAC required for both GET and PUT.
 // ============================================================
 import { NextResponse } from 'next/server';
+import { requireAdminAccess } from '@/lib/admin-guard';
 import { getPaymentGateways, updatePaymentGateway } from '@/lib/db/repositories/phase2.repository';
 
 export async function GET() {
   try {
+    await requireAdminAccess();
     const gateways = await getPaymentGateways();
     return NextResponse.json({ success: true, data: gateways });
   } catch (error) {
@@ -16,6 +19,7 @@ export async function GET() {
 
 export async function PUT(req: Request) {
   try {
+    await requireAdminAccess();
     const body = await req.json();
     const { id, ...data } = body;
     const updated = await updatePaymentGateway(id, data);

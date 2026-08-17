@@ -8,6 +8,7 @@
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { createSession, deleteSession } from '@/lib/session';
 import { getIsDbConfigured } from '@/lib/db/prisma';
 
@@ -168,6 +169,14 @@ export async function signIn(
 
     // 5. Role-based redirect — ADMIN/SUPER_ADMIN → admin panel, customers → account
     if (userRole === 'ADMIN') {
+      // Invalidate the Next.js Router Cache for the admin layout.
+      // When the user was on /admin/sign-in, the Router Cache stored the
+      // layout RSC payload with isPublicAdminPage=true (no AdminShell).
+      // Without this call, navigating to /admin/dashboard reuses the stale
+      // cached layout, causing the dashboard to render without the admin shell.
+      // revalidatePath forces Next.js to re-fetch the layout fresh, so the
+      // AdminShell (sidebar + header) appears immediately after login.
+      revalidatePath('/admin', 'layout');
       redirect('/admin/dashboard');
     }
     redirect('/account');
@@ -191,5 +200,8 @@ export async function signIn(
  */
 export async function signOut(): Promise<void> {
   await deleteSession();
+  // Invalidate admin layout cache on sign-out so a returning visitor
+  // always gets a fresh layout evaluation.
+  revalidatePath('/admin', 'layout');
   redirect('/');
 }

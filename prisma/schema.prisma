@@ -194,6 +194,56 @@ enum ShippingZone {
   RESTRICTED
 }
 
+enum SupportTicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_FOR_CUSTOMER
+  RESOLVED
+  CLOSED
+}
+
+enum SupportTicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum SupportMessageType {
+  CUSTOMER_REPLY
+  ADMIN_REPLY
+  INTERNAL_NOTE
+  STATUS_CHANGE
+  ASSIGNMENT_CHANGE
+}
+
+enum AutomationTriggerType {
+  ORDER_CREATED
+  ORDER_PAID
+  ORDER_CANCELLED
+  PAYMENT_FAILED
+  RETURN_REQUESTED
+  RETURN_RESOLVED
+  CUSTOMER_CREATED
+  REVIEW_SUBMITTED
+  SCHEDULED
+}
+
+enum AutomationActionType {
+  SEND_EMAIL
+  CREATE_NOTIFICATION
+  UPDATE_RECORD
+  CREATE_AUDIT_LOG
+  TRIGGER_WORKFLOW
+}
+
+enum AutomationExecutionStatus {
+  PENDING
+  RUNNING
+  SUCCESS
+  FAILED
+}
+
 // ─────────────────────────────────────────────────────────────
 // USER & AUTHENTICATION
 // ─────────────────────────────────────────────────────────────
@@ -232,6 +282,11 @@ model User {
   savedPaymentMethods SavedPaymentMethod[]
   returnRequests      ReturnRequest[]
   couponUsages        CouponUsage[]
+  supportTickets      SupportTicket[]
+  assignedTickets     SupportTicket[]    @relation("AssignedTickets")
+  supportMessages     SupportMessage[]
+  automationRules       AutomationRule[]
+  automationExecutions  AutomationExecution[]
 
   @@index([email])
   @@index([referralCode])
@@ -782,6 +837,7 @@ model Order {
   shipments       Shipment[]
   timeline        OrderTimeline[]
   returnRequests  ReturnRequest[]
+  supportTickets  SupportTicket[]
 
   @@index([userId])
   @@index([orderNumber])
@@ -1873,5 +1929,123 @@ model StaffInvite {
   @@index([email])
   @@index([token])
   @@map("staff_invites")
+}
+
+// ─────────────────────────────────────────────────────────────
+// PHASE 3 STEP 4 — CUSTOMER SUPPORT & HELPDESK
+// ─────────────────────────────────────────────────────────────
+
+model SupportTicket {
+  id              String                @id @default(cuid())
+  ticketNumber    String                @unique
+  userId          String
+  subject         String
+  description     String                @db.Text
+  category        String
+  priority        SupportTicketPriority @default(MEDIUM)
+  status          SupportTicketStatus   @default(OPEN)
+  assignedToId    String?
+  orderId         String?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  firstResponseAt DateTime?
+  resolvedAt      DateTime?
+  closedAt        DateTime?
+
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedTo User?            @relation("AssignedTickets", fields: [assignedToId], references: [id], onDelete: SetNull)
+  order      Order?           @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  messages   SupportMessage[]
+
+  @@index([userId])
+  @@index([assignedToId])
+  @@index([orderId])
+  @@index([status])
+  @@index([priority])
+  @@index([createdAt])
+  @@map("support_tickets")
+}
+
+model SupportMessage {
+  id          String              @id @default(cuid())
+  ticketId    String
+  senderId    String?
+  senderEmail String
+  senderName  String
+  type        SupportMessageType
+  body        String              @db.Text
+  isInternal  Boolean             @default(false)
+  createdAt   DateTime            @default(now())
+
+  ticket SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  sender User?         @relation(fields: [senderId], references: [id], onDelete: SetNull)
+
+  @@index([ticketId])
+  @@index([senderId])
+  @@index([createdAt])
+  @@map("support_messages")
+}
+
+// ─────────────────────────────────────────────────────────────
+// PHASE 3 STEP 5 — AUTOMATION & WORKFLOW ENGINE
+// ─────────────────────────────────────────────────────────────
+
+model AutomationRule {
+  id           String                 @id @default(cuid())
+  name         String
+  description  String?                @db.Text
+  triggerType  AutomationTriggerType
+  triggerConfig Json?                 @default("{}")
+  actionType   AutomationActionType
+  actionConfig Json?                  @default("{}")
+  conditions   Json?                  @default("[]")
+  isActive     Boolean                @default(true)
+  schedule     String?
+  lastRunAt    DateTime?
+  nextRunAt    DateTime?
+  totalRuns    Int                    @default(0)
+  successRuns  Int                    @default(0)
+  failureRuns  Int                    @default(0)
+
+  createdById  String
+  createdBy    User                   @relation(fields: [createdById], references: [id])
+
+  executions   AutomationExecution[]
+
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+
+  @@index([triggerType])
+  @@index([actionType])
+  @@index([isActive])
+  @@index([createdById])
+  @@index([createdAt])
+  @@map("automation_rules")
+}
+
+model AutomationExecution {
+  id          String                    @id @default(cuid())
+  ruleId      String
+  triggerType AutomationTriggerType
+  status      AutomationExecutionStatus @default(PENDING)
+  startedAt   DateTime?
+  completedAt DateTime?
+  durationMs  Int?
+  result      Json?
+  error       String?                   @db.Text
+
+  executedById String?
+  executedBy   User?                    @relation(fields: [executedById], references: [id])
+
+  rule        AutomationRule             @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime                  @default(now())
+
+  @@index([ruleId])
+  @@index([status])
+  @@index([triggerType])
+  @@index([createdAt])
+  @@index([executedById])
+  @@map("automation_executions")
 }
 

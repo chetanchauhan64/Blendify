@@ -57,12 +57,20 @@ export async function proxy(request: NextRequest) {
   }
 
   // ── Admin public pages (sign-in, unauthorized) ───────────────
-  // Mark these with a header so the admin layout can detect them
-  // and skip rendering AdminShell + calling requireAdminAccess().
+  // Mark these with a request header so the admin layout can detect them
+  // (via headers() from next/headers) and skip rendering AdminShell +
+  // calling requireAdminAccess().
+  //
+  // IMPORTANT: must use NextResponse.next({ request: { headers } }) to
+  // forward the header to the server component rendering context.
+  // Setting it on response.headers only goes to the browser, not to
+  // headers() inside server components.
   if (ADMIN_PUBLIC_PATHS.includes(pathname)) {
-    const response = NextResponse.next();
-    response.headers.set('x-admin-public', 'true');
-    return response;
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set('x-admin-public', 'true');
+    return NextResponse.next({
+      request: { headers: requestHeaders },
+    });
   }
 
   // ── Admin protected routes (/admin/*) ───────────────────────
