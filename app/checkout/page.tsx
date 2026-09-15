@@ -29,10 +29,14 @@ export default async function CheckoutPage() {
     orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }],
   });
 
-  // Load user loyalty points
+  // Load user with loyalty points and phone data
   const userRecord = await prisma.user.findUnique({
     where: { id: user.id },
-    select: { loyaltyPoints: true },
+    select: {
+      loyaltyPoints: true,
+      phone: true,
+      phoneVerified: true,
+    },
   });
 
   return (
@@ -43,6 +47,8 @@ export default async function CheckoutPage() {
         firstName: user.firstName,
         lastName: user.lastName,
         loyaltyPoints: userRecord?.loyaltyPoints ?? 0,
+        phone: userRecord?.phone ?? null,
+        phoneVerified: userRecord?.phoneVerified ?? false,
       }}
       addresses={addresses.map((a) => ({
         id: a.id,

@@ -25,12 +25,17 @@ export function StorefrontShell({ children }: StorefrontShellProps) {
     return <>{children}</>;
   }
 
-  // Storefront routes: full Navbar + Footer + CartDrawer + paddingTop
+  const isHome   = pathname === '/';
+
+  // Storefront routes: full Navbar + Footer + CartDrawer
+  // On homepage: 32px (just AnnouncementBar) so hero starts directly below it with 0 white gap
+  // On subpages: 88px (32px AnnouncementBar + 56px Navbar) so content is not obscured
   return (
     <>
       <Navbar />
-      {/* 32px AnnouncementBar + 56px Navbar = 88px total offset */}
-      <main style={{ paddingTop: '88px' }}>{children}</main>
+      <main style={{ paddingTop: isHome ? '0' : '88px', width: '100%', margin: 0 }}>
+        {children}
+      </main>
       <Footer />
       <CartDrawer />
     </>

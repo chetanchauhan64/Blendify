@@ -1,67 +1,78 @@
-/* AnnouncementBar — Infinite CSS marquee, luxury feel */
+/* AnnouncementBar — Seamless infinite CSS marquee, premium feel */
+
+/* ── Bar container ──────────────────────────────────────────── */
 .bar {
-  position: fixed;        /* fixed so it's always at the top */
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 201;           /* just above navbar (z-sticky: 200) */
+  z-index: 201;         /* above navbar */
   width: 100%;
   overflow: hidden;
-  background: var(--surface-ticker); /* #581312 maroon */
+  background: #3B0D0D; /* rich dark maroon */
   height: 32px;
   display: flex;
   align-items: center;
   transform: translateY(0);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity  0.35s ease;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity   0.35s ease;
   will-change: transform, opacity;
 }
 
-/* Hidden state — triggered when page is scrolled */
+/* ── Hidden state: slides up when page is scrolled ─────────── */
 .hidden {
   transform: translateY(-100%);
   opacity: 0;
   pointer-events: none;
 }
 
+/* ── Marquee track ──────────────────────────────────────────── */
+/* Width: max-content so it never wraps. We triple-duplicate   */
+/* the items in JSX (3× sets) so the loop is perfectly seamless */
 .track {
   display: flex;
   flex-wrap: nowrap;
   width: max-content;
-  animation: marquee 22s linear infinite;
+  /* Translate only 33.333...% (1 set of 3) for seamless join  */
+  animation: marquee 32s linear infinite;
   will-change: transform;
 }
 
+/* Pause on hover — elegant deceleration */
 .track:hover {
   animation-play-state: paused;
 }
 
+/* ── Individual announcement item ───────────────────────────── */
 .item {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0 var(--space-3);
-  font-family: var(--font-body);
-  font-size: 11.5px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: #f5deb3; /* warm wheat on maroon */
+  gap: 0.5rem;
+  padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #FFFFFF; /* clean white typography */
   white-space: nowrap;
   flex-shrink: 0;
 }
 
+/* Bullet separator between items */
 .item::after {
-  content: '·';
-  color: rgba(245, 222, 179, 0.4);
-  font-size: 14px;
-  margin-left: 0.55rem;
+  content: '•';
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  margin-left: clamp(1.25rem, 3vw, 2.5rem);
 }
 
 .item:last-child::after {
   display: none;
 }
 
+/* ── Keyframes: translate by exactly 1/3 (one set of 3 copies) */
 @keyframes marquee {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(-33.3334%); }
 }

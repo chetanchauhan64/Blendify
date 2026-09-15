@@ -14,7 +14,7 @@ export interface SessionPayload {
   email: string;
   firstName: string;
   lastName: string;
-  role: 'CUSTOMER' | 'ADMIN';
+  role: 'CUSTOMER' | 'ADMIN' | 'SUPER_ADMIN' | 'SUPPORT' | 'WAREHOUSE';
   expiresAt: Date;
 }
 

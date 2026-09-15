@@ -2049,3 +2049,21 @@ model AutomationExecution {
   @@map("automation_executions")
 }
 
+// ─────────────────────────────────────────────────────────────
+// PHONE OTP — Checkout phone verification
+// ─────────────────────────────────────────────────────────────
+
+model PhoneOtp {
+  id        String   @id @default(cuid())
+  phone     String   // Normalized E.164 phone number e.g. "+919876543210"
+  codeHash  String   // bcrypt hash of the 6-digit OTP — never store plaintext
+  expiresAt DateTime // 5 minutes from creation
+  verified  Boolean  @default(false)
+  attempts  Int      @default(0) // Brute-force prevention: max 5 attempts
+  createdAt DateTime @default(now())
+
+  @@index([phone])
+  @@index([expiresAt])
+  @@map("phone_otps")
+}
+

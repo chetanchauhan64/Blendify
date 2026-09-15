@@ -3,14 +3,11 @@
 import styles from './AnnouncementBar.module.css';
 
 const ITEMS = [
-  '☕  FREE SHIPPING ABOVE ₹999',
-  '✦  100% ARABICA COFFEE',
-  '🔥  SEASONAL BLENDS NOW AVAILABLE',
-  '✨  CRAFTED WITH OBSESSION',
-  '⚡  BREW BETTER. LIVE BOLDER.',
-  '🌱  USDA ORGANIC CERTIFIED',
-  '🇮🇳  PROUDLY MADE IN INDIA',
-  '🎁  FREE BREWING GUIDE WITH EVERY ORDER',
+  'Up to 40% off on Money Saver Bundles',
+  'Shop for Rs. 1999 & get the GUAVA CHILLI Free!',
+  'Buy 2 & Get Free Shipping!',
+  '100% Arabica Coffee',
+  'Proudly Made in India',
 ];
 
 interface AnnouncementBarProps {
@@ -19,8 +16,8 @@ interface AnnouncementBarProps {
 }
 
 export function AnnouncementBar({ hidden = false }: AnnouncementBarProps) {
-  // Duplicate for seamless loop
-  const track = [...ITEMS, ...ITEMS];
+  // Triple for perfectly seamless loop (CSS keyframe uses -33.33%)
+  const track = [...ITEMS, ...ITEMS, ...ITEMS];
 
   return (
     <div

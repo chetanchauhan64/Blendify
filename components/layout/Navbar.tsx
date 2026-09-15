@@ -11,6 +11,7 @@ import { useRegionStore } from '@/lib/store/regionStore';
 import { REGIONS } from '@/lib/currency';
 import type { Region } from '@/types';
 import { AnnouncementBar } from './AnnouncementBar';
+import { BrandLogoBadge } from './BrandLogoBadge';
 import styles from './Navbar.module.css';
 
 // ── Nav links ─────────────────────────────────────────────────
@@ -37,8 +38,8 @@ const NAV_LINKS = [
       { label: 'Cold Brew',    href: '/collections/cold-brew' },
     ],
   },
-  { label: 'About',   href: '/about' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'About Us',   href: '/about' },
+  { label: 'Contact Us', href: '/contact' },
 ];
 
 const REGION_LIST = Object.values(REGIONS).filter((r) => r.code !== 'GLOBAL');
@@ -80,6 +81,7 @@ export function Navbar() {
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
+  const isHome = pathname === '/';
 
   return (
     <>
@@ -88,7 +90,7 @@ export function Navbar() {
 
       {/* ── Main Navbar ─────────────────────────────────────── */}
       <nav
-        className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}
+        className={`${styles.nav} ${scrolled ? styles.scrolled : ''} ${isHome ? styles.isHome : ''}`}
         role="navigation"
         aria-label="Main navigation"
       >
@@ -96,18 +98,7 @@ export function Navbar() {
 
           {/* Logo */}
           <Link href="/" className={styles.logo} aria-label="BLENDIFY — Home">
-            <div className={styles.logoMark}>
-              <svg width="32" height="32" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-                <circle cx="20" cy="20" r="18" fill="rgba(88,19,18,0.08)" stroke="#581312" strokeWidth="1.5"/>
-                <path d="M13 20c0-4 3.5-7 7-7s7 3 7 7" stroke="#581312" strokeWidth="2" strokeLinecap="round"/>
-                <path d="M10 26h20M14 30h12" stroke="#581312" strokeWidth="2" strokeLinecap="round"/>
-                <path d="M27 16c2 0 4 1 4 3s-2 3-4 3" stroke="#8B3030" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-              </svg>
-              <div className={styles.logoWords}>
-                <span className={styles.logoMain}>BLENDIFY</span>
-                <span className={styles.logoSub}>The Art of Coffee</span>
-              </div>
-            </div>
+            <BrandLogoBadge size={52} className={styles.logoBadge} />
           </Link>
 
           {/* Center Nav Links */}
@@ -210,7 +201,7 @@ export function Navbar() {
             </button>
 
             {/* Wishlist */}
-            <Link href="/wishlist" className={styles.iconBtn} aria-label="Wishlist">
+            <Link href="/wishlist" className={`${styles.iconBtn} ${styles.wishlistBtn}`} aria-label="Wishlist">
               <Heart size={18} />
               {/* mounted guard prevents hydration mismatch */}
               {mounted && wishlistCount > 0 && (
@@ -221,6 +212,7 @@ export function Navbar() {
             {/* Account */}
             <Link href="/account" className={styles.iconBtn} aria-label="My account">
               <User size={18} />
+              <span className={styles.userStarBadge} aria-hidden="true">★</span>
             </Link>
 
             {/* Cart — suppressHydrationWarning on aria-label + mounted guard on badge */}
