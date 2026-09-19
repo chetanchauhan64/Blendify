@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import { HeroSlider }             from '@/components/hero/HeroSlider';
 import { USPStrip }               from '@/components/sections/USPStrip';
-import { LifestyleBanner }        from '@/components/sections/LifestyleBanner';
-import { FlavourCollectionGrid }  from '@/components/sections/FlavourCollectionGrid';
+import { FuelMarqueeSection }     from '@/components/sections/FuelMarqueeSection';
+import { OurCategoriesSection }   from '@/components/sections/OurCategoriesSection';
 import { ExploreSection }         from '@/components/sections/ExploreSection';
 import { BestsellingCombos }      from '@/components/sections/BestsellingCombos';
 import { ComboPacks }             from '@/components/sections/ComboPacks';
 import { BestCoffeeSachets }      from '@/components/sections/BestCoffeeSachets';
-import { BlendifyCommunity }      from '@/components/sections/BlendifyCommunity';
+import { BlendifyHustlers }       from '@/components/sections/BlendifyHustlers';
 import { StatsCounter }           from '@/components/sections/StatsCounter';
 import { VisualStoryGrid }        from '@/components/sections/VisualStoryGrid';
 import { StoryImageBlock }        from '@/components/sections/StoryImageBlock';
@@ -33,11 +33,14 @@ export default function HomePage() {
       <HeroSlider />
       <USPStrip />
 
-      {/* ── Lifestyle Banner ── */}
-      <LifestyleBanner />
+      {/* ── Benefits Strip + Fuel Marquee (replaces LifestyleBanner) ── */}
+      <FuelMarqueeSection />
 
-      {/* ── Flavour Collection Showcase ── */}
-      <FlavourCollectionGrid />
+      {/* ── Our Categories Tabbed Rail (replaces FlavourCollectionGrid) ── */}
+      <OurCategoriesSection />
+
+      {/* ── Blendify Hustlers — Shoppable Video Reels ── */}
+      <BlendifyHustlers />
 
       {/* ── Explore Carousel ── */}
       <ExploreSection />
@@ -50,9 +53,6 @@ export default function HomePage() {
 
       {/* ── Best Coffee Sachets ── */}
       <BestCoffeeSachets />
-
-      {/* ── Community & Social Proof ── */}
-      <BlendifyCommunity />
 
       {/* ── Statistics Counter ── */}
       <StatsCounter />

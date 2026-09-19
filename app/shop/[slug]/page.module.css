@@ -700,3 +700,82 @@
   font-family: var(--font-mono);
   z-index: 10;
 }
+
+/* ── Qty + CTA row ──────────────────────────────────────── */
+.qtyCtaRow {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+/* ── Quantity Stepper ────────────────────────────────────── */
+.qtyStepper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.qtyBtn {
+  width: 38px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  border-radius: inherit;
+}
+
+.qtyBtn:hover:not(:disabled) {
+  background: var(--brand-primary-glow);
+  color: var(--brand-primary);
+}
+
+.qtyBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.qtyValue {
+  width: 36px;
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  border-left: 1px solid var(--border-card);
+  border-right: 1px solid var(--border-card);
+  line-height: 50px;
+  user-select: none;
+}
+
+/* ── Buy Now ─────────────────────────────────────────────── */
+.buyNowBtn {
+  display: block;
+  width: 100%;
+  padding: 0.875rem 2rem;
+  background: transparent;
+  border: 2px solid var(--brand-primary);
+  border-radius: var(--radius-sm);
+  color: var(--brand-primary);
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.buyNowBtn:hover {
+  background: var(--brand-primary);
+  color: #fff;
+}

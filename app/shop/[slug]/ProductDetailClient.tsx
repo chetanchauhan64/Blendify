@@ -4,7 +4,10 @@ import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Heart, ShoppingBag, ChevronRight, ArrowLeft, CheckCircle2, MapPin, X, ZoomIn, ChevronLeft } from 'lucide-react';
+import {
+  Star, Heart, ShoppingBag, ChevronRight, ArrowLeft,
+  CheckCircle2, MapPin, X, ZoomIn, ChevronLeft,
+} from 'lucide-react';
 import type { Product, ProductVariant } from '@/types';
 import { useCartStore } from '@/lib/store/cartStore';
 import { useWishlistStore } from '@/lib/store/wishlistStore';
@@ -15,6 +18,16 @@ import { ProductBenefits } from '@/components/products/ProductBenefits';
 import { PreparationSlider } from '@/components/products/PreparationSlider';
 import { NutritionCarousel } from '@/components/products/NutritionCarousel';
 import { FrequentlyBoughtTogether } from '@/components/products/FrequentlyBoughtTogether';
+import { ExploreBannerSlider } from '@/components/products/ExploreBannerSlider';
+import { FlavorSelector } from '@/components/products/FlavorSelector';
+import { PackSelector } from '@/components/products/PackSelector';
+import { OffersSection } from '@/components/products/OffersSection';
+import { ProductAccordion } from '@/components/products/ProductAccordion';
+import { ReviewsSection } from '@/components/products/ReviewsSection';
+import { SitewideFAQ } from '@/components/products/SitewideFAQ';
+import { TrustStrip } from '@/components/products/TrustStrip';
+import { getIcedTeaProfile } from '@/lib/data/iced-tea-profiles';
+import type { PackOption } from '@/lib/data/iced-tea-profiles';
 import styles from './page.module.css';
 
 const GRIND_LABELS: Record<string, string> = {
@@ -24,6 +37,7 @@ const GRIND_LABELS: Record<string, string> = {
   medium: 'Medium',
   fine: 'Fine',
   espresso: 'Espresso',
+  instant: 'Instant',
 };
 
 interface Props {
@@ -34,11 +48,21 @@ interface Props {
 export function ProductDetailClient({ product, related }: Props) {
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product.variants[0]);
   const [selectedGrind, setSelectedGrind] = useState<string>(product.variants[0].grind);
+  const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [flavorVisible, setFlavorVisible] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  // INR override from pack selector (for iced tea products)
+  // Initialize immediately to first pack price so display is correct from load
+  const icedTeaProfileInit = getIcedTeaProfile(product.slug);
+  const [packPrice, setPackPrice] = useState<number | null>(
+    icedTeaProfileInit ? icedTeaProfileInit.packOptions[0].price : null
+  );
+
+  // Get iced tea profile if this is a tea product
+  const icedTeaProfile = icedTeaProfileInit;
 
   const goPrevImage = useCallback(() => {
     setLightboxIndex((i) => (i - 1 + product.images.length) % product.images.length);
@@ -84,7 +108,6 @@ export function ProductDetailClient({ product, related }: Props) {
     if (match) setSelectedVariant(match);
   };
 
-  // Unique grind options across all variants
   const availableGrinds = [...new Set(product.variants.map((v) => v.grind))];
 
   const savePercent = product.compareAtPrice && product.compareAtPrice > product.basePrice
@@ -92,13 +115,17 @@ export function ProductDetailClient({ product, related }: Props) {
     : null;
 
   const handleAddToCart = () => {
-    addItem(product, selectedVariant, 1);
+    addItem(product, selectedVariant, qty);
     setAdded(true);
     setTimeout(() => setAdded(false), 2200);
   };
 
   const handleWishlist = () => {
     toggleItem(product, selectedVariant);
+  };
+
+  const handlePackSelect = (opt: PackOption) => {
+    setPackPrice(opt.price);
   };
 
   const renderStars = (rating: number) => {
@@ -121,6 +148,13 @@ export function ProductDetailClient({ product, related }: Props) {
     });
   };
 
+  // Display price: pack-selected INR price OR formatted variant price
+  const displayPrice = packPrice !== null
+    ? `₹${packPrice.toLocaleString('en-IN')}`
+    : formatPrice(selectedVariant.price, currency);
+
+
+
   return (
     <div className={styles.page}>
       <div className="container">
@@ -130,12 +164,18 @@ export function ProductDetailClient({ product, related }: Props) {
           <ChevronRight size={14} />
           <Link href="/shop">Shop</Link>
           <ChevronRight size={14} />
+          {icedTeaProfile && (
+            <>
+              <Link href="/shop/guilt-free-ice-tea-assorted">Guilt Free Iced Tea</Link>
+              <ChevronRight size={14} />
+            </>
+          )}
           <span>{product.name}</span>
         </nav>
 
-        {/* Hero Section */}
+        {/* ── Hero: Gallery + Info ── */}
         <div className={styles.hero}>
-          {/* Image Panel */}
+          {/* ── Image Panel ── */}
           <motion.div
             className={styles.imagePanel}
             initial={{ opacity: 0, x: -30 }}
@@ -266,18 +306,20 @@ export function ProductDetailClient({ product, related }: Props) {
             )}
           </AnimatePresence>
 
-          {/* Info Panel */}
+          {/* ── Info Panel ── */}
           <motion.div
             className={styles.infoPanel}
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Origin badge */}
-            <div className={styles.originBadge}>
-              <MapPin size={12} />
-              {product.origin} · {product.process}
-            </div>
+            {/* Origin badge (only for non-iced-tea products) */}
+            {!icedTeaProfile && (
+              <div className={styles.originBadge}>
+                <MapPin size={12} />
+                {product.origin} · {product.process}
+              </div>
+            )}
 
             {/* Name & Tagline */}
             <div>
@@ -295,107 +337,159 @@ export function ProductDetailClient({ product, related }: Props) {
             {/* Price */}
             <div>
               <div className={styles.priceRow}>
-                <span className={styles.price}>{formatPrice(selectedVariant.price, currency)}</span>
-                {selectedVariant.compareAtPrice && (
+                <span className={styles.price}>{displayPrice}</span>
+                {icedTeaProfile && packPrice === icedTeaProfile.packOptions[0].price && (
+                  <span className={styles.comparePrice}>
+                    ₹{(icedTeaProfile.packOptions[0].price * 1.2).toFixed(0)}
+                  </span>
+                )}
+                {!icedTeaProfile && selectedVariant.compareAtPrice && (
                   <span className={styles.comparePrice}>
                     {formatPrice(selectedVariant.compareAtPrice, currency)}
                   </span>
                 )}
               </div>
-              {product.subscriptionPrice && (
+              {product.subscriptionPrice && !icedTeaProfile && (
                 <p className={styles.subscriptionNote}>
                   Or {formatPrice(product.subscriptionPrice, currency)}/delivery with subscription
+                </p>
+              )}
+              {icedTeaProfile && (
+                <p className={styles.subscriptionNote}>
+                  Or ₹{Math.round((packPrice ?? icedTeaProfile.packOptions[0].price) * 0.875)}/delivery with subscription
                 </p>
               )}
             </div>
 
             <div className={styles.divider} />
 
-            {/* Origin metadata */}
-            <div className={styles.originGrid}>
-              {[
-                { label: 'Region', value: product.region },
-                { label: 'Altitude', value: product.altitude },
-                { label: 'Process', value: product.process },
-                { label: 'Roast', value: product.roastLevel.replace('-', ' ') },
-              ].map(({ label, value }) => (
-                <div key={label} className={styles.originItem}>
-                  <span className={styles.originItemLabel}>{label}</span>
-                  <span className={styles.originItemValue} style={{ textTransform: 'capitalize' }}>{value}</span>
-                </div>
-              ))}
-            </div>
+            {/* ─── ICED TEA SPECIFIC SECTIONS ──────────────────────── */}
+            {icedTeaProfile ? (
+              <>
+                {/* Flavour Selector */}
+                <FlavorSelector
+                  siblings={icedTeaProfile.flavourFamily}
+                  activeSlug={product.slug}
+                />
 
-            {/* Flavor Notes */}
-            {product.flavorNotes.length > 0 && (
-              <div>
-                <p className={styles.variantLabel} style={{ marginBottom: '0.75rem' }}>Flavor Profile</p>
-                <div className={styles.flavorNotes}>
-                  {product.flavorNotes.map((note) => (
-                    <div key={note.label} className={styles.flavorNote}>
-                      <span className={styles.flavorLabel}>{note.label}</span>
-                      <div className={styles.flavorBar}>
-                        <motion.div
-                          className={styles.flavorFill}
-                          initial={{ width: 0 }}
-                          animate={{ width: flavorVisible ? `${note.intensity}%` : 0 }}
-                          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                        />
-                      </div>
+                {/* Pack Selector */}
+                <PackSelector
+                  options={icedTeaProfile.packOptions}
+                  onSelect={handlePackSelect}
+                />
+              </>
+            ) : (
+              <>
+                {/* Origin metadata */}
+                <div className={styles.originGrid}>
+                  {[
+                    { label: 'Region', value: product.region },
+                    { label: 'Altitude', value: product.altitude },
+                    { label: 'Process', value: product.process },
+                    { label: 'Roast', value: product.roastLevel.replace('-', ' ') },
+                  ].map(({ label, value }) => (
+                    <div key={label} className={styles.originItem}>
+                      <span className={styles.originItemLabel}>{label}</span>
+                      <span className={styles.originItemValue} style={{ textTransform: 'capitalize' }}>{value}</span>
                     </div>
                   ))}
                 </div>
-              </div>
+
+                {/* Flavor Notes */}
+                {product.flavorNotes.length > 0 && (
+                  <div>
+                    <p className={styles.variantLabel} style={{ marginBottom: '0.75rem' }}>Flavor Profile</p>
+                    <div className={styles.flavorNotes}>
+                      {product.flavorNotes.map((note) => (
+                        <div key={note.label} className={styles.flavorNote}>
+                          <span className={styles.flavorLabel}>{note.label}</span>
+                          <div className={styles.flavorBar}>
+                            <motion.div
+                              className={styles.flavorFill}
+                              initial={{ width: 0 }}
+                              animate={{ width: flavorVisible ? `${note.intensity}%` : 0 }}
+                              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className={styles.divider} />
+
+                {/* Size Variant Selector */}
+                {product.variants.length > 1 && (
+                  <div className={styles.variantSection}>
+                    <p className={styles.variantLabel}>Size — {selectedVariant.size}</p>
+                    <div className={styles.variantGrid}>
+                      {product.variants.map((v) => (
+                        <button
+                          key={v.id}
+                          id={`size-${v.id}`}
+                          className={`${styles.variantBtn} ${selectedVariant.id === v.id ? styles.variantBtnActive : ''}`}
+                          onClick={() => setSelectedVariant(v)}
+                          aria-pressed={selectedVariant.id === v.id}
+                        >
+                          {v.size}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Grind Selector */}
+                {availableGrinds.length > 1 ? (
+                  <div className={styles.variantSection}>
+                    <p className={styles.variantLabel}>Grind — {GRIND_LABELS[selectedGrind] ?? selectedGrind}</p>
+                    <div className={styles.grindGrid}>
+                      {availableGrinds.map((g) => (
+                        <button
+                          key={g}
+                          id={`grind-${g}`}
+                          className={`${styles.grindBtn} ${selectedGrind === g ? styles.grindBtnActive : ''}`}
+                          onClick={() => handleGrindChange(g)}
+                          aria-pressed={selectedGrind === g}
+                        >
+                          {GRIND_LABELS[g] ?? g}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>
+                    Grind: <strong style={{ color: 'var(--text-primary)' }}>{GRIND_LABELS[selectedVariant.grind] ?? selectedVariant.grind}</strong>
+                  </p>
+                )}
+              </>
             )}
 
-            <div className={styles.divider} />
-
-            {/* Size Variant Selector */}
-            {product.variants.length > 1 && (
-              <div className={styles.variantSection}>
-                <p className={styles.variantLabel}>Size — {selectedVariant.size}</p>
-                <div className={styles.variantGrid}>
-                  {product.variants.map((v) => (
-                    <button
-                      key={v.id}
-                      id={`size-${v.id}`}
-                      className={`${styles.variantBtn} ${selectedVariant.id === v.id ? styles.variantBtnActive : ''}`}
-                      onClick={() => setSelectedVariant(v)}
-                      aria-pressed={selectedVariant.id === v.id}
-                    >
-                      {v.size}
-                    </button>
-                  ))}
-                </div>
+            {/* ── Quantity + CTA ── */}
+            <div className={styles.qtyCtaRow}>
+              {/* Quantity stepper */}
+              <div className={styles.qtyStepper}>
+                <button
+                  type="button"
+                  className={styles.qtyBtn}
+                  onClick={() => setQty((q) => Math.max(1, q - 1))}
+                  aria-label="Decrease quantity"
+                  disabled={qty <= 1}
+                >
+                  −
+                </button>
+                <span className={styles.qtyValue} aria-label={`Quantity: ${qty}`}>{qty}</span>
+                <button
+                  type="button"
+                  className={styles.qtyBtn}
+                  onClick={() => setQty((q) => q + 1)}
+                  aria-label="Increase quantity"
+                >
+                  +
+                </button>
               </div>
-            )}
 
-            {/* Grind Selector */}
-            {availableGrinds.length > 1 ? (
-              <div className={styles.variantSection}>
-                <p className={styles.variantLabel}>Grind — {GRIND_LABELS[selectedGrind] ?? selectedGrind}</p>
-                <div className={styles.grindGrid}>
-                  {availableGrinds.map((g) => (
-                    <button
-                      key={g}
-                      id={`grind-${g}`}
-                      className={`${styles.grindBtn} ${selectedGrind === g ? styles.grindBtnActive : ''}`}
-                      onClick={() => handleGrindChange(g)}
-                      aria-pressed={selectedGrind === g}
-                    >
-                      {GRIND_LABELS[g] ?? g}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>
-                Grind: <strong style={{ color: 'var(--text-primary)' }}>{GRIND_LABELS[selectedVariant.grind] ?? selectedVariant.grind}</strong>
-              </p>
-            )}
-
-            {/* CTA */}
-            <div className={styles.ctaRow}>
+              {/* Add to Cart */}
               <button
                 id={`add-to-cart-${product.id}`}
                 className={styles.addToCart}
@@ -405,6 +499,8 @@ export function ProductDetailClient({ product, related }: Props) {
                 <ShoppingBag size={18} />
                 Add to Cart
               </button>
+
+              {/* Wishlist */}
               <button
                 id={`wishlist-${product.id}`}
                 className={`${styles.wishlistBtn} ${wishlisted ? styles.wishlistBtnActive : ''}`}
@@ -415,6 +511,15 @@ export function ProductDetailClient({ product, related }: Props) {
                 <Heart size={18} fill={wishlisted ? 'currentColor' : 'none'} />
               </button>
             </div>
+
+            {/* Buy Now */}
+            <Link
+              href="/shop"
+              className={styles.buyNowBtn}
+              aria-label={`Buy ${product.name} now`}
+            >
+              Buy Now
+            </Link>
 
             <AnimatePresence>
               {added && (
@@ -430,8 +535,21 @@ export function ProductDetailClient({ product, related }: Props) {
               )}
             </AnimatePresence>
 
-            {/* Description */}
-            {product.longDescription && (
+            {/* Trust Row */}
+            <TrustStrip />
+
+            {/* Offers & Pincode (iced tea only) */}
+            {icedTeaProfile && (
+              <OffersSection offers={icedTeaProfile.offers} />
+            )}
+
+            {/* Accordion sections (iced tea) */}
+            {icedTeaProfile && (
+              <ProductAccordion data={icedTeaProfile.accordion} />
+            )}
+
+            {/* Description (non-iced-tea fallback) */}
+            {!icedTeaProfile && product.longDescription && (
               <div>
                 <div className={styles.divider} />
                 <p className={styles.description}>{product.longDescription}</p>
@@ -440,8 +558,8 @@ export function ProductDetailClient({ product, related }: Props) {
           </motion.div>
         </div>
 
-        {/* Brew Guides */}
-        {product.brewGuides.length > 0 && (
+        {/* ── Brew Guides (non-iced-tea) ── */}
+        {!icedTeaProfile && product.brewGuides.length > 0 && (
           <motion.section
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -482,7 +600,7 @@ export function ProductDetailClient({ product, related }: Props) {
           </motion.section>
         )}
 
-        {/* ── Product Benefits Strip ─────────────────────────────── */}
+        {/* ── Product Benefits Strip ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -493,7 +611,7 @@ export function ProductDetailClient({ product, related }: Props) {
           <ProductBenefits />
         </motion.div>
 
-        {/* ── Preparation Slider ─────────────────────────────────── */}
+        {/* ── Preparation Slider ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -504,7 +622,7 @@ export function ProductDetailClient({ product, related }: Props) {
           <PreparationSlider />
         </motion.div>
 
-        {/* ── Nutrition Carousel ─────────────────────────────────── */}
+        {/* ── Nutrition Carousel ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -515,7 +633,7 @@ export function ProductDetailClient({ product, related }: Props) {
           <NutritionCarousel />
         </motion.div>
 
-        {/* ── Frequently Bought Together ─────────────────────────── */}
+        {/* ── Frequently Bought Together ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -526,14 +644,28 @@ export function ProductDetailClient({ product, related }: Props) {
           <FrequentlyBoughtTogether mainProduct={product} />
         </motion.div>
 
+        {/* ── Customer Reviews ── */}
+        {icedTeaProfile && (
+          <ReviewsSection data={icedTeaProfile.reviews} />
+        )}
+
+        {/* ── Site-wide FAQ ── */}
+        {icedTeaProfile && (
+          <SitewideFAQ />
+        )}
       </div>
 
-      {/* Related Products */}
+      {/* ── Explore Banner Slider ── */}
+      <ExploreBannerSlider />
+
+      {/* ── Related Products ── */}
       {related.length > 0 && (
         <section className={styles.relatedSection}>
           <div className="container">
             <span className="section-label">You Might Also Like</span>
-            <h2 className={styles.sectionHeading}>Related Coffees</h2>
+            <h2 className={styles.sectionHeading}>
+              {icedTeaProfile ? 'More Guilt Free Teas' : 'Related Coffees'}
+            </h2>
             <div className={styles.relatedGrid}>
               {related.map((p, i) => (
                 <ProductCard key={p.id} product={p} index={i} />

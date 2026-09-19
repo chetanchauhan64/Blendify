@@ -1,7 +1,7 @@
 /* ============================================================
    BLENDIFY — Product Showcase Card
-   Matches reference: image top, discount badge, name, rating,
-   price + compare price. White card with rounded corners.
+   Reference: Impulse Coffees Explore section layout
+   Image → promo-strip → title/rating → price → Quick Add
    ============================================================ */
 
 .card {
@@ -21,7 +21,7 @@
 }
 
 .card:hover {
-  transform: scale(1.03) translateY(-4px);
+  transform: scale(1.02) translateY(-4px);
   box-shadow: 0 20px 48px rgba(88, 19, 18, 0.18);
 }
 
@@ -57,31 +57,58 @@
 
 .badgeSale {
   display: inline-block;
-  padding: 4px 10px;
-  background: var(--brand-red-badge, #e53935);
+  padding: 3px 10px;
+  background: #C8232A;   /* Phase 0 confirmed: red sale badge */
   color: #fff;
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.02em;
   border-radius: 4px;
-  line-height: 1.3;
+  line-height: 1.4;
+}
+
+/* “On sale” text-only variant — same red pill styling, no percentage shown */
+.badgeOnSale {
+  display: inline-block;
+  padding: 3px 10px;
+  background: #C8232A;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+
+.badgeNew {
+  display: inline-block;
+  padding: 3px 10px;
+  background: #E8860A;   /* warm amber-orange for "Newly Launched" */
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: 4px;
+  line-height: 1.4;
 }
 
 .badgeSeller {
   display: inline-block;
-  padding: 4px 10px;
-  background: var(--brand-red-badge, #e53935);
+  padding: 3px 10px;
+  background: #C8232A;
   color: #fff;
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.02em;
   border-radius: 4px;
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
-/* The large "SELLER" watermark text visible in reference */
+/* The large "SELLER" watermark text */
 .sellerWatermark {
   position: absolute;
   top: 10px;
@@ -128,6 +155,7 @@
   color: var(--text-secondary, #5C3520);
   cursor: pointer;
   transition: all 150ms ease;
+  text-decoration: none;
 }
 
 .actionBtn:hover {
@@ -136,19 +164,73 @@
   border-color: var(--brand-primary, #581312);
 }
 
+/* ── Green Promotional Strip ──────────────────────────────────── */
+/* Phase 0 confirmed: single-line rotating, 2000ms crossfade   */
+.promoStrip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: #1B6A49;   /* Phase 0 devtools confirmed exact hex */
+  min-height: 40px;
+  overflow: hidden;      /* prevent layout shift during crossfade */
+}
+
+.promoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #7DCFA0;        /* soft green icon tint on dark strip */
+  width: 18px;
+  height: 18px;
+}
+
+/* Single-line text container — fixed height prevents layout shift */
+.promoTextWrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 18px;          /* locked to one text line height */
+  overflow: hidden;
+}
+
+.promoText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ── Info ───────────────────────────────────────────────────── */
 .info {
-  padding: 14px 14px 16px;
+  padding: 12px 14px 10px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   flex: 1;
+}
+
+/* Title row: name (left, 2-line clamp) + rating (right) */
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  justify-content: space-between;
 }
 
 .name {
   font-family: var(--font-body);
-  font-size: 13.5px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--text-primary, #2C1008);
   text-decoration: none;
   line-height: 1.45;
@@ -157,27 +239,27 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   transition: color 150ms ease;
+  flex: 1;
+  min-width: 0;
 }
 
 .name:hover {
   color: var(--brand-primary, #581312);
 }
 
-/* ── Rating (inline: number + star) ────────────────────────── */
-.ratingRow {
+/* Rating: number + star, right-aligned, no-wrap */
+.ratingInline {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .ratingNum {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--text-primary, #2C1008);
-}
-
-.starIcon {
-  color: #f4a200;
 }
 
 /* ── Price Row ──────────────────────────────────────────────── */
@@ -196,7 +278,7 @@
 }
 
 .comparePrice {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
   color: var(--text-muted, #8B6555);
   text-decoration: line-through;
@@ -211,27 +293,28 @@
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.3);
 }
 
-/* ── Quick add button ───────────────────────────────── */
+/* ── Quick Add button ──────────────────────────────────────────── */
+/* Phase 0 confirmed: amber/gold pill, bottom-right on hover, #ECA629 */
 .quickAdd {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
-  width: 100%;
-  padding: 0.55rem 1rem;
   margin: 0 14px 12px;
-  width: calc(100% - 28px);
-  background: var(--brand-primary, #581312);
+  padding: 0.55rem 1rem;
+  background: #ECA629;   /* Phase 0 devtools confirmed amber-gold */
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   border-radius: 100px;
+  border: none;
   text-decoration: none;
   opacity: 0;
   transform: translateY(6px);
   transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
   cursor: pointer;
+  width: calc(100% - 28px);
 }
 
 .card:hover .quickAdd {
@@ -240,5 +323,9 @@
 }
 
 .quickAdd:hover {
-  background: #6d1615;
+  background: #d4921e;   /* slightly darker on hover */
+}
+
+.quickAdd:active {
+  transform: scale(0.97) translateY(0);
 }

@@ -1,0 +1,254 @@
+.wrapper {
+  border: 1.5px solid var(--border-card, rgba(88, 19, 18, 0.15));
+  border-radius: var(--radius-lg, 14px);
+  overflow: hidden;
+  background: var(--bg-surface, #fff);
+}
+
+/* Section */
+.section {
+  border-bottom: 1px solid rgba(88, 19, 18, 0.08);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+/* Trigger */
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 1.125rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition-fast);
+  gap: 1rem;
+}
+
+.trigger:hover {
+  background: rgba(88, 19, 18, 0.025);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--brand-primary, #581312);
+  outline-offset: -2px;
+}
+
+.triggerLabel {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.chevron {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* Panel inner padding */
+.panelInner {
+  padding: 0 1.125rem 1.25rem;
+}
+
+/* Prose paragraphs */
+.prose {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.prose p {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Bullet list (Ingredients) */
+.bulletList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bulletList li {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  padding-left: 1rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.bulletList li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--brand-primary, #581312);
+  font-weight: 700;
+}
+
+/* What's Inside */
+.introText {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem;
+  line-height: 1.6;
+}
+
+.flavourList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.flavourItem {
+  border-left: 3px solid var(--brand-primary, #581312);
+  padding-left: 0.875rem;
+}
+
+.flavourName {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.2rem;
+}
+
+.flavourDesc {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Check list (Differentiators) */
+.checkList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.checkIcon {
+  color: #16a34a;
+  font-weight: 700;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+/* Numbered list (How to Make) */
+.numberedList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.numberedList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.stepNum {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  background: var(--brand-primary, #581312);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+/* FAQs sub-accordion */
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid rgba(88, 19, 18, 0.1);
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+}
+
+.faqItem {
+  border-bottom: 1px solid rgba(88, 19, 18, 0.08);
+}
+
+.faqItem:last-child {
+  border-bottom: none;
+}
+
+.faqQuestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 0.875rem;
+  background: rgba(88, 19, 18, 0.015);
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  gap: 0.75rem;
+  transition: background var(--transition-fast);
+}
+
+.faqQuestion:hover {
+  background: rgba(88, 19, 18, 0.04);
+}
+
+.faqQuestion:focus-visible {
+  outline: 2px solid var(--brand-primary, #581312);
+  outline-offset: -2px;
+}
+
+.faqChevron {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.faqAnswer {
+  padding: 0.625rem 0.875rem 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
+  border-top: 1px solid rgba(88, 19, 18, 0.06);
+}

@@ -1,0 +1,191 @@
+/*
+ * BLENDIFY — FuelMarqueeSection.module.css
+ *
+ * Palette (from brief §6):
+ *   --cream:           #F7E9D3
+ *   --cream-light:     #FBF2E4
+ *   --maroon:          #4A1508
+ *   --maroon-deep:     #3A0F05
+ *   --gold:            #B4802E
+ *   --gold-light:      #D9A857
+ *
+ * Reference: impulsecoffees.com "Fuel your IMPULSE" section
+ */
+
+/* ── Benefits Strip ──────────────────────────────────────────── */
+.benefitsStrip {
+  background: linear-gradient(90deg, #D9A857, #B4802E);
+  padding: 11px 0;
+}
+
+.benefitsList {
+  list-style: none;
+  margin: 0;
+  padding: 0 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #3A0F05;
+  letter-spacing: 0.2px;
+}
+
+.benefitIcon {
+  display: flex;
+  align-items: center;
+  color: #3A0F05;
+}
+
+/* ── Fuel Section ────────────────────────────────────────────── */
+.fuelSection {
+  background: #F7E9D3;
+  padding: 60px 0 44px;
+  overflow: hidden;
+}
+
+.fuelInner {
+  text-align: center;
+  padding: 0 24px;
+  margin-bottom: 40px;
+}
+
+.headline {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 800;
+  font-size: clamp(26px, 4.2vw, 52px);
+  line-height: 1.15;
+  color: #3A0F05;
+  margin: 0 0 16px;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.headlineAccent {
+  font-style: normal;
+  color: #3A0F05;
+}
+
+.subCopy {
+  font-size: 16px;
+  color: #5b4636;
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── Marquee ─────────────────────────────────────────────────── */
+.marqueeRow {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 16px;
+
+  /* Fade edges to transparent */
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+/* Pause on hover */
+.marqueeRow:hover .marqueeTrack,
+.marqueeRow:hover .marqueeTrackReverse {
+  animation-play-state: paused;
+}
+
+.marqueeTrack {
+  display: flex;
+  width: max-content;
+  gap: 14px;
+  animation: scrollLeft 28s linear infinite;
+}
+
+.marqueeTrackReverse {
+  display: flex;
+  width: max-content;
+  gap: 14px;
+  animation: scrollRight 32s linear infinite;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  background: #fff;
+  border-radius: 999px;
+  padding: 11px 22px;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #3A0F05;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  letter-spacing: 0.1px;
+}
+
+.pillEmoji {
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* ── Keyframes ───────────────────────────────────────────────── */
+@keyframes scrollLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* ── prefers-reduced-motion ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .marqueeTrack,
+  .marqueeTrackReverse {
+    animation: none !important;
+  }
+}
+
+/* ── Mobile ──────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .benefitsList {
+    gap: 18px;
+  }
+
+  .benefitItem {
+    font-size: 12px;
+  }
+
+  .fuelSection {
+    padding: 44px 0 32px;
+  }
+
+  .fuelInner {
+    margin-bottom: 32px;
+  }
+
+  .pill {
+    font-size: 12.5px;
+    padding: 9px 16px;
+  }
+}

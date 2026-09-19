@@ -1,0 +1,175 @@
+/* ============================================================
+   BLENDIFY — ExploreBannerSlider
+   Full-width promotional banner rotation for product detail pages.
+   Placed below purchase section, above related products.
+   ============================================================ */
+
+/* ── Section wrapper ─────────────────────────────────────────── */
+.section {
+  width: 100%;
+  padding: 56px 0 72px;
+  background: var(--bg-base, #F5E6D3);
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ── Slider wrapper ──────────────────────────────────────────── */
+.sliderWrap {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(88, 19, 18, 0.12);
+  /* Arrow buttons are revealed on hover via CSS */
+}
+
+/* ── Image frame — wide banner aspect ratio ──────────────────── */
+.frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 8;
+  overflow: hidden;
+  background: #f0dece;
+}
+
+/* ── Individual slide ────────────────────────────────────────── */
+.slide {
+  position: absolute;
+  inset: 0;
+}
+
+.bannerImg {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ── Navigation arrows ───────────────────────────────────────── */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-primary, #2C1008);
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(88, 19, 18, 0.15);
+  /* Hidden by default, shown on hover */
+  opacity: 0;
+  transition: opacity 220ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.sliderWrap:hover .arrow {
+  opacity: 1;
+}
+
+.arrow:hover {
+  background: var(--brand-primary, #581312);
+  color: #fff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.arrow:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.arrowPrev {
+  left: 14px;
+}
+
+.arrowNext {
+  right: 14px;
+}
+
+/* ── Progress bar ────────────────────────────────────────────── */
+.progressTrack {
+  height: 3px;
+  background: rgba(88, 19, 18, 0.12);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--brand-primary, #581312);
+  border-radius: 2px;
+  transform-origin: left;
+}
+
+/* ── Dot navigation ──────────────────────────────────────────── */
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(88, 19, 18, 0.2);
+  cursor: pointer;
+  padding: 0;
+  transition: background 200ms ease, width 220ms ease, border-radius 220ms ease;
+}
+
+.dot:hover {
+  background: rgba(88, 19, 18, 0.4);
+}
+
+.dotActive {
+  width: 24px;
+  border-radius: 4px;
+  background: var(--brand-primary, #581312);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .section {
+    padding: 40px 0 56px;
+  }
+
+  .inner {
+    padding: 0 16px;
+  }
+
+  .frame {
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Arrows always slightly visible on mobile (no hover) */
+  .arrow {
+    opacity: 0.75;
+    width: 36px;
+    height: 36px;
+  }
+
+  .arrowPrev { left: 8px; }
+  .arrowNext { right: 8px; }
+}
+
+@media (max-width: 480px) {
+  .frame {
+    aspect-ratio: 4 / 3;
+  }
+
+  .arrow {
+    width: 32px;
+    height: 32px;
+  }
+}

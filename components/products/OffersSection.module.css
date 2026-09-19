@@ -1,0 +1,234 @@
+.wrapper {
+  border: 1.5px solid var(--border-card, rgba(88, 19, 18, 0.15));
+  border-radius: var(--radius-lg, 14px);
+  overflow: hidden;
+  background: var(--bg-surface, #fff);
+}
+
+/* Header toggle */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  text-align: left;
+}
+
+.header:hover {
+  background: rgba(88, 19, 18, 0.03);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tagIcon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.count {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.chevron {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+}
+
+/* Panel */
+.panel {
+  border-top: 1px solid var(--border-card, rgba(88, 19, 18, 0.1));
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Offer card */
+.offerCard {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid rgba(88, 19, 18, 0.07);
+}
+
+.offerCard:last-of-type {
+  border-bottom: none;
+}
+
+.offerLeft {
+  flex: 1;
+  min-width: 0;
+}
+
+.offerHeadline {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #16a34a;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.offerDesc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.couponArea {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.couponCode {
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+  color: var(--brand-primary, #581312);
+  background: rgba(88, 19, 18, 0.07);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm, 4px);
+  border: 1px dashed rgba(88, 19, 18, 0.3);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-sm, 4px);
+  border: 1px solid var(--brand-primary, #581312);
+  background: transparent;
+  color: var(--brand-primary, #581312);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.copyBtn:hover {
+  background: var(--brand-primary, #581312);
+  color: #fff;
+}
+
+.copyBtn.copied {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #fff;
+}
+
+/* Pincode section */
+.pincodeSection {
+  padding: 0.875rem 1rem;
+  border-top: 1px solid rgba(88, 19, 18, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pincodeLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.pincodeRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pincodeInput {
+  flex: 1;
+  height: 38px;
+  padding: 0 0.75rem;
+  border: 1.5px solid var(--border-card, rgba(88, 19, 18, 0.15));
+  border-radius: var(--radius-md, 8px);
+  background: var(--bg-base, #f5e6d3);
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color var(--transition-fast);
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 0.05em;
+}
+
+.pincodeInput::placeholder {
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+
+.pincodeInput:focus {
+  border-color: var(--brand-primary, #581312);
+}
+
+.checkBtn {
+  height: 38px;
+  padding: 0 1rem;
+  border-radius: var(--radius-md, 8px);
+  border: none;
+  background: var(--brand-primary, #581312);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  white-space: nowrap;
+}
+
+.checkBtn:hover:not(:disabled) {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.checkBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.deliveryMsg {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+  padding: 0.4rem 0.5rem;
+  background: rgba(22, 163, 74, 0.07);
+  border-radius: var(--radius-sm, 4px);
+  border-left: 3px solid #16a34a;
+}
+
+@media (max-width: 480px) {
+  .offerCard {
+    flex-direction: column;
+  }
+
+  .couponArea {
+    align-items: flex-start;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+}

@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './HeroSlider.module.css';
 
 // ── Image-based Slide Data ───────────────────────────────────────
@@ -38,7 +39,6 @@ const SLIDES = [
 ] as const;
 
 const AUTOPLAY_MS  = 5500;   // 5.5s per slide
-const FADE_DURATION = 0.7;   // smooth crossfade
 
 // ── Component ───────────────────────────────────────────────────
 export function HeroSlider() {
@@ -118,34 +118,55 @@ export function HeroSlider() {
         </motion.div>
       </AnimatePresence>
 
-      {/* ── Numbered slide pagination — reveals on hover ──────── */}
+      {/* ── Left/Right Arrow Navigation (hover-reveal) ────────── */}
       <AnimatePresence>
         {hovered && (
-          <motion.div
-            className={styles.pagination}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            aria-label="Slide navigation"
-          >
-            {SLIDES.map((s, i) => (
-              <motion.button
-                key={s.id}
-                className={`${styles.pageBtn} ${current === i ? styles.pageBtnActive : ''}`}
-                onClick={(e) => { e.preventDefault(); goTo(i); }}
-                aria-label={`Go to slide ${s.id}`}
-                aria-current={current === i ? 'true' : undefined}
-                whileHover={{ scale: 1.18 }}
-                whileTap={{ scale: 0.92 }}
-                transition={{ duration: 0.15 }}
-              >
-                {s.id}
-              </motion.button>
-            ))}
-          </motion.div>
+          <>
+            <motion.button
+              key="prev-arrow"
+              className={`${styles.navArrow} ${styles.navPrev}`}
+              onClick={(e) => { e.preventDefault(); prev(); }}
+              aria-label="Previous slide"
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -8 }}
+              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.94 }}
+            >
+              <ChevronLeft size={22} />
+            </motion.button>
+            <motion.button
+              key="next-arrow"
+              className={`${styles.navArrow} ${styles.navNext}`}
+              onClick={(e) => { e.preventDefault(); next(); }}
+              aria-label="Next slide"
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 8 }}
+              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.94 }}
+            >
+              <ChevronRight size={22} />
+            </motion.button>
+          </>
         )}
       </AnimatePresence>
+
+      {/* ── Always-visible dot navigation ─────────────────────── */}
+      <div className={styles.dotNav} aria-label="Slide navigation" role="tablist">
+        {SLIDES.map((s, i) => (
+          <button
+            key={s.id}
+            className={`${styles.dot} ${current === i ? styles.dotActive : ''}`}
+            onClick={(e) => { e.preventDefault(); goTo(i); }}
+            aria-label={`Go to slide ${s.id}`}
+            aria-selected={current === i}
+            role="tab"
+          />
+        ))}
+      </div>
 
       {/* ── Screen reader live region ─────────────────────────── */}
       <div aria-live="polite" aria-atomic="true" className={styles.srOnly}>

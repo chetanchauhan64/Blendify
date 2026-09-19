@@ -1,7 +1,12 @@
 // ============================================================
 // BLENDIFY — Product Showcase Data
-// Mock data structured for future API integration
+// All asset paths verified by inspecting /public/Assets/ directly.
 // ============================================================
+
+export interface PromoStrip {
+  title: string;
+  subtitle: string;
+}
 
 export interface ShowcaseProduct {
   id: string;
@@ -13,93 +18,254 @@ export interface ShowcaseProduct {
   rating: number;
   stock: number;
   category: 'explore' | 'combo' | 'sachet';
-  badge?: string;     // e.g. "Save 6%", "On sale", "SELLER"
+  badge?: string;
   badgeType?: 'sale' | 'seller' | 'new';
+  promo?: PromoStrip;
+  detailImages?: string[];
 }
 
-// ── Section 1: Explore ────────────────────────────────────────
+// ── Explore — 10 Blendify Guilt Free Iced Tea products ───────
+// Images verified against /public/Assets/Explore productN-details/
+// NOTE: .mp4 files (products 4, 6, 7) are skipped; only .png used.
 export const EXPLORE_PRODUCTS: ShowcaseProduct[] = [
   {
     id: 'exp-1',
-    slug: 'blendify-mocha',
-    image: '/products/mocha.png',
-    title: 'BLENDIFY Mocha | Premium Flavoured Instant Coffee 100g',
-    price: 495,
-    comparePrice: 529,
-    rating: 4.8,
+    slug: 'guilt-free-ice-tea-assorted',
+    image: '/Assets/Explore 1.png',
+    title: 'Assorted Guilt Free Iced Tea Pack | 5 Flavours | 100g',
+    price: 399,
+    comparePrice: 479,
+    rating: 4.9,
     stock: 50,
     category: 'explore',
-    badge: 'Save 6%',
+    badge: 'Save 17%',
     badgeType: 'sale',
+    promo: { title: 'Best Price Guaranteed', subtitle: 'Free Shipping Sitewide!' },
+    // Folder: /Assets/Explore product1-details/  (8 files, no .1 — starts at .2)
+    detailImages: [
+      '/Assets/Explore product1-details/GUILT FREE ICE TEA details2.png',
+      '/Assets/Explore product1-details/GUILT FREE TEA ICE details3.png',
+      '/Assets/Explore product1-details/GUILT FREE ICE TEA details4.png',
+      '/Assets/Explore product1-details/GUILT FREE ICE TEA details5.png',
+      '/Assets/Explore product1-details/GUILT FREE ICE TEA details6.png',
+      '/Assets/Explore product1-details/GUILT FREE ICE TEA details7.png',
+      '/Assets/Explore product1-details/GUILT FREE ICE TEA details8.png',
+      '/Assets/Explore product1-details/GUILT FREE ICE TEA details9.png',
+    ],
   },
   {
     id: 'exp-2',
-    slug: 'blendify-vanilla',
-    image: '/products/vanilla.png',
-    title: 'BLENDIFY Vanilla | Sweet & Smooth Instant Coffee 100g',
-    price: 495,
-    comparePrice: 549,
+    slug: 'guilt-free-ice-tea-strawberry',
+    image: '/Assets/Explore 2.png',
+    title: 'Strawberry Iced Tea | No Refined Sugar | 100g — Pack of 5',
+    price: 320,
+    comparePrice: 399,
     rating: 4.9,
     stock: 42,
     category: 'explore',
-    badge: 'On sale',
+    badge: 'Save 20%',
     badgeType: 'sale',
+    promo: { title: 'Top Selling Products', subtitle: 'Highly Rated by Customers!' },
+    // Folder: /Assets/Explore product2-details/  (5 files: .1 .2 .3 .5 .6 — no .4)
+    detailImages: [
+      '/Assets/Explore product2-details/Explore product details2.1.png',
+      '/Assets/Explore product2-details/Explore product details2.2.png',
+      '/Assets/Explore product2-details/Explore product details2.3.png',
+      '/Assets/Explore product2-details/Explore product details2.5.png',
+      '/Assets/Explore product2-details/Explore product details2.6.png',
+    ],
   },
   {
     id: 'exp-3',
-    slug: 'blendify-hazelnut',
-    image: '/products/hazelnut.png',
-    title: 'BLENDIFY Hazelnut | Rich & Nutty Instant Coffee 100g',
-    price: 495,
-    comparePrice: 529,
-    rating: 4.9,
+    slug: 'guilt-free-ice-tea-lemon',
+    image: '/Assets/Explore 3.png',
+    title: 'Lemon Iced Tea | Vitamin C Enriched | 100g — 5 Sachets',
+    price: 320,
+    comparePrice: 399,
+    rating: 4.8,
     stock: 38,
     category: 'explore',
-    badge: 'On sale',
-    badgeType: 'sale',
+    badge: 'Newly Launched',
+    badgeType: 'new',
+    promo: { title: 'Newly Launched', subtitle: 'Free Shipping Sitewide!' },
+    // Folder: /Assets/Explore product3-details/  (7 files: .1–.7)
+    detailImages: [
+      '/Assets/Explore product3-details/Explore product details3.1.png',
+      '/Assets/Explore product3-details/Explore product details3.2.png',
+      '/Assets/Explore product3-details/Explore product details3.3.png',
+      '/Assets/Explore product3-details/Explore product details3.4.png',
+      '/Assets/Explore product3-details/Explore product details3.5.png',
+      '/Assets/Explore product3-details/Explore product details3.6.png',
+      '/Assets/Explore product3-details/Explore product details3.7.png',
+    ],
   },
   {
     id: 'exp-4',
-    slug: 'blendify-espresso',
-    image: '/products/espresso.png',
-    title: 'BLENDIFY Espresso | Bold & Intense Instant Coffee 100g',
-    price: 549,
-    comparePrice: 599,
+    slug: 'guilt-free-ice-tea-guava-chilli',
+    image: '/Assets/Explore 4.png',
+    title: 'Guava Chilli Iced Tea | Bold & Spicy | 100g — 5 Sachets',
+    price: 349,
+    comparePrice: 429,
     rating: 4.8,
     stock: 55,
     category: 'explore',
-    badge: 'Save 8%',
+    badge: 'Save 19%',
     badgeType: 'sale',
+    promo: { title: 'Customer Favourite', subtitle: 'Try It Before It Sells Out!' },
+    // Folder: /Assets/Explore product4-details/  (.1 is .mp4 — skipped; .2–.7 are .png)
+    detailImages: [
+      '/Assets/Explore product4-details/Explore product details4.2.png',
+      '/Assets/Explore product4-details/Explore product details4.3.png',
+      '/Assets/Explore product4-details/Explore product details4.4.png',
+      '/Assets/Explore product4-details/Explore product details4.5.png',
+      '/Assets/Explore product4-details/Explore product details4.6.png',
+      '/Assets/Explore product4-details/Explore product details4.7.png',
+    ],
   },
   {
     id: 'exp-5',
-    slug: 'blendify-strawberry',
-    image: '/products/strawberry.png',
-    title: 'BLENDIFY Strawberry | Fruity Instant Coffee 100g',
-    price: 479,
-    comparePrice: 529,
+    slug: 'guilt-free-ice-tea-pineapple',
+    image: '/Assets/Explore 5.png',
+    title: 'Pineapple Iced Tea | Tropical Refreshment | 100g — 5 Sachets',
+    price: 320,
+    comparePrice: 399,
     rating: 4.7,
     stock: 30,
     category: 'explore',
     badge: 'On sale',
     badgeType: 'sale',
+    promo: { title: 'Best Price Guaranteed', subtitle: 'Free Shipping Sitewide!' },
+    // Folder: /Assets/Explore product5-details/  (7 files: .1–.7)
+    detailImages: [
+      '/Assets/Explore product5-details/Explore product details5.1.png',
+      '/Assets/Explore product5-details/Explore product details5.2.png',
+      '/Assets/Explore product5-details/Explore product details5.3.png',
+      '/Assets/Explore product5-details/Explore product details5.4.png',
+      '/Assets/Explore product5-details/Explore product details5.5.png',
+      '/Assets/Explore product5-details/Explore product details5.6.png',
+      '/Assets/Explore product5-details/Explore product details5.7.png',
+    ],
   },
   {
     id: 'exp-6',
-    slug: 'blendify-caramel',
-    image: '/products/caramel.png',
-    title: 'BLENDIFY Caramel | Buttery Sweet Instant Coffee 100g',
-    price: 479,
-    comparePrice: 519,
-    rating: 4.7,
+    slug: 'guilt-free-ice-tea-blueberry',
+    image: '/Assets/Explore 6.png',
+    title: 'Blueberry Iced Tea | Antioxidant Rich | 100g — 5 Sachets',
+    price: 349,
+    comparePrice: 429,
+    rating: 4.9,
     stock: 44,
     category: 'explore',
-    badge: 'Save 8%',
+    badge: 'Save 19%',
     badgeType: 'sale',
+    promo: { title: 'Top Selling Products', subtitle: 'Highly Rated by Customers!' },
+    // Folder: /Assets/Explore product6-details/  (.1 is .mp4 — skipped; .2–.7 are .png)
+    detailImages: [
+      '/Assets/Explore product6-details/Explore product details6.2.png',
+      '/Assets/Explore product6-details/Explore product details6.3.png',
+      '/Assets/Explore product6-details/Explore product details6.4.png',
+      '/Assets/Explore product6-details/Explore product details6.5.png',
+      '/Assets/Explore product6-details/Explore product details6.6.png',
+      '/Assets/Explore product6-details/Explore product details6.7.png',
+    ],
+  },
+  {
+    id: 'exp-7',
+    slug: 'guilt-free-ice-tea-peach',
+    image: '/Assets/Explore 7.png',
+    title: 'Peach Iced Tea | Naturally Flavoured | 100g — 5 Sachets',
+    price: 320,
+    comparePrice: 399,
+    rating: 4.8,
+    stock: 36,
+    category: 'explore',
+    badge: 'Newly Launched',
+    badgeType: 'new',
+    promo: { title: 'Newly Launched', subtitle: 'Free Shipping on Orders Above ₹499!' },
+    // Folder: /Assets/Explore product7-details/  (.1 is .mp4 — skipped; .2–.7 are .png)
+    detailImages: [
+      '/Assets/Explore product7-details/Explore product details7.2.png',
+      '/Assets/Explore product7-details/Explore product details7.3.png',
+      '/Assets/Explore product7-details/Explore product details7.4.png',
+      '/Assets/Explore product7-details/Explore product details7.5.png',
+      '/Assets/Explore product7-details/Explore product details7.6.png',
+      '/Assets/Explore product7-details/Explore product details7.7.png',
+    ],
+  },
+  {
+    id: 'exp-8',
+    slug: 'guilt-free-ice-tea-mango',
+    image: '/Assets/Explore 8.png',
+    title: 'Mango Iced Tea | King of Fruits | 100g — 5 Sachets',
+    price: 349,
+    comparePrice: 429,
+    rating: 4.9,
+    stock: 60,
+    category: 'explore',
+    badge: 'Save 19%',
+    badgeType: 'sale',
+    promo: { title: 'Best Price Guaranteed', subtitle: 'Free Shipping Sitewide!' },
+    // Folder: /Assets/Explore product8-details/  (7 files: .1–.7)
+    detailImages: [
+      '/Assets/Explore product8-details/Explore product details8.1.png',
+      '/Assets/Explore product8-details/Explore product details8.2.png',
+      '/Assets/Explore product8-details/Explore product details8.3.png',
+      '/Assets/Explore product8-details/Explore product details8.4.png',
+      '/Assets/Explore product8-details/Explore product details8.5.png',
+      '/Assets/Explore product8-details/Explore product details8.6.png',
+      '/Assets/Explore product8-details/Explore product details8.7.png',
+    ],
+  },
+  {
+    id: 'exp-9',
+    slug: 'guilt-free-ice-tea-passion-fruit',
+    image: '/Assets/Explore 9.png',
+    title: 'Passion Fruit Iced Tea | Exotic & Refreshing | 100g',
+    price: 320,
+    comparePrice: 399,
+    rating: 4.7,
+    stock: 28,
+    category: 'explore',
+    badge: 'On sale',
+    badgeType: 'sale',
+    promo: { title: 'Customer Favourite', subtitle: 'Try It Before It Sells Out!' },
+    // Folder: /Assets/Explore product9-details/  (7 files: .1–.7)
+    detailImages: [
+      '/Assets/Explore product9-details/Explore product details9.1.png',
+      '/Assets/Explore product9-details/Explore product details9.2.png',
+      '/Assets/Explore product9-details/Explore product details9.3.png',
+      '/Assets/Explore product9-details/Explore product details9.4.png',
+      '/Assets/Explore product9-details/Explore product details9.5.png',
+      '/Assets/Explore product9-details/Explore product details9.6.png',
+      '/Assets/Explore product9-details/Explore product details9.7.png',
+    ],
+  },
+  {
+    id: 'exp-10',
+    slug: 'guilt-free-ice-tea-cranberry',
+    image: '/Assets/Explore 10.png',
+    title: 'Cranberry Iced Tea | Immunity Boosting | 100g — 5 Sachets',
+    price: 349,
+    comparePrice: 429,
+    rating: 4.8,
+    stock: 22,
+    category: 'explore',
+    badge: 'Save 19%',
+    badgeType: 'sale',
+    promo: { title: 'Top Selling Products', subtitle: 'Highly Rated by Customers!' },
+    // Folder: /Assets/Explore product10-details/  (6 files: .1–.6)
+    detailImages: [
+      '/Assets/Explore product10-details/Explore product details10.1.png',
+      '/Assets/Explore product10-details/Explore product details10.2.png',
+      '/Assets/Explore product10-details/Explore product details10.3.png',
+      '/Assets/Explore product10-details/Explore product details10.4.png',
+      '/Assets/Explore product10-details/Explore product details10.5.png',
+      '/Assets/Explore product10-details/Explore product details10.6.png',
+    ],
   },
 ];
 
-// ── Section 2: Bestselling Combos ─────────────────────────────
+// ── Combos ────────────────────────────────────────────────────
 export const COMBO_PRODUCTS: ShowcaseProduct[] = [
   {
     id: 'cmb-1',
@@ -181,7 +347,7 @@ export const COMBO_PRODUCTS: ShowcaseProduct[] = [
   },
 ];
 
-// ── Section 3: Best Coffee Sachets in India ───────────────────
+// ── Sachets ───────────────────────────────────────────────────
 export const SACHET_PRODUCTS: ShowcaseProduct[] = [
   {
     id: 'sac-1',
@@ -262,3 +428,4 @@ export const SACHET_PRODUCTS: ShowcaseProduct[] = [
     badgeType: 'sale',
   },
 ];
+

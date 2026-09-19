@@ -3,6 +3,7 @@
    Full-bleed banner images flush with viewport.
    Preserves supplied 1821 × 864 composition with zero white gaps.
    Smooth crossfade transition. Fully responsive.
+   Polished: always-visible dots + hover-reveal arrow buttons.
    ============================================================ */
 
 /* ── Outer wrapper ─────────────────────────────────────────── */
@@ -39,68 +40,99 @@
 /* ── The actual banner image ────────────────────────────────── */
 .slideImage {
   object-fit: cover;
-  object-position: center center;
+  /*
+   * Images are 1821×864 full-page screenshots that include
+   * a baked-in feature strip at the bottom (~8% / ~70px).
+   * Vertical position 38% pulls the frame up enough to keep
+   * that strip out of view while showing all banner content.
+   */
+  object-position: 50% 38%;
   will-change: opacity, transform;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
 
-/* ── Numbered Pagination ────────────────────────────────────── */
-.pagination {
+/* ── Left / Right navigation arrows ─────────────────────────── */
+/* Revealed on hover via AnimatePresence in component */
+.navArrow {
   position: absolute;
-  bottom: 18px;
-  right: 24px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  background: rgba(0, 0, 0, 0.32);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.pageBtn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  background: transparent;
-  color: rgba(255, 255, 255, 0.75);
-  font-family: var(--font-body, system-ui, sans-serif);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0;
-  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 12;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
-  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #2C1008;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  transition: background 200ms ease, color 200ms ease;
 }
 
-.pageBtn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.7);
+.navArrow:hover {
+  background: var(--brand-primary, #581312);
   color: #fff;
 }
 
-.pageBtnActive {
-  background: #fff;
-  border-color: #fff;
-  color: #3B0D0D;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+.navPrev {
+  left: 20px;
 }
 
-/* ── Legacy dot nav — kept hidden ──────────────────────────── */
-.nav     { display: none; }
-.dot     { display: none; }
-.dotActive { display: none; }
+.navNext {
+  right: 20px;
+}
+
+/* ── Always-visible dot navigation ─────────────────────────── */
+.dotNav {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    width 0.22s ease,
+    border-radius 0.22s ease;
+  flex-shrink: 0;
+}
+
+.dot:hover {
+  border-color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.dotActive {
+  width: 24px;
+  border-radius: 4px;
+  background: #fff;
+  border-color: #fff;
+}
 
 /* ── Screen-reader only ────────────────────────────────────── */
 .srOnly {
@@ -129,15 +161,21 @@
     min-height: 340px;
   }
 
-  .pagination {
-    bottom: 14px;
-    right: 16px;
+  .navArrow {
+    width: 40px;
+    height: 40px;
   }
 
-  .pageBtn {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
+  .navPrev {
+    left: 12px;
+  }
+
+  .navNext {
+    right: 12px;
+  }
+
+  .dotNav {
+    bottom: 14px;
   }
 }
 
@@ -149,20 +187,35 @@
   }
 
   .slideImage {
-    object-position: 25% center;
+    object-position: 25% 38%;
   }
 
-  .pagination {
+  .navArrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .navPrev {
+    left: 8px;
+  }
+
+  .navNext {
+    right: 8px;
+  }
+
+  .dotNav {
     bottom: 10px;
-    right: 12px;
+    padding: 5px 10px;
     gap: 6px;
-    padding: 4px 8px;
   }
 
-  .pageBtn {
-    width: 26px;
-    height: 26px;
-    font-size: 11px;
+  .dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  .dotActive {
+    width: 20px;
   }
 }
 
@@ -174,20 +227,25 @@
   }
 
   .slideImage {
-    object-position: 20% center;
+    object-position: 20% 38%;
   }
 
-  .pagination {
+  .navArrow {
+    width: 32px;
+    height: 32px;
+  }
+
+  .dotNav {
     bottom: 8px;
-    right: 10px;
-    gap: 5px;
-    padding: 3px 7px;
+    padding: 4px 8px;
   }
 
-  .pageBtn {
-    width: 24px;
-    height: 24px;
-    font-size: 10px;
-    border-width: 1.5px;
+  .dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .dotActive {
+    width: 18px;
   }
 }

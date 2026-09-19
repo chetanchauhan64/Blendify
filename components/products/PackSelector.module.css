@@ -1,0 +1,151 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.heading {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.625rem;
+}
+
+.option {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.875rem 0.5rem 0.75rem;
+  border-radius: var(--radius-lg, 14px);
+  border: 1.5px solid var(--border-card, rgba(88, 19, 18, 0.15));
+  background: var(--bg-surface, #fff);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform 120ms ease;
+  text-align: center;
+}
+
+.option:hover:not(.active) {
+  border-color: rgba(88, 19, 18, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(88, 19, 18, 0.08);
+}
+
+.option.active {
+  border-color: var(--brand-primary, #581312);
+  border-width: 2px;
+  background: rgba(88, 19, 18, 0.03);
+  box-shadow: 0 0 0 3px rgba(88, 19, 18, 0.08);
+}
+
+/* Best Value badge */
+.bestBadge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--brand-primary, #581312);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+/* Checkmark */
+.checkmark {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--brand-primary, #581312);
+  color: #fff;
+}
+
+.optionLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.comparePrice {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.saving {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #16a34a;
+  background: #dcfce7;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+}
+
+.perServing {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+
+@media (max-width: 480px) {
+  .options {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+  }
+
+  .option {
+    padding: 0.75rem 0.3rem 0.6rem;
+  }
+
+  .optionLabel {
+    font-size: 0.7rem;
+  }
+
+  .price {
+    font-size: 0.875rem;
+  }
+
+  .perServing,
+  .saving {
+    font-size: 0.65rem;
+  }
+}
